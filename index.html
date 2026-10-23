@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2026 Election Command Center</title>
+<meta name="description" content="Nonpartisan 2026 midterm dashboard: early votes by state, battlegrounds, Congress control, turnout pace, Arizona and Gilbert-area ballot information, election-night results. Updated hourly from linked sources.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='4' width='22' height='24' rx='3' fill='%231f1e1c'/%3E%3Cpath d='M10 16l4 4 8-9' stroke='%23fff' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light;
+  --color-fg:#1f1e1c; --color-fg-muted:#5c5a55; --color-bg:#f7f6f2; --color-panel:#ffffff; --color-border-line:#e1ddd4;
+  --color-ok:#2e7d4f; --color-warn:#93570a; --color-bad:#b3261e;
+  --cds-chart-muted:#b4afa5; --cds-chart-grid:#ebe8e1; --cds-chart-axis:#cbc6bb; --cds-chart-reference:#86817a;
+  --cds-surface-popover:#ffffff; --cds-border:#e1ddd4; --cds-shadow-popover:0 6px 20px rgba(0,0,0,.14); --cds-text-secondary:#5c5a55;
+  --font-anthropic-serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --font-anthropic-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --cds-font-size-title:1.75rem; --cds-font-size-heading:1.2rem; --cds-font-size-body:0.95rem; --cds-font-size-caption:0.8125rem; --cds-font-weight-medium:600;
+  --cds-gap-xs:.25rem; --cds-gap-sm:.5rem; --cds-gap-md:.875rem; --cds-gap-lg:1.25rem;
+  --cds-pad-xs:.25rem; --cds-pad-sm:.5rem; --cds-pad-md:.75rem; --cds-pad-lg:1rem; --cds-radius:8px; --cds-dur-slow:.3s; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark;
+  --color-fg:#ecebe7; --color-fg-muted:#a8a49b; --color-bg:#151514; --color-panel:#1e1e1c; --color-border-line:#34332f;
+  --color-ok:#6fcf97; --color-warn:#e3a948; --color-bad:#f08072;
+  --cds-chart-muted:#5d5a54; --cds-chart-grid:#2a2926; --cds-chart-axis:#4a4842; --cds-chart-reference:#928d84;
+  --cds-surface-popover:#262624; --cds-border:#34332f; --cds-text-secondary:#a8a49b; }
+  :root:not([data-theme="light"]) .ec { --ec-rep:#ef6b5c; --ec-dem:#6d9cf2; } }
+:root[data-theme="dark"] { color-scheme: dark;
+  --color-fg:#ecebe7; --color-fg-muted:#a8a49b; --color-bg:#151514; --color-panel:#1e1e1c; --color-border-line:#34332f;
+  --color-ok:#6fcf97; --color-warn:#e3a948; --color-bad:#f08072;
+  --cds-chart-muted:#5d5a54; --cds-chart-grid:#2a2926; --cds-chart-axis:#4a4842; --cds-chart-reference:#928d84;
+  --cds-surface-popover:#262624; --cds-border:#34332f; --cds-text-secondary:#a8a49b; }
+:root[data-theme="dark"] .ec { --ec-rep:#ef6b5c; --ec-dem:#6d9cf2; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-body); line-height: 1.5; }
+.site { max-width: 1240px; margin: 0 auto; padding: 20px max(16px, env(safe-area-inset-left)) 48px max(16px, env(safe-area-inset-right)); }
+.site-foot { margin-top: 32px; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); border-top: 1px solid var(--color-border-line); padding-top: 12px; }
+.dash-skeleton { color: transparent !important; background: linear-gradient(90deg, var(--color-border-line), var(--color-panel), var(--color-border-line)); background-size: 200% 100%; border-radius: 4px; animation: ecsk 1.2s linear infinite; }
+@keyframes ecsk { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .dash-skeleton { animation: none; } }
+.ec-cands { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(15rem, 1fr); gap: var(--cds-gap-md); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; }
+.ec-cand { scroll-snap-align: start; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; font-size: var(--cds-font-size-caption); }
+.ec-cand-name { font-weight: var(--cds-font-weight-medium); font-size: var(--cds-font-size-body); }
+.ec-field-k { font-size: .7rem; font-weight: var(--cds-font-weight-medium); text-transform: uppercase; letter-spacing: .06em; color: var(--color-fg-muted); }
+.ec-field-why { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.ec-nf { color: var(--color-fg-muted); font-style: italic; }
+.ec-src { font-size: .75rem; }
+.ec-local-list { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+.ec-contest { background: var(--color-bg); }
+a { color: inherit; }
+</style>
+<script src="js/d3.min.js"></script>
+<script src="js/dash.js"></script>
+</head>
+<body>
+<main class="site">
+<style>
+.ec { --ec-rep: #d23f3f; --ec-dem: #3b74d9; font-family: var(--font-anthropic-sans); display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+.ec h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; }
+.ec h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.ec h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.ec p { margin: 0; }
+.ec-take { color: var(--color-fg); max-width: 62rem; margin-top: var(--cds-gap-xs) !important; }
+.ec-meta, .ec-note { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.ec-num { font-variant-numeric: tabular-nums; }
+.ec .ec-take b, .ec .ec-tile b, .ec .ec-strong { font-weight: var(--cds-font-weight-medium); }
+.ec-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: var(--cds-gap-xs); align-items: center; }
+.ec-sw { display: inline-block; width: .7rem; height: .7rem; border-radius: 2px; margin-right: .3rem; vertical-align: -1px; }
+
+/* overview */
+.ec-over { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: var(--cds-gap-md); }
+.ec-over .ec-card { gap: var(--cds-gap-xs); }
+.ec-over-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--cds-gap-sm); flex-wrap: wrap; }
+.ec-deadline-date { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); font-weight: 400; }
+.ec-brief { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+.ec-brief li { display: flex; flex-direction: column; gap: 2px; font-size: var(--cds-font-size-caption); border-left: 2px solid var(--color-border-line); padding-left: var(--cds-pad-sm); }
+.ec-brief .what { color: var(--color-fg); font-size: var(--cds-font-size-body); }
+.ec-brief .why { color: var(--color-fg-muted); }
+.ec-brief .why::before { content: "Why it matters (interpretation): "; font-weight: var(--cds-font-weight-medium); }
+.ec-brief .src { color: var(--color-fg-muted); }
+.ec-linkbtn { font: inherit; font-size: var(--cds-font-size-caption); background: none; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-xs) var(--cds-pad-sm); color: var(--color-fg); cursor: pointer; text-decoration: none; display: inline-block; }
+.ec-linkbtn:hover { border-color: var(--color-fg-muted); }
+
+/* tabs */
+.ec-tabs { display: flex; gap: var(--cds-gap-xs); border-bottom: 1px solid var(--color-border-line); overflow-x: auto; scrollbar-width: thin; }
+.ec-tab { font: inherit; background: none; border: 0; border-bottom: 2px solid transparent; padding: var(--cds-pad-sm) var(--cds-pad-sm); color: var(--color-fg-muted); cursor: pointer; white-space: nowrap; min-height: 2.5rem; }
+.ec-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); }
+.ec-page { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+.ec-page[hidden] { display: none; }
+
+/* cards & grids */
+.ec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+.ec-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: var(--cds-gap-md); }
+.ec-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
+.ec-tile .ec-label { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.ec-tile .ec-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; min-height: 1.3em; }
+.ec-approx { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); }
+.ec-callout { border: 1px dashed var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-sm) var(--cds-pad-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.ec-callout b { color: var(--color-fg); }
+
+/* tables */
+.ec-tablebox { max-height: 34rem; overflow: auto; -webkit-overflow-scrolling: touch; }
+.ec-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.ec-table th { position: sticky; top: 0; background: var(--color-panel); text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); cursor: pointer; white-space: nowrap; user-select: none; z-index: 1; }
+.ec-table td { padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+.ec-table td.n, .ec-table th.n { text-align: right; }
+.ec-table tr.ec-sel td { background: var(--cds-surface-popover); }
+.ec-table tbody tr.ec-click { cursor: pointer; }
+.ec-table a, .ec-card a { color: inherit; text-decoration: underline; text-decoration-color: var(--color-border-line); text-underline-offset: 2px; }
+
+/* controls */
+.ec-controls { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; }
+.ec-controls input[type="search"], .ec-controls select { font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); min-height: 2.25rem; max-width: 100%; }
+.ec-controls input[type="search"] { min-width: 12rem; }
+.ec-controls label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); display: flex; gap: var(--cds-gap-xs); align-items: center; }
+.ec-seg { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow: hidden; }
+.ec-seg button { font: inherit; font-size: var(--cds-font-size-caption); background: none; border: 0; padding: var(--cds-pad-xs) var(--cds-pad-sm); color: var(--color-fg-muted); cursor: pointer; min-height: 2.25rem; }
+.ec-seg button + button { border-left: 1px solid var(--color-border-line); }
+.ec-seg button[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); }
+
+/* chips & badges — party = color + letter; ratings carry text */
+.ec-chip { display: inline-block; padding: 0 var(--cds-pad-xs); border-radius: var(--cds-radius); border: 1px solid var(--color-border-line); font-size: var(--cds-font-size-caption); white-space: nowrap; line-height: 1.5; }
+.ec-chip.rep { border-color: var(--ec-rep); color: var(--ec-rep); }
+.ec-chip.dem { border-color: var(--ec-dem); color: var(--ec-dem); }
+.ec-chip.tossup { border-color: var(--color-fg-muted); color: var(--color-fg); font-weight: var(--cds-font-weight-medium); background: repeating-linear-gradient(135deg, transparent 0 4px, var(--color-border-line) 4px 5px); }
+.ec-bg-badge { display: inline-block; font-size: 0.7rem; letter-spacing: .04em; font-weight: var(--cds-font-weight-medium); border: 1.5px solid var(--color-fg); color: var(--color-fg); border-radius: 3px; padding: 0 3px; margin-left: 4px; vertical-align: 1px; line-height: 1.3; }
+.ec-badge { display: inline-block; font-size: 0.7rem; border-radius: 3px; padding: 0 4px; border: 1px solid var(--color-border-line); color: var(--color-fg-muted); white-space: nowrap; line-height: 1.4; }
+.ec-badge.ok { color: var(--color-ok); border-color: var(--color-ok); }
+.ec-badge.warn { color: var(--color-warn); border-color: var(--color-warn); }
+.ec-badge.bad { color: var(--color-bad); border-color: var(--color-bad); }
+.ec [hidden] { display: none !important; }
+.ec-alert { border: 1px solid var(--color-bad); border-left-width: 4px; border-radius: 6px; padding: var(--cds-gap-sm) var(--cds-gap-md); color: var(--color-fg); }
+.ec-alert b { color: var(--color-bad); }
+.ec-review { display: block; font-size: var(--cds-font-size-caption); color: var(--color-warn); }
+.ec-evidence { font-family: var(--font-mono, monospace); font-size: 0.75rem; white-space: pre-wrap; word-break: break-word; color: var(--color-fg-muted); }
+.ec-p-rep { color: var(--ec-rep); }
+.ec-p-dem { color: var(--ec-dem); }
+
+/* charts */
+.ec-chart { position: relative; min-height: 22rem; }
+.ec-chart.short { min-height: 12rem; }
+.ec-chart.mid { min-height: 16rem; }
+.ec-chart.bar { min-height: 4.5rem; }
+.ec-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); display: none; z-index: 3; white-space: nowrap; }
+.ec-tip .k { color: var(--cds-text-secondary); }
+
+/* misc */
+.ec-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--cds-gap-md); }
+.ec-list { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); }
+.ec-row { display: flex; justify-content: space-between; gap: var(--cds-gap-sm); align-items: baseline; flex-wrap: wrap; }
+.ec-dates { display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+.ec-date { display: grid; grid-template-columns: 5.5rem 1fr; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-caption); }
+.ec-date .d { font-variant-numeric: tabular-nums; font-weight: var(--cds-font-weight-medium); }
+.ec-date.past { color: var(--color-fg-muted); }
+.ec-date.next { outline: 1.5px solid var(--color-fg); outline-offset: 3px; border-radius: 2px; }
+.ec-date.next .d::after { content: " ← next"; font-weight: var(--cds-font-weight-medium); }
+.ec-kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px var(--cds-gap-md); font-size: var(--cds-font-size-caption); }
+.ec-kv dt { color: var(--color-fg-muted); }
+.ec-kv dd { margin: 0; overflow-wrap: anywhere; }
+.ec-calc-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--cds-gap-sm); align-items: center; padding: var(--cds-pad-xs) 0; border-bottom: 1px solid var(--color-border-line); font-size: var(--cds-font-size-caption); }
+.ec-calc-list { max-height: 26rem; overflow: auto; }
+.ec-status { font-weight: var(--cds-font-weight-medium); }
+details.ec-more summary { cursor: pointer; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+.ec-fail { display: flex; align-items: center; justify-content: center; gap: var(--cds-gap-xs); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); min-height: inherit; }
+.ec-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+@media (max-width: 40rem) {
+  .ec-hide-narrow { display: none; }
+  .ec-card { padding: var(--cds-pad-md); }
+  .ec-tile .ec-big, .ec-approx, .ec-deadline-date { font-size: var(--cds-font-size-heading); }
+}
+</style>
+
+<div class="ec">
+  <header>
+    <h1 id="top">2026 midterm election command center</h1>
+    <p class="ec-take" id="takeaway">
+      <b class="ec-num dash-skeleton" data-source="national" data-field="total_early" data-row="0">—</b> early votes reported nationally as of <span class="dash-skeleton" data-source="national" data-field="as_of" data-row="0">—</span> (<span data-source="national" data-field="source_name" data-row="0">—</span>).
+      Election Day is Tuesday, November 3.
+    </p>
+    <div class="ec-alert" id="hdr-alert" role="alert" hidden></div>
+    <p class="ec-meta" id="pub-meta">Public, read-only view. Figures are collected and validated by an automated hourly process; this page shows the latest verified publication. <span id="pub-at"></span></p>
+    <p class="ec-meta"><span id="hdr-run" data-source="run_log"></span> Every figure shows two times: <b>data as of</b> (the period the source reports) and <b>last checked</b> (when the source was last read successfully). A run never makes old data look current. Nonpartisan: ballots cast are not votes for any candidate; party figures are voter registration.</p>
+    <div class="ec-legend" id="legend">
+      <span><i class="ec-sw" style="background: var(--ec-rep)"></i>Republican (R)</span>
+      <span><i class="ec-sw" style="background: var(--ec-dem)"></i>Democratic (D)</span>
+      <span><span class="ec-chip tossup">Toss Up</span> rating, no party favored</span>
+      <span><span class="ec-bg-badge">BG</span> battleground state</span>
+      <span><span class="ec-badge">≈</span> rounded by source</span>
+    </div>
+  </header>
+
+  <!-- OVERVIEW (above tabs) -->
+  <section class="ec-over" id="overview" aria-label="Overview">
+    <div class="ec-card" id="ov-deadline" data-source="az_dates">
+      <div class="ec-over-head"><h3>Next Arizona voting deadline</h3><span class="ec-note">Arizona · Maricopa County</span></div>
+      <div id="ov-deadline-body"></div>
+    </div>
+    <div class="ec-card" id="ov-brief" data-source="briefing">
+      <div class="ec-over-head">
+        <h3>Latest developments</h3>
+        <div class="ec-controls"><select class="ec-brief-win" aria-label="Show developments from">
+          <option value="6">Last 6 hours</option><option value="24" selected>Last 24 hours</option><option value="72">Last 3 days</option><option value="168">Last 7 days</option>
+        </select></div>
+      </div>
+      <ul class="ec-brief" id="ov-brief-list"></ul>
+      <p class="ec-note">Facts are sourced; "why it matters" lines are interpretation.</p>
+    </div>
+    <div class="ec-card" id="ov-watch" data-source="watch_races">
+      <div class="ec-over-head"><h3>Watched races</h3><button class="ec-linkbtn" data-goto="congress">All races</button></div>
+      <div id="ov-watch-body"></div>
+    </div>
+    <div class="ec-card" id="ov-fresh" data-source="run_log states national az_returns">
+      <div class="ec-over-head"><h3>Data freshness &amp; coverage</h3><button class="ec-linkbtn" data-goto="sources">Sources</button></div>
+      <div id="ov-fresh-body"></div>
+    </div>
+  </section>
+
+  <nav class="ec-tabs" role="tablist" aria-label="Sections">
+    <button class="ec-tab" role="tab" data-tab="states" id="tab-states">All states</button>
+    <button class="ec-tab" role="tab" data-tab="battlegrounds" id="tab-battlegrounds">Battlegrounds</button>
+    <button class="ec-tab" role="tab" data-tab="congress" id="tab-congress">Control of Congress</button>
+    <button class="ec-tab" role="tab" data-tab="pace" id="tab-pace">Turnout pace</button>
+    <button class="ec-tab" role="tab" data-tab="arizona" id="tab-arizona">Arizona</button>
+    <button class="ec-tab" role="tab" data-tab="local" id="tab-local">Gilbert-area ballot</button>
+    <button class="ec-tab" role="tab" data-tab="night" id="tab-night">Election night</button>
+    <button class="ec-tab" role="tab" data-tab="news" id="tab-news">News &amp; log</button>
+    <button class="ec-tab" role="tab" data-tab="sources" id="tab-sources">Sources</button>
+  </nav>
+
+  <!-- ALL STATES -->
+  <section class="ec-page" id="states" data-page="states">
+    <div class="ec-tiles">
+      <div class="ec-card ec-tile"><span class="ec-label">Early votes reported, U.S.</span><span class="ec-big dash-skeleton" data-source="national" data-field="total_early" data-row="0">—</span></div>
+      <div class="ec-card ec-tile"><span class="ec-label">By mail <span class="ec-badge ec-nat-prec" hidden>≈ rounded</span></span><span class="ec-big dash-skeleton" data-source="national" data-field="mail" data-row="0">—</span></div>
+      <div class="ec-card ec-tile"><span class="ec-label">In person <span class="ec-badge ec-nat-prec" hidden>≈ rounded</span></span><span class="ec-big dash-skeleton" data-source="national" data-field="in_person" data-row="0">—</span></div>
+      <div class="ec-card ec-tile"><span class="ec-label">Mail ballots requested or sent</span><span class="ec-big dash-skeleton" data-source="national" data-field="ballots_requested" data-row="0">—</span><span class="ec-note" id="nat-req-src"></span></div>
+    </div>
+    <p class="ec-note ec-fresh" id="fresh-national" data-fresh-ds="national" data-fresh-row="0">
+      Source: <span data-source="national" data-field="source_name" data-row="0">—</span> · Data as of <b data-source="national" data-field="as_of" data-row="0">—</b> · Last checked <b data-source="national" data-field="last_checked" data-row="0">—</b> · <span class="ec-fresh-status"></span>
+    </p>
+    <div class="ec-callout" id="sum-check" data-source="sum_check">
+      <b>Why the national total doesn't equal the state table:</b>
+      the states with exact figures in the table add up to <span class="ec-num" data-source="sum_check" data-field="state_sum" data-row="0">—</span> across <span data-source="sum_check" data-field="states_counted" data-row="0">—</span> states, versus <span class="ec-num" data-source="sum_check" data-field="national_total" data-row="0">—</span> nationally.
+      The national figure comes from one tracker with its own coverage and timing; the state rows mix official and tracker figures observed on different dates, and states without an exact count are left out.
+    </div>
+
+    <div class="ec-card" id="card-top-states">
+      <h2>Early votes by state</h2>
+      <p class="ec-note">Top 25 states with exact counts. Darker bars and a <span class="ec-bg-badge">BG</span> label mark battleground states. Observation dates differ by state.</p>
+      <div class="ec-chart" id="chart-states" data-source="states"></div>
+    </div>
+
+    <div class="ec-card" id="card-states-table">
+      <h2>Every state</h2>
+      <p class="ec-note">Click a column to sort; click a row for its source details and to compare sources. "% of registered" uses each state's official registration count, dated in the details.</p>
+      <div class="ec-controls">
+        <input type="search" class="ec-states-q" placeholder="Search states" aria-label="Search states">
+        <label><input type="checkbox" class="ec-states-bg"> Battlegrounds only</label>
+      </div>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-states" data-source="states" data-row-key="abbr">
+          <thead><tr>
+            <th data-field="state">State</th>
+            <th data-field="total_early" class="n">Early votes</th>
+            <th data-source="states_pct" data-field="pct_registered" class="n">% of registered</th>
+            <th data-field="mail" class="n ec-hide-narrow">Mail</th>
+            <th data-field="in_person" class="n ec-hide-narrow">In person</th>
+            <th data-field="as_of">Data as of</th>
+            <th data-field="last_checked" class="ec-hide-narrow">Last checked</th>
+            <th data-field="check_status">This hour</th>
+            <th data-field="classification">Source type</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="state-detail" class="ec-card" data-source="states registration source_compare" hidden></div>
+    </div>
+  </section>
+
+  <!-- BATTLEGROUNDS -->
+  <section class="ec-page" id="battlegrounds" data-page="battlegrounds" hidden>
+    <p class="ec-note">Battleground states: a Senate or governor race Cook Political Report rates Toss Up or Lean. For competitive House seats and all chambers, see Control of Congress.</p>
+    <div class="ec-cards" id="bg-cards" data-source="bg_states watch_races headlines"></div>
+  </section>
+
+  <!-- CONGRESS -->
+  <section class="ec-page" id="congress" data-page="congress" hidden>
+    <div class="ec-card" id="card-control">
+      <h2>Chambers now</h2>
+      <table class="ec-table" data-source="control" data-row-key="chamber">
+        <thead><tr><th data-field="chamber">Chamber</th><th data-field="current">Now</th><th data-field="note">What a majority takes</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="ec-card" id="card-watch">
+      <h2>Race watchlist</h2>
+      <p class="ec-note" data-source="watch_races">Included: every race Cook rates Toss Up or Lean, every race rated Toss Up or Lean at any point since Sept 1, and every race where Cook's favored party differs from the party holding the seat. "If flipped" shows the chamber with only that seat changed, all else as now: arithmetic, not a forecast.</p>
+      <div class="ec-controls">
+        <div class="ec-seg" role="group" aria-label="Chamber" id="watch-chamber">
+          <button data-v="" aria-pressed="true">All</button><button data-v="House" aria-pressed="false">House</button><button data-v="Senate" aria-pressed="false">Senate</button><button data-v="Governor" aria-pressed="false">Governor</button>
+        </div>
+        <select class="ec-watch-flip" aria-label="Flip status">
+          <option value="">Any status</option><option value="Possible flip">Possible flip (Toss Up)</option><option value="Rated flip">Rated flip</option><option value="Favors holding party">Favors holding party</option>
+        </select>
+        <input type="search" class="ec-watch-q" placeholder="Search races or candidates" aria-label="Search races">
+      </div>
+      
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-watch" data-source="watch_races" data-row-key="id">
+          <thead><tr>
+            <th data-field="race_label">Race</th>
+            <th data-field="candidates">Candidates</th>
+            <th data-field="incumbent_party">Held by</th>
+            <th data-field="rating">Rating</th>
+            <th data-field="rating_date" class="ec-hide-narrow">Rated since</th>
+            <th data-field="previous_rating" class="ec-hide-narrow">Previous</th>
+            <th data-field="flip_status">Flip status</th>
+            <th data-field="if_flipped" class="ec-hide-narrow">If flipped</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ec-card" id="card-calc" data-source="seat_baseline watch_races">
+      <h2>Scenario calculator</h2>
+      <div class="ec-callout"><b>A scenario, not a forecast.</b> Pick a winner for any watched race. Every seat not on the watchlist is assigned to the party Cook currently favors there — an assumption you can see below. Senate seats not up in 2026 keep their current party. Nothing here estimates who will win.</div>
+      <div class="ec-controls">
+        <div class="ec-seg" role="group" aria-label="Chamber" id="calc-chamber">
+          <button data-v="Senate" aria-pressed="true">Senate</button><button data-v="House" aria-pressed="false">House</button><button data-v="Governor" aria-pressed="false">Governors</button>
+        </div>
+        <button class="ec-linkbtn" id="calc-reset">Reset picks</button>
+        <button class="ec-linkbtn" id="calc-favored">Pick Cook-favored party where rated</button>
+      </div>
+      <div id="calc-result"></div>
+      <div class="ec-chart bar" id="calc-bar"></div>
+      <div id="calc-baseline" class="ec-note"></div>
+      <div class="ec-calc-list" id="calc-list"></div>
+    </div>
+
+    <div class="ec-grid">
+      <div class="ec-card" id="card-polls" data-source="polls poll_avgs">
+        <h2>Polls</h2>
+        <p class="ec-note">Individual public polls with field dates, sponsor, sample and margin of error. Averages are shown separately and named. Polls are snapshots, not predictions, and are not converted into win chances.</p>
+        <div class="ec-controls"><select class="ec-poll-race" aria-label="Race"></select></div>
+        <div class="ec-chart mid" id="chart-polls"></div>
+        <div id="poll-avgs" class="ec-note"></div>
+        <div class="ec-tablebox">
+          <table class="ec-table" id="table-polls" data-source="polls" data-row-key="id">
+            <thead><tr><th data-field="field_end">Field dates</th><th data-field="pollster">Pollster</th><th data-field="sponsor" class="ec-hide-narrow">Sponsor</th><th data-field="sample">Sample</th><th data-field="result">Result</th><th data-field="moe" class="n ec-hide-narrow">MoE ±</th><th data-field="method" class="ec-hide-narrow">Method</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ec-card" id="card-history" data-source="rating_history watch_races">
+        <h2>Rating history</h2>
+        <p class="ec-note">Verified Cook rating changes for the selected race. Missing earlier history is left blank; new changes are recorded as they happen.</p>
+        <div class="ec-chart mid" id="chart-history"></div>
+        <div class="ec-tablebox">
+          <table class="ec-table" id="table-history" data-source="rating_history" data-row-key="id">
+            <thead><tr><th data-field="date">Date</th><th data-field="from_rating">From</th><th data-field="to_rating">To</th><th data-field="rater">Rater</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACE -->
+  <section class="ec-page" id="pace" data-page="pace" hidden>
+    <div class="ec-callout"><b>How to read this.</b> Cumulative early votes are aligned by days before Election Day (Nov 3, 2026 vs Nov 8, 2022), using the same source and definition for both years where one exists. Dots are reported figures; lines join reported figures only. Increases are "newly reported ballots" — not ballots cast that day — and higher early participation is not evidence of final turnout or of any candidate's advantage.</div>
+    <div class="ec-card" id="card-pace-chart" data-source="pace">
+      <div class="ec-row"><h2>2026 vs 2022, by days before Election Day</h2>
+        <div class="ec-controls"><select class="ec-pace-geo" aria-label="Geography"></select></div></div>
+      <div class="ec-chart" id="chart-pace"></div>
+      <ul class="ec-list" id="pace-notes"></ul>
+    </div>
+    <div class="ec-card" id="card-pace-table">
+      <h2>Latest reports and participation</h2>
+      <p class="ec-note">"Newly reported" is the change since the previous report from the same source and definition; it is blank when only one report exists, and a source switch or correction is never counted. "2022, same day" is blank unless 2022 was reported for exactly that many days out. % of registered uses the denominator and date shown.</p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-pace" data-source="pace_summary" data-row-key="geography">
+          <thead><tr>
+            <th data-field="geography">Where</th>
+            <th data-field="latest" class="n">Latest 2026</th>
+            <th data-field="latest_date">Reported</th>
+            <th data-field="newly_reported" class="n">Newly reported</th>
+            <th data-field="previous_date" class="ec-hide-narrow">Since report of</th>
+            <th data-field="same_point_2022" class="n">2022, same day</th>
+            <th data-field="pct_registered" class="n">% of registered</th>
+            <th data-field="denominator" class="ec-hide-narrow">Denominator</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARIZONA -->
+  <section class="ec-page" id="arizona" data-page="arizona" hidden>
+    <div class="ec-tiles">
+      <div class="ec-card ec-tile"><span class="ec-label">AZ early ballots returned · primary source: <span data-source="az_returns" data-field="source_short" data-where="area=Statewide">—</span></span><span><span class="ec-approx" data-approx-for="Statewide"></span><span class="ec-big dash-skeleton" data-source="az_returns" data-field="returned" data-where="area=Statewide">—</span></span></div>
+      <div class="ec-card ec-tile"><span class="ec-label">Maricopa County returned</span><span><span class="ec-approx" data-approx-for="Maricopa"></span><span class="ec-big dash-skeleton" data-source="az_returns" data-field="returned" data-where="area=Maricopa">—</span></span></div>
+      <div class="ec-card ec-tile"><span class="ec-label">Maricopa, same point in 2022</span><span><span class="ec-approx" data-approx-for="Maricopa"></span><span class="ec-big dash-skeleton" data-source="az_returns" data-field="returned_2022" data-where="area=Maricopa">—</span></span></div>
+      <div class="ec-card ec-tile"><span class="ec-label">Maricopa voters getting mail ballots</span><span class="ec-big dash-skeleton" data-source="az_returns" data-field="issued" data-where="area=Maricopa">—</span></div>
+    </div>
+    <p class="ec-note ec-fresh" data-fresh-ds="az_returns" data-fresh-where="Statewide">Arizona statewide · <span data-source="az_returns" data-field="source_name" data-where="area=Statewide">—</span> · Data as of <b data-source="az_returns" data-field="as_of" data-where="area=Statewide">—</b> · Last checked <b data-source="az_returns" data-field="last_checked" data-where="area=Statewide">—</b> · <span class="ec-fresh-status"></span></p>
+    <p class="ec-note ec-fresh" data-fresh-ds="az_returns" data-fresh-where="Maricopa">Maricopa · Data as of <b data-source="az_returns" data-field="as_of" data-where="area=Maricopa">—</b> · Last checked <b data-source="az_returns" data-field="last_checked" data-where="area=Maricopa">—</b> · <span class="ec-fresh-status"></span></p>
+    <p class="ec-note"><span data-source="az_returns" data-field="note" data-where="area=Statewide">—</span></p>
+
+    <div class="ec-card" id="card-az-counties">
+      <h2>Arizona counties</h2>
+      <p class="ec-note" id="az-county-cov" data-source="az_counties"></p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-az-counties" data-source="az_counties" data-row-key="county">
+          <thead><tr><th data-field="county">County</th><th data-field="returned" class="n">Returned</th><th data-field="issued" class="n ec-hide-narrow">Issued</th><th data-field="as_of">Data as of</th><th data-field="classification">Source type</th><th data-field="notes" class="ec-hide-narrow">Notes</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ec-grid">
+      <div class="ec-card" id="card-az-dates">
+        <h2>Key dates</h2>
+        <p class="ec-note">From official Arizona and Maricopa County sources. The next one is outlined.</p>
+        <div class="ec-dates" id="az-dates" data-source="az_dates"></div>
+      </div>
+      <div class="ec-card" id="card-az-split">
+        <h2>Returned ballots by party registration</h2>
+        <p class="ec-note">Registration of voters whose envelopes came back. Not votes for any candidate, and not a sign of who will win.</p>
+        <div class="ec-chart short" id="chart-az-split" data-source="az_split"></div>
+      </div>
+    </div>
+    <div class="ec-grid">
+      <div class="ec-card" id="card-az-trackers">
+        <h2>Statewide returns: sources compared</h2>
+        <p class="ec-note">Arizona has no official running statewide total. These trackers differ; two draw on the same underlying provider, so their agreement is not independent confirmation.</p>
+        <div class="ec-chart short" id="chart-az-trackers" data-source="az_trackers"></div>
+      </div>
+      <div class="ec-card" id="card-az-howto">
+        <h2>How to vote in Arizona</h2>
+        <p class="ec-note">Summarized from official sources; follow each link for the full rule.</p>
+        <ul class="ec-list" id="az-howto" data-source="az_howto"></ul>
+      </div>
+    </div>
+    <div class="ec-card" id="card-az-statewide">
+      <h2>Statewide races</h2>
+      <p class="ec-note">Legislature now: Senate <span data-source="az_leg" data-field="senate" data-row="0">—</span>; House <span data-source="az_leg" data-field="house" data-row="0">—</span>.</p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-az-statewide" data-source="az_races" data-row-key="id">
+          <thead><tr><th data-field="office">Office</th><th data-field="candidates">Candidates</th><th data-field="rating">Rating</th><th data-field="notes" class="ec-hide-narrow">Notes</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-card" id="card-az-house">
+      <h2>U.S. House, Arizona's 9 districts</h2>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-az-house" data-source="az_races" data-row-key="id">
+          <thead><tr><th data-field="office">District</th><th data-field="candidates">Candidates</th><th data-field="rating">Rating</th><th data-field="notes" class="ec-hide-narrow">Notes</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCAL -->
+  <section class="ec-page" id="local" data-page="local" hidden>
+    <div class="ec-card" id="card-districts">
+      <h2>Gilbert-area ballot guide</h2>
+      <p class="ec-take">State <b>Arizona</b> · County <b>Maricopa County</b> · Municipality <b>Town of Gilbert</b></p>
+      <div id="local-districts" data-source="local_info"></div>
+      <p class="ec-note" id="local-note"></p>
+      <div class="ec-controls" id="local-links" data-source="local_links"></div>
+    </div>
+    <div class="ec-card" id="card-local-races">
+      <h2>Contests and candidates</h2>
+      <p class="ec-note">Each contest is labeled with the jurisdiction that votes on it. District contests appear only for voters who live in that district, so the exact ballot depends on the street address. Candidate positions are the candidates' own words or campaign claims; public-record items come from independent sources; "not found" means the research found nothing, not that nothing exists.</p>
+      <div class="ec-controls">
+        <select class="ec-local-jur" aria-label="Filter by jurisdiction"></select>
+        <input type="search" class="ec-local-q" placeholder="Search contests or candidates" aria-label="Search contests or candidates">
+      </div>
+      <div id="local-contests" class="ec-local-list" data-source="local_contests"></div>
+    </div>
+    <div class="ec-card" id="card-props">
+      <h2>Ballot measures</h2>
+      <p class="ec-note">Yes/No meanings and fiscal notes come from official materials (Secretary of State pamphlet, Legislative Council, JLBC, Maricopa County). Supporters' and opponents' arguments are in the pamphlet and are not official analysis.</p>
+      <div class="ec-cards" id="prop-cards" data-source="local_measures"></div>
+    </div>
+    <div class="ec-card" id="card-judicial">
+      <h2>Judicial retention</h2>
+      <div id="local-judicial" data-source="local_judicial"></div>
+    </div>
+  </section>
+
+  <!-- ELECTION NIGHT -->
+  <section class="ec-page" id="night" data-page="night" hidden>
+    <div class="ec-card" id="night-status" data-source="poll_close results"></div>
+    <div class="ec-callout">
+      <b>Three different things.</b> <i>Leading in reported results</i> means ahead in the votes counted so far. <i>Projected winner</i> is a call by a named news organization (such as AP). <i>Certified</i> is the official result after canvass.
+      "Precincts reporting" is not the share of votes counted. Any "expected vote" percentage is the provider's estimate and is labeled as such; where none exists, the remaining total is unknown.
+    </div>
+    <div class="ec-card" id="card-results">
+      <h2>Results in watched races</h2>
+      <div class="ec-controls">
+        <div class="ec-seg" role="group" aria-label="Chamber" id="res-chamber">
+          <button data-v="" aria-pressed="true">All</button><button data-v="House" aria-pressed="false">House</button><button data-v="Senate" aria-pressed="false">Senate</button><button data-v="Governor" aria-pressed="false">Governor</button><button data-v="Arizona" aria-pressed="false">Arizona</button>
+        </div>
+      </div>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-results" data-source="results" data-row-key="id">
+          <thead><tr><th data-field="race_label">Race</th><th data-field="status">Status</th><th data-field="tally">Reported votes</th><th data-field="margin" class="n">Margin</th><th data-field="reported_at">Updated</th><th data-field="outstanding" class="ec-hide-narrow">Outstanding</th><th data-field="next_update" class="ec-hide-narrow">Next update</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-card" id="card-closings">
+      <h2>Poll closing times in Arizona time (MST)</h2>
+      <p class="ec-note">States split across time zones close in stages. Times shown are the last polls in each area; voters in line at closing can still vote.</p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-closings" data-source="poll_close" data-row-key="id">
+          <thead><tr><th data-field="az_time">AZ time</th><th data-field="state">State</th><th data-field="area" class="ec-hide-narrow">Area</th><th data-field="local_time">Local</th><th data-field="status">Now</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-grid">
+      <div class="ec-card" id="card-counting">
+        <h2>Counting schedules</h2>
+        <ul class="ec-list" id="counting-list" data-source="counting"></ul>
+      </div>
+      <div class="ec-card" id="card-cert">
+        <h2>Canvass, certification &amp; recounts</h2>
+        <div class="ec-tablebox">
+          <table class="ec-table" id="table-cert" data-source="certification" data-row-key="state">
+            <thead><tr><th data-field="state">State</th><th data-field="state_certification">Certification</th><th data-field="recount_rule">Recount rule</th><th data-field="status">Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ec-card" id="card-method">
+      <h2>How votes are counted and called</h2>
+      <ul class="ec-list" id="method-list" data-source="method_notes"></ul>
+    </div>
+  </section>
+
+  <!-- NEWS & LOG -->
+  <section class="ec-page" id="news" data-page="news" hidden>
+    <div class="ec-card" id="card-briefing">
+      <h2>All developments</h2>
+      <p class="ec-note">Meaningful changes only, newest first. Routine checks are in the refresh log below.</p>
+      <div class="ec-controls"><select class="ec-brief-cat" aria-label="Category"></select></div>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-briefing" data-source="briefing" data-row-key="id">
+          <thead><tr><th data-field="at">When</th><th data-field="category">Type</th><th data-field="what_changed">What changed (sourced)</th><th data-field="why_it_matters" class="ec-hide-narrow">Why it matters (interpretation)</th><th data-field="source_name">Source</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-card" id="card-headlines">
+      <h2>Voting news</h2>
+      <p class="ec-note">Election administration and early-voting reporting. Several stories about the same event are grouped under one headline.</p>
+      <div class="ec-controls">
+        <select class="ec-news-scope" aria-label="Filter news by place"></select>
+        <input type="search" class="ec-news-q" placeholder="Search headlines" aria-label="Search headlines">
+      </div>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-headlines" data-source="headlines" data-row-key="id">
+          <thead><tr><th data-field="date">Date</th><th data-field="scope">Where</th><th data-field="title">Headline</th><th data-field="outlet" class="ec-hide-narrow">Outlet</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-card" id="card-runs">
+      <h2>Hourly runs</h2>
+      <p class="ec-note">Every scheduled hour, including any hour with no completed run. Target: published by 35 minutes past the hour. Publication and source coverage are shown separately: a run can publish on time and still have partial or poor coverage (key figures confirmed from a usable source this hour). Earlier verified figures are kept ("Kept").</p>
+      <p class="ec-note" id="runs-reliability"></p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-runs" data-source="run_log" data-row-key="run_id">
+          <thead><tr><th data-field="scheduled_for">Scheduled hour</th><th data-field="started_at" class="ec-hide-narrow">Started</th><th data-field="published_at">Published</th><th data-field="status">Publication · coverage</th><th data-field="sources_checked" class="n">Sources OK</th><th data-field="figures_updated" class="n">Updated</th><th data-field="retained" class="n ec-hide-narrow">Kept</th><th data-field="figures_rejected" class="n ec-hide-narrow">Rejected</th><th data-field="unresolved">Unresolved</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-card" id="card-srcchg">
+      <h2>Source changes</h2>
+      <p class="ec-note">When a figure moved to a different provider. The difference between two providers is never counted as newly reported ballots.</p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-srcchg" data-source="source_changes" data-row-key="id">
+          <thead><tr><th data-field="at">When</th><th data-field="geography">Where</th><th data-field="from_source">From</th><th data-field="to_source">To</th><th data-field="reason">Why</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-card" id="card-reviews">
+      <h2>Figures under review</h2>
+      <p class="ec-note">When a source shows an unexplained decrease, a different number for the same period, a very large jump, or a figure above registered voters, the published figure stays on screen marked "under review" and both numbers are kept here. Every hourly run re-reads the source; a change seen on two consecutive hourly reads is adopted and logged as a correction. Figures above registration are never adopted automatically.</p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-reviews" data-source="reviews" data-row-key="id">
+          <thead><tr><th data-field="first_seen">First seen</th><th data-field="geography">Where</th><th data-field="kind">Issue</th><th data-field="published_value" class="n">Published</th><th data-field="observed_value" class="n">Source now shows</th><th data-field="reads" class="n">Reads</th><th data-field="status">Status</th><th data-field="history_text" class="ec-hide-narrow">Observations</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-grid">
+      <div class="ec-card" id="card-checks">
+        <h2>Refresh log</h2>
+        <p class="ec-note">Each source check: changed, no change, or could not be retrieved. A failed check never makes old data look new.</p>
+        <div class="ec-controls"><select class="ec-check-status" aria-label="Status"><option value="">All results</option><option value="checked">Read successfully</option><option value="changed">Changed</option><option value="no change">No change</option><option value="unreachable">Could not retrieve</option><option value="error">Error</option><option value="no new data">No new data</option><option value="timed out">Timed out</option><option value="skipped (time budget)">Skipped (time budget)</option></select></div>
+        <div class="ec-tablebox">
+          <table class="ec-table" id="table-checks" data-source="checks" data-row-key="id">
+            <thead><tr><th data-field="run_at">Run</th><th data-field="source">Source</th><th data-field="status">Result</th><th data-field="method" class="ec-hide-narrow">Method</th><th data-field="seconds" class="n ec-hide-narrow">Sec</th><th data-field="detail" class="ec-hide-narrow">Detail</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ec-card" id="card-corrections">
+        <h2>Corrections</h2>
+        <p class="ec-note">Official revisions, including decreases, with the old and new value.</p>
+        <div class="ec-tablebox">
+          <table class="ec-table" id="table-corrections" data-source="corrections" data-row-key="id">
+            <thead><tr><th data-field="at">When</th><th data-field="geography">Where</th><th data-field="field">Measure</th><th data-field="previous">Was</th><th data-field="replacement">Now</th><th data-field="explanation" class="ec-hide-narrow">Why</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <section class="ec-page" id="sources" data-page="sources" hidden>
+    <div class="ec-card" id="card-srcstatus">
+      <h2>Source status</h2>
+      <p class="ec-note">Every source, how it is retrieved, when it was last read successfully, the newest period it reported, and what still limits it. "AI extraction" means an AI agent reads the fetched page and records the number with verbatim evidence; code then validates the number, label, place, election and date before anything is published.</p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-srcstatus" data-source="source_status" data-row-key="id">
+          <thead><tr><th data-field="source">Source</th><th data-field="primary_for">Primary for</th><th data-field="method" class="ec-hide-narrow">Retrieval</th><th data-field="last_success">Last read OK</th><th data-field="latest_observation">Newest data</th><th data-field="last_status">Last result</th><th data-field="backups" class="ec-hide-narrow">Backups</th><th data-field="limitation" class="ec-hide-narrow">Limitation / next fix</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-card" id="card-primary">
+      <h2>Primary and backup sources</h2>
+      <p class="ec-note">Each hour the primary is checked first, with one retry. A backup is used only when the primary fails and its published figure has gone stale. Conflicting counts are never averaged, and the largest is never preferred automatically. Items marked "needs manual" have no automatic source.</p>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-primary" data-source="source_registry" data-row-key="id">
+          <thead><tr><th data-field="measure">Measure</th><th data-field="primary">Primary</th><th data-field="primary_class">Type</th><th data-field="backups">Backups (in order)</th><th data-field="stale_after_hours" class="n ec-hide-narrow">Stale after (h)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-card" id="card-compare">
+      <h2>Compare sources</h2>
+      <div class="ec-controls"><select class="ec-cmp-metric" aria-label="Measure"></select></div>
+      <div class="ec-tablebox">
+        <table class="ec-table" id="table-compare" data-source="source_compare" data-row-key="id">
+          <thead><tr><th data-field="source">Source</th><th data-field="value" class="n">Value</th><th data-field="observed_at">Observed</th><th data-field="classification">Type</th><th data-field="provider" class="ec-hide-narrow">Underlying data</th><th data-field="definition" class="ec-hide-narrow">Counts</th><th data-field="note" class="ec-hide-narrow">Difference explained</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ec-grid">
+      <div class="ec-card" id="card-provenance">
+        <h2>Shared data providers</h2>
+        <ul class="ec-list" id="prov-list" data-source="provenance"></ul>
+      </div>
+      <div class="ec-card" id="card-glossary">
+        <h2>Definitions</h2>
+        <dl class="ec-kv" id="glossary" data-source="glossary"></dl>
+      </div>
+    </div>
+  </section>
+</div>
+<footer class="site-foot">Nonpartisan and read-only. Every figure links to its source and shows its own "data as of" date; nothing on this page is a forecast. Not affiliated with any campaign, party or election office. Party colors: Republican red, Democratic blue.</footer>
+</main>
+<script src="js/core.js"></script>
+<script src="js/states.js"></script>
+<script src="js/congress.js"></script>
+<script src="js/pace.js"></script>
+<script src="js/arizona.js"></script>
+<script src="js/local.js"></script>
+<script src="js/night.js"></script>
+<script src="js/news.js"></script>
+<script src="js/pubmeta.js"></script>
+</body>
+</html>

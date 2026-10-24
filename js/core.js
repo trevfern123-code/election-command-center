@@ -63,6 +63,7 @@
     'rejected': ['New figure failed validation — last verified figure kept', 'warn'], 'not found on source': ['Source read, figure not listed', 'warn'],
     'not checked this run': ['Not checked this hour', ''], 'under review': ['Under review — published figure kept', 'warn'],
     'no new data from source': ['Source reached, no new data', ''], 'stale source response; freshness not verified this run': ['Stale source response — freshness not verified this run', 'warn'], 'official kept; tracker figure shown separately': ['Official figure kept; tracker figure not confirmed', 'warn'], 'skipped (time budget)': ['Skipped this hour (time limit) — last verified figure kept', 'warn'],
+    'permission-blocked (no approval in an unattended run)': ['Not read this hour: the source can only be read with an approval an unattended run cannot get — last verified figure kept', 'warn'],
   };
   const freshBadges = (row) => {
     const out = [];

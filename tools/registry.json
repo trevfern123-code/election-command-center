@@ -40,7 +40,7 @@
   "AZ-sw-4": "^superintendent of public instruction$",
   "AZ-sw-5": "^state mine inspector$"
  },
- "version": "2026-10-27.13",
+ "version": "2026-10-27.14",
  "direct_verified": false,
  "election": "2026 general election (Nov 3, 2026)",
  "sources": [
@@ -2297,7 +2297,7 @@
      "url": "https://www.sos.mn.gov/election-administration-campaigns/data-maps/absentee-data/",
      "parser": "text_regex",
      "active": true,
-     "verified": "ACTIVE BUT UNVERIFIED: host refused by the egress proxy (no allowlist rule matches) as of 2026-10-24; patterns written against the page text read through the web reader on 2026-10-23; starts working once the host is allowed (each run reports \"blocked\" until then)",
+     "verified": "2026-10-27 real page read from GitHub Actions (still refused by the Claude workspace proxy): heading \"State General Election Absentee Counts\", \"Accepted ballots - by mail (10/23/26): 177,841\", \"Accepted ballots - in person (10/23/26): 241,348\"; the page no longer prints \"2026 State General Election\", so the election check ties the heading to a 2026-dated label",
      "patterns": [
       {
        "measure": "MN.early_total",
@@ -2315,7 +2315,7 @@
        ],
        "asof_re": "Accepted ballots - by mail \\((?P<asof>\\d\\d?/\\d\\d?/\\d\\d)\\)",
        "asof_basis": "period",
-       "election_re": "2026 State General Election"
+       "election_re": "State General Election Absentee Counts.{0,1500}?Accepted ballots - by mail \\(\\d\\d?/\\d\\d?/26\\)"
       }
      ]
     }

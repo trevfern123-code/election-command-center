@@ -16,7 +16,7 @@ import argparse, base64, copy, datetime as dt, glob, gzip, hashlib, html, json, 
 from urllib.parse import urlparse
 from concurrent.futures import ThreadPoolExecutor
 
-TOOLKIT_VERSION = '2026-10-27.13'
+TOOLKIT_VERSION = '2026-10-27.14'
 PIPE = ['national', 'states', 'bg_states', 'az_returns', 'az_trackers', 'az_counties', 'pace', 'registration',
         'watch_races', 'rating_history', 'polls', 'headlines', 'briefing', 'checks', 'corrections',
         'source_compare', 'source_changes', 'run_log', 'results', 'az_dates', 'source_registry',
@@ -1047,6 +1047,9 @@ def cmd_prepare(a):
     # sources with no permitted automatic method in an unattended run are recorded as permission-blocked every run (never silently dropped,
     # never 'no data'); the last verified figure stays published with its date
     seen_src = {x['source_id'] for x in attempts if x.get('status') in ('ok', 'no_data')}
+    # a direct download that reached the host (any answer other than the proxy's refusal) is this environment's real outcome for that
+    # source; the permission-blocked label describes the Claude workspace and must not be added on top of it
+    seen_src |= {x['source_id'] for x in direct.get('attempts', []) if x.get('status') != 'blocked'}
     for g in R.reg.get('fetch_groups', []):
         if g.get('unattended') == 'blocked' and g['source_id'] not in seen_src and not any(x['source_id'] == g['source_id'] for x in obs.get('attempts', [])):
             attempts.append({'source_id': g['source_id'], 'group': g['id'], 'url': (g.get('urls') or [None])[0], 'attempt': 0, 'method': 'none (no permitted unattended method)',
@@ -1066,7 +1069,8 @@ def cmd_prepare(a):
     # direct-download blocks are expected until the domain is allowed; they never count as a failure when the agent path read the source
     src_ok, src_nodata, src_fail, src_skipped, src_secs, src_perm = set(), set(), {}, set(), {}, set()
     # sources read only by direct download (no web-reader fallback): a failed download is a failed source
-    direct_only_src = {g['source_id'] for g in R.reg.get('fetch_groups', []) if g.get('how') == 'direct_only'}
+    # sources whose only permitted unattended method is the direct download (no reader fallback this run): a direct failure is a failure
+    direct_only_src = {g['source_id'] for g in R.reg.get('fetch_groups', []) if g.get('how') == 'direct_only' or g.get('unattended') == 'blocked'}
     websearch_src = {g['source_id'] for g in R.reg.get('fetch_groups', []) if g.get('how') == 'websearch'}
     for at in attempts:
         if at['status'] == 'ok':

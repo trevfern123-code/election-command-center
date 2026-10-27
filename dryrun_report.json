@@ -1,20 +1,21 @@
 {
- "started_at": "2026-10-27T15:42:33Z",
+ "started_at": "2026-10-27T15:56:42Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40533601670",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40535903838",
  "state": "carried over from the previous run",
- "previous_run": "r20261027T1540",
+ "previous_run": "r20261027T1542",
  "direct": {
   "direct_jobs": 12,
-  "ok": 10,
+  "ok": 11,
   "blocked_by_allowlist": [],
-  "figures": 102,
+  "figures": 103,
   "groups_covered": [
    "azev",
    "callthemap",
    "fldos",
    "georgiavotes",
+   "mnsos",
    "ncsbe",
    "nvindy",
    "orsos",
@@ -32,37 +33,6 @@
  },
  "direct_failures": [
   {
-   "source_id": "mnsos",
-   "url": "https://www.sos.mn.gov/election-administration-campaigns/data-maps/absentee-data/",
-   "status": "error",
-   "detail": "downloaded 66531 bytes, sha256 ed7fd1260a6faa8e; parser found no figure (layout change?): MN.early_total: election identifier not found on page",
-   "raw_error": null,
-   "parse_notes": [
-    "MN.early_total: election identifier not found on page"
-   ],
-   "discovery": null,
-   "page_excerpt": {
-    "start": " \n Minnesota Secretary Of State - Absentee Data \n Skip to main content \n Menu \n Office of the Minnesota Secretary of State, Steve Simon \n Home \n Elections & Voting \n Elections & Voting main page \n Register to Vote \n Election Day Voting \n Other Ways to Vote \n What's on My Ballot? \n Election Results \n Find County Election Office \n Secure and Fair Elections \n Get Involved! \n How Elections Work \n Election Administration \n Elections Administration & Campaigns main page \n Become a Candidate \n Campaigning \n Data & Maps \n Election Administration \n Elections Calendar \n Business & Liens \n Businesses & Liens main page \n Business Filings Online \n UCC / Tax Liens Online \n CNS Liens Online \n Online Subscriptions \n UCC, CNS & Tax Liens Help \n UCC, Tax & CNS Forms & Fees \n Start a Business \n Business Help \n Business Forms & Fees \n Notary & Apostille \n Notary & Apostille main page \n Find a Notary \n Existing Notaries \n Become a Notary \n Notary Training & Supplies \n Notary Help \n Notary Forms \n Apostille Authentication \n Apostille Verification \n Study Abroad \n Study Abroad main page \n International Exchange Organizations in Minnesota \n College & University Study Abroad Safety \n High School Study Abro",
-    "matches": [
-     " Minnesota Secretary Of State - Absentee Data ",
-     " What's on My Ballot? ",
-     " 2026 Election By the Numbers ",
-     " Absentee Data ",
-     " Absentee Ballot Applicant List Requests ",
-     " Accepted Absentee Ballot List Requests ",
-     " Rejected Absentee Ballot List Requests ",
-     " Absentee Data",
-     " Absentee Data",
-     " Data about absentee voting in Minnesota is listed below",
-     " This incorporates all voting before election day, including voter requests for an absentee ballot by mail, ballots sent to voters on the permanent absentee list, ballots sent to UOCAVA voters, ballots sent to voters in precincts that vote by mail, absentee in person voting (by envelope), and early voting",
-     " State General Election Absentee Counts",
-     " The data below lists counts of absentee applications and accepted ballots (by mail and in person) for the State General Election",
-     " Accepted ballots - by mail (10/23/26): 177,841",
-     " Accepted ballots - in person (10/23/26): 241,348"
-    ]
-   }
-  },
-  {
    "source_id": "weech",
    "url": "https://derekweech.substack.com/feed",
    "status": "error",
@@ -74,7 +44,7 @@
  ],
  "trigger": "push",
  "prepare": {
-  "run_id": "r20261027T1542",
+  "run_id": "r20261027T1556",
   "status": "degraded",
   "changed_datasets": [
    "national",
@@ -82,14 +52,16 @@
    "bg_states",
    "az_returns",
    "az_counties",
+   "briefing",
    "checks",
+   "source_compare",
    "run_log",
    "source_status",
    "reviews"
   ],
-  "upload_count": 21,
+  "upload_count": 23,
   "notify": [],
-  "accepted": 0,
+  "accepted": 1,
   "comparison_only": 0,
   "reviews": [
    {
@@ -222,30 +194,30 @@
   "rejected": [],
   "publish_target": "2026-10-27T15:35:00Z"
  },
- "run_id": "r20261027T1542",
+ "run_id": "r20261027T1556",
  "latest": {
-  "run_id": "r20261027T1542",
+  "run_id": "r20261027T1556",
   "scheduled_for": "2026-10-27T15:00:00Z",
-  "started_at": "2026-10-27T15:42:33Z",
-  "completed_at": "2026-10-27T15:42:56Z",
+  "started_at": "2026-10-27T15:56:42Z",
+  "completed_at": "2026-10-27T15:56:47Z",
   "publish_target": "2026-10-27T15:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
-  "key_figures_confirmed": "14/19",
-  "figures_updated": 0,
+  "key_figures_confirmed": "15/19",
+  "figures_updated": 1,
   "sources_checked": 24,
   "sources_failed": "AZ ABEV Returns (Derek Weech)",
   "reviews_open": 18,
-  "toolkit_version": "2026-10-27.13",
+  "toolkit_version": "2026-10-27.14",
   "run_mode": "unattended",
-  "sources_permission_blocked": "Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Minnesota Secretary of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission",
+  "sources_permission_blocked": "Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission",
   "permission_requests_refused": 0,
   "web_reader_calls": 0,
-  "direct_downloads_ok": 10,
-  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Minnesota Secretary of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: CA.early_total (same period change, 1 read), IL.early_total (same period change, 1 read), IN.early_total (same period change, 1 read), IA.early_total (same period change, 1 read), KS.early_total (same period change, 1 read), KY.early_total (same period change, 1 read), MD.early_total (same period change, 1 read), MI.early_total (s",
+  "direct_downloads_ok": 11,
+  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: CA.early_total (same period change, 1 read), IL.early_total (same period change, 1 read), IN.early_total (same period change, 1 read), IA.early_total (same period change, 1 read), KS.early_total (same period change, 1 read), KY.early_total (same period change, 1 read), MD.early_total (same period change, 1 read), MI.early_total (same period change, 1 read), MT",
   "notify": [],
   "publisher": "github-actions",
-  "published_at": "2026-10-27T15:42:56Z",
+  "published_at": "2026-10-27T15:56:47Z",
   "publication_verified": true
  }
 }

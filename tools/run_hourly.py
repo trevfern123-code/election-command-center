@@ -5,9 +5,12 @@ No AI step and no approvals: code-only direct downloads (vp.py direct), the same
 the same privacy-checked public export (pubexport.py), and a commit with the fixed publisher identity.
 
 Modes (environment variable PUBLISH):
-  "dry-run" (default): everything runs, but the public site is not touched. Results go to the branch "actions-dryrun"
-                       and the chained state to "pipeline-state-dryrun".
-  "live":              data/ is committed to main (the public site) and the state to "pipeline-state".
+  "dry-run" (default): everything runs, but the public site is not touched. Results go to the branch "actions-dryrun".
+  "live":              data/ is committed to main (the public site).
+
+State between runs (the validated bundle, review counters, alert timers) lives in .state/, which the workflow carries from
+run to run with the Actions cache. It is never committed to the public repository. When there is no cached state (first run,
+or after switching mode), the state is rebuilt from the data the public site currently shows.
 
 Exit code is non-zero whenever the run did not publish, so the Actions run shows as failed.
 """
@@ -24,7 +27,7 @@ TOOLS = os.path.join(ROOT, 'tools')
 WORK = os.path.join(ROOT, '.work')
 MODE = os.environ.get('PUBLISH', 'dry-run')
 LIVE = MODE == 'live'
-STATE_BRANCH = 'pipeline-state' if LIVE else 'pipeline-state-dryrun'
+STATE_DIR = os.path.join(ROOT, '.state')
 OUT_BRANCH = 'main' if LIVE else 'actions-dryrun'
 BOT = {'GIT_AUTHOR_NAME': 'Election Command Center publisher', 'GIT_AUTHOR_EMAIL': 'publisher@election-command-center.invalid',
        'GIT_COMMITTER_NAME': 'Election Command Center publisher', 'GIT_COMMITTER_EMAIL': 'publisher@election-command-center.invalid'}
@@ -90,12 +93,22 @@ def main():
     os.makedirs(f'{WORK}/conflicts')
     report = {'started_at': started, 'mode': MODE, 'publisher': 'github-actions', 'run_url': os.environ.get('RUN_URL')}
     try:
-        # 1. previous state (the last published bundle and its publication record)
-        state_dir = os.path.join(ROOT, '.state')
-        worktree(state_dir, STATE_BRANCH, seed_from=None if LIVE else 'pipeline-state')
-        with gzip.open(f'{state_dir}/bundle.json.gz', 'rt') as f:
-            json.dump(json.load(f), open(f'{WORK}/bundle_prev.json', 'w'))
-        prev_latest = json.load(open(f'{state_dir}/latest.json'))
+        # 1. the output branch (what the public site, or the dry-run branch, currently shows) and the previous state
+        site = os.path.join(ROOT, '.site')
+        worktree(site, OUT_BRANCH, seed_from='main')
+        if os.path.exists(f'{STATE_DIR}/bundle.json.gz') and os.path.exists(f'{STATE_DIR}/latest.json'):
+            with gzip.open(f'{STATE_DIR}/bundle.json.gz', 'rt') as f:
+                json.dump(json.load(f), open(f'{WORK}/bundle_prev.json', 'w'))
+            prev_latest = json.load(open(f'{STATE_DIR}/latest.json'))
+            report['state'] = 'carried over from the previous run'
+        else:
+            # rebuild from the published public data (review counters and alert timers start fresh)
+            man = json.load(open(f'{site}/data/manifest.json'))
+            json.dump({ds: json.load(open(f'{site}/data/{ds}.json')) for ds in man['dynamic']}, open(f'{WORK}/bundle_prev.json', 'w'))
+            prev_latest = {k: man.get(k) for k in ('run_id', 'scheduled_for', 'started_at', 'completed_at', 'published_at', 'publish_target')}
+            report['state'] = f"rebuilt from the published data of {man.get('run_id')}"
+        os.makedirs(STATE_DIR, exist_ok=True)
+        json.dump(prev_latest, open(f'{WORK}/prev_latest.json', 'w'))
         report['previous_run'] = prev_latest.get('run_id')
 
         # 2. direct downloads (code extraction, raw-file hashes kept)
@@ -106,7 +119,7 @@ def main():
         json.dump({'started_at': started, 'attempts': [], 'figures': [], 'approvals_answered': 0}, open(f'{WORK}/obs.json', 'w'))
         tkv = json.load(open(f'{TOOLS}/registry.json'))['version']
         p = sh(sys.executable, f'{TOOLS}/vp.py', 'prepare', '--bundle', f'{WORK}/bundle_prev.json', '--registry', f'{TOOLS}/registry.json',
-               '--obs', f'{WORK}/obs.json', '--direct', f'{WORK}/direct_obs.json', '--prev-latest', f'{state_dir}/latest.json',
+               '--obs', f'{WORK}/obs.json', '--direct', f'{WORK}/direct_obs.json', '--prev-latest', f'{WORK}/prev_latest.json',
                '--conflicts', f'{WORK}/conflicts', '--out', f'{WORK}/out', '--trigger-status', 'github-actions', '--toolkit-version', tkv)
         report['prepare'] = json.loads(p.stdout)
         pub = json.load(open(f'{WORK}/out/publish.json'))
@@ -115,8 +128,6 @@ def main():
         report['run_id'] = run_id
 
         # 4. public export into the output branch, privacy-scanned, then commit with the publisher identity
-        site = os.path.join(ROOT, '.site')
-        worktree(site, OUT_BRANCH, seed_from='main')
         latest = {k: s.get(k) for k in ('run_id', 'scheduled_for', 'started_at', 'completed_at', 'publish_target', 'status', 'coverage_health',
                                         'key_figures_confirmed', 'figures_updated', 'sources_checked', 'sources_failed', 'reviews_open',
                                         'toolkit_version', 'run_mode', 'sources_permission_blocked', 'permission_requests_refused',
@@ -136,21 +147,11 @@ def main():
             raise RuntimeError(f"verification failed: {OUT_BRANCH} shows {remote_manifest.get('run_id')}, expected {run_id}")
         report['verified_on_branch'] = OUT_BRANCH
 
-        # 5. chained state for the next run (bundle, publication record, this run's evidence archive and changed raw files)
-        archive = json.load(open(f'{WORK}/out/archive-{run_id}.json'))
-        hits = []
-        pubexport.scan({'bundle': json.load(open(f'{WORK}/out/bundle.json')), 'summary': s}, 'state', hits)
-        if hits:
-            raise RuntimeError('STATE NOT SAVED (privacy scan): ' + '; '.join(hits[:5]))
-        with gzip.open(f'{state_dir}/bundle.json.gz', 'wt') as f:
+        # 5. state for the next run (kept in the Actions cache, never committed); evidence archive kept as a run artifact
+        with gzip.open(f'{STATE_DIR}/bundle.json.gz', 'wt') as f:
             json.dump(json.load(open(f'{WORK}/out/bundle.json')), f)
-        json.dump(latest, open(f'{state_dir}/latest.json', 'w'), indent=1)
-        os.makedirs(f'{state_dir}/archives', exist_ok=True)
-        json.dump(archive, open(f'{state_dir}/archives/{run_id}.json', 'w'))
-        os.makedirs(f'{state_dir}/raw', exist_ok=True)
-        for rp in pub.get('raw_uploads', []):
-            shutil.copy(rp, f'{state_dir}/raw/{os.path.basename(rp)}')
-        report['state_commit'] = commit_and_push(state_dir, STATE_BRANCH, ['bundle.json.gz', 'latest.json', 'archives', 'raw'], f'State after {run_id}')
+        json.dump(latest, open(f'{STATE_DIR}/latest.json', 'w'), indent=1)
+        report['state_saved'] = True
 
         # 6. ask GitHub Pages to rebuild (live only; a push made by Actions may not trigger it on its own)
         if LIVE and os.environ.get('GH_TOKEN'):

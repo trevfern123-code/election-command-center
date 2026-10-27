@@ -13,6 +13,11 @@ concurrency:
   group: hourly-refresh
   cancel-in-progress: false
 
+env:
+  # "dry-run": results go to the actions-dryrun branch; the public site is not touched.
+  # "live": data/ on main (the public site) is updated.
+  PUBLISH: dry-run
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -29,11 +34,31 @@ jobs:
           sudo apt-get update -q
           sudo apt-get install -y -q poppler-utils
           pip install -q openpyxl
+      - name: Restore the previous run's state
+        uses: actions/cache/restore@v4
+        with:
+          path: .state
+          key: state-${{ env.PUBLISH }}-${{ github.run_id }}
+          restore-keys: state-${{ env.PUBLISH }}-
       - name: Run the hourly refresh
         env:
-          # "dry-run": results go to the actions-dryrun branch; the public site is not touched.
-          # "live": data/ on main (the public site) is updated.
-          PUBLISH: dry-run
           GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: python3 tools/run_hourly.py
+      - name: Save state for the next run
+        if: success()
+        uses: actions/cache/save@v4
+        with:
+          path: .state
+          key: state-${{ env.PUBLISH }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Keep this run's evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-${{ github.run_id }}
+          path: |
+            .work/out/archive-*.json
+            .work/out/log.json
+            .work/direct_obs.json
+          retention-days: 90
+          if-no-files-found: ignore

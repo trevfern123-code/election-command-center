@@ -96,14 +96,21 @@ def main():
         # 1. the output branch (what the public site, or the dry-run branch, currently shows) and the previous state
         site = os.path.join(ROOT, '.site')
         worktree(site, OUT_BRANCH, seed_from='main')
+        man = json.load(open(f'{site}/data/manifest.json'))
+        cached = None
         if os.path.exists(f'{STATE_DIR}/bundle.json.gz') and os.path.exists(f'{STATE_DIR}/latest.json'):
+            cached = json.load(open(f'{STATE_DIR}/latest.json'))
+        if cached and cached.get('run_id') == man.get('run_id'):
             with gzip.open(f'{STATE_DIR}/bundle.json.gz', 'rt') as f:
                 json.dump(json.load(f), open(f'{WORK}/bundle_prev.json', 'w'))
-            prev_latest = json.load(open(f'{STATE_DIR}/latest.json'))
+            prev_latest = cached
             report['state'] = 'carried over from the previous run'
         else:
+            # no cached state, or the cache belongs to a different run than the branch now shows (another publisher,
+            # or a run started from the run-request branch whose cache this run cannot see): the published data wins
+            if cached:
+                report['state_mismatch'] = f"cached state is from {cached.get('run_id')}, {OUT_BRANCH} shows {man.get('run_id')}"
             # rebuild from the published public data (review counters and alert timers start fresh)
-            man = json.load(open(f'{site}/data/manifest.json'))
             json.dump({ds: json.load(open(f'{site}/data/{ds}.json')) for ds in man['dynamic']}, open(f'{WORK}/bundle_prev.json', 'w'))
             prev_latest = {k: man.get(k) for k in ('run_id', 'scheduled_for', 'started_at', 'completed_at', 'published_at', 'publish_target')}
             report['state'] = f"rebuilt from the published data of {man.get('run_id')}"
@@ -114,6 +121,10 @@ def main():
         # 2. direct downloads (code extraction, raw-file hashes kept)
         d = sh(sys.executable, f'{TOOLS}/vp.py', 'direct', '--registry', f'{TOOLS}/registry.json', '--out', WORK)
         report['direct'] = json.loads(d.stdout)
+        dobs = json.load(open(f'{WORK}/direct_obs.json'))
+        report['direct_failures'] = [{k: x.get(k) for k in ('source_id', 'url', 'status', 'detail', 'raw_error', 'parse_notes', 'discovery')}
+                                     for x in dobs.get('attempts', []) if x.get('status') != 'ok']
+        report['trigger'] = os.environ.get('GITHUB_EVENT_NAME')
 
         # 3. validation (no agent observations: web-search groups are not read here)
         json.dump({'started_at': started, 'attempts': [], 'figures': [], 'approvals_answered': 0}, open(f'{WORK}/obs.json', 'w'))

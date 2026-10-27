@@ -1,0 +1,2659 @@
+{
+ "coverage_gaps": {
+  "AL": "No early voting period in Alabama (Secretary of State); excuse-required absentee only, and no statewide absentee count is published before the election (checked 2026-10-23).",
+  "MA": "Early voting Oct 17-30; the Secretary of the Commonwealth's statistics page has no 2026 data yet. Only rounded figures quoted in news reports exist, which are not published as counts (checked 2026-10-23).",
+  "MO": "No-excuse in-person absentee voting began Oct 20; the Secretary of State publishes no statewide running count (some counties post their own) (checked 2026-10-23).",
+  "NH": "No in-person early voting; excuse-required absentee only, and no statewide count is published (checked 2026-10-23).",
+  "NY": "Early voting begins Oct 24, 2026 (State Board of Elections); no statewide early or mail count is published yet (checked 2026-10-23).",
+  "WV": "Early voting began Oct 21; the Secretary of State has not released a statewide count yet (checked 2026-10-23)."
+ },
+ "row_notes": {
+  "MN": "Official source: the Secretary of State absentee data page (\"Accepted ballots - by mail\" + \"Accepted ballots - in person\", dated in the labels; the page says the data is current as of the date shown). News reports quoting the Secretary of State can give a different cutoff (for example \"As of Oct. 22\"); that figure is listed under Compare sources with its own date and is never substituted for the page date."
+ },
+ "egress_probe_hosts": [
+  "www.sos.mn.gov",
+  "sos.mn.gov",
+  "www.dcboe.org",
+  "dcboe.org"
+ ],
+ "derive_measures": {
+  "AZ.early_returned": "AZ.early_total"
+ },
+ "azev_schema_confirmed": true,
+ "azev_schema_note": "Confirmed 2026-10-23 against the live export (results.ballotItems[].ballotOptions[].voteCount, politicalParty); file was a zero report",
+ "azev_public_url": "https://app.enhancedvoting.com/results/public/Arizona/110326GeneralElection",
+ "azev_contest_map": {
+  "G-AZ": "^governor and lieutenant governor$",
+  "H-AZ-01": "^u\\.s\\. representative in congress - district no\\. 1$",
+  "H-AZ-02": "^u\\.s\\. representative in congress - district no\\. 2$",
+  "H-AZ-06": "^u\\.s\\. representative in congress - district no\\. 6$",
+  "AZ-AZ-02": "^u\\.s\\. representative in congress - district no\\. 2$",
+  "AZ-AZ-03": "^u\\.s\\. representative in congress - district no\\. 3$",
+  "AZ-AZ-04": "^u\\.s\\. representative in congress - district no\\. 4$",
+  "AZ-AZ-05": "^u\\.s\\. representative in congress - district no\\. 5$",
+  "AZ-AZ-07": "^u\\.s\\. representative in congress - district no\\. 7$",
+  "AZ-AZ-08": "^u\\.s\\. representative in congress - district no\\. 8$",
+  "AZ-AZ-09": "^u\\.s\\. representative in congress - district no\\. 9$",
+  "AZ-sw-1": "^attorney general$",
+  "AZ-sw-2": "^secretary of state$",
+  "AZ-sw-3": "^state treasurer$",
+  "AZ-sw-4": "^superintendent of public instruction$",
+  "AZ-sw-5": "^state mine inspector$"
+ },
+ "version": "2026-10-27.13",
+ "direct_verified": false,
+ "election": "2026 general election (Nov 3, 2026)",
+ "sources": [
+  {
+   "id": "tpsi",
+   "name": "TPSI / On Point early vote tracker",
+   "hosts": [
+    "tpsielections.com"
+   ],
+   "class": "tracker",
+   "provider": "civicAPI",
+   "definition": "Mail ballots returned + early in-person votes",
+   "single_geography": false,
+   "note": "Compiled by civicAPI from state and county files; same underlying data as Call the Map for most states.",
+   "row_date_basis": "page",
+   "def_key": "early_total",
+   "coverage_key": "tpsi_states",
+   "date_note": "States \"as of <date>\" for the page as a whole; individual states can lag.",
+   "coverage": "States with early-vote data in the TPSI tracker (its page states how many)",
+   "limitation": "Page HTML contains only the first 20 of 43 state rows; the rest load by script (\"Show all 43\"), so no page fetch can read them. States outside the top 20 are not refreshed from TPSI.",
+   "next_fix": "Allow tpsielections.com, then locate the JSON data file the page script loads and parse it directly (all 43 rows)."
+  },
+  {
+   "id": "callthemap",
+   "name": "Call the Map early vote tracker",
+   "hosts": [
+    "callthemap.com"
+   ],
+   "class": "tracker",
+   "provider": "civicAPI and some state files",
+   "definition": "Ballots returned",
+   "single_geography": false,
+   "note": "Shares civicAPI data with TPSI for most states.",
+   "row_date_basis": "page",
+   "def_key": "ballots_returned_ctm",
+   "table_check": false,
+   "coverage_key": "ctm_states",
+   "coverage": "States with early-vote data in Call the Map",
+   "limitation": "Read by direct download: exact state counts, each dated by the day it runs through. Definition differs by state (state files vs civicAPI), so it is a labeled backup and comparison source. The Nevada section covers Clark County mail ballots only and is not recorded.",
+   "next_fix": "None needed; TPSI is primary."
+  },
+  {
+   "id": "nbc",
+   "name": "NBC News early vote tracker",
+   "hosts": [
+    "nbcnews.com"
+   ],
+   "class": "tracker",
+   "provider": "TargetSmart and state officials",
+   "definition": "Mail ballots returned + early in-person votes",
+   "single_geography": false,
+   "note": "Page blocks automated reading; read from search-result text when available.",
+   "row_date_basis": "page",
+   "def_key": "early_total",
+   "coverage_key": "nbc_states",
+   "coverage": "States reporting to NBC/TargetSmart",
+   "limitation": "nbcnews.com blocks automated reading (robots.txt); only search-result snippets are usable.",
+   "next_fix": "No automatic fix; TPSI is the national primary."
+  },
+  {
+   "id": "ncsbe",
+   "name": "NC State Board of Elections",
+   "hosts": [
+    "ncsbe.gov",
+    "s3.amazonaws.com"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Accepted absentee ballots + one-stop early votes",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "limitation": "Daily PDF report; read through the fetch tool.",
+   "next_fix": "Direct PDF download + text extraction once ncsbe.gov / s3.amazonaws.com are allowed."
+  },
+  {
+   "id": "gasos",
+   "name": "Georgia Secretary of State",
+   "hosts": [
+    "sos.ga.gov",
+    "georgia.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Absentee ballots accepted + in-person early votes",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "limitation": "Site is behind a Cloudflare bot challenge (\"Just a moment...\", HTTP 403) for automated downloads; read through the fetch tool only.",
+   "next_fix": "None automatic: the site blocks scripted downloads. georgiavotes.com (reads the SoS file) is downloaded directly."
+  },
+  {
+   "id": "georgiavotes",
+   "name": "georgiavotes.com",
+   "hosts": [
+    "georgiavotes.com"
+   ],
+   "class": "tracker",
+   "provider": "Not stated",
+   "definition": "Ballots cast",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "date_note": "Shows \"Last updated\" (a publication time), not a data period.",
+   "limitation": "Third-party site built on the SoS absentee file.",
+   "next_fix": "Direct download is coded; needs georgiavotes.com allowed."
+  },
+  {
+   "id": "fldos",
+   "name": "Florida Division of Elections",
+   "hosts": [
+    "floridados.gov",
+    "dos.fl.gov",
+    "dos.myflorida.com"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Vote-by-mail ballots voted + early votes",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "date_note": "Shows the compile time; data runs through the previous day.",
+   "limitation": "Total is printed as two parts (vote-by-mail + early) and is published as a labeled calculation.",
+   "next_fix": "Direct download once floridados.gov is allowed."
+  },
+  {
+   "id": "misos",
+   "name": "Michigan Department of State",
+   "hosts": [
+    "michigan.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Absentee ballots returned (plus early in-person from Oct 24)",
+   "single_geography": true,
+   "note": "",
+   "def_key": "absentee_returned_mi",
+   "coverage_key": "statewide",
+   "limitation": "Totals appear only in press releases (none newer than Oct 20).",
+   "next_fix": "TPSI backup is automatic."
+  },
+  {
+   "id": "cosos",
+   "name": "Colorado Secretary of State",
+   "hosts": [
+    "coloradosos.gov",
+    "sos.state.co.us"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Ballots returned (all-mail state)",
+   "single_geography": true,
+   "note": "",
+   "def_key": "ballots_returned_allmail",
+   "coverage_key": "statewide",
+   "limitation": "No 2026 general release found by search.",
+   "next_fix": "TPSI backup is automatic."
+  },
+  {
+   "id": "orsos",
+   "name": "Oregon Secretary of State",
+   "hosts": [
+    "sos.oregon.gov",
+    "oregon.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Ballots returned (all-mail state)",
+   "single_geography": true,
+   "note": "",
+   "def_key": "ballots_returned_allmail",
+   "coverage_key": "statewide",
+   "date_note": "Shows \"Report Generated\" date and time; the state says the report reflects the most current information at that time (used as the data time).",
+   "limitation": "Unofficial ballot-returns PDF (Power BI export); \"Report Generated\" time is the data time the state gives. Validated 2026-10-23: election date 11/3/2026, 383,771 received, county rows add up.",
+   "next_fix": "None: direct download; link re-discovered on the current-election page each hour."
+  },
+  {
+   "id": "scsec",
+   "name": "South Carolina Election Commission",
+   "hosts": [
+    "scvotes.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "In-person early votes only (absentee/mail ballots not included)",
+   "single_geography": true,
+   "note": "",
+   "def_key": "inperson_early_sc",
+   "coverage_key": "statewide",
+   "date_note": "Each column is a voting day; the last day column is the data date. The separate \"Report Date\" is the publication date.",
+   "limitation": "Counts in-person early votes only; absentee/mail returns are a separate official spreadsheet with a different report date and are not added.",
+   "next_fix": "None: direct CSV download, link re-discovered on the voter-participation page each hour; 46 county rows must add up to the statewide row."
+  },
+  {
+   "id": "dcboe",
+   "name": "DC Board of Elections",
+   "hosts": [
+    "dcboe.org"
+   ],
+   "class": "official",
+   "provider": "District",
+   "definition": "Voted mail ballots received (drop box + USPS); in-person early voting not included",
+   "single_geography": true,
+   "note": "",
+   "def_key": "mail_received_dc",
+   "coverage_key": "statewide",
+   "date_note": "No \"as of\" line: the last day with data in both tables is used; file names carry older dates and are ignored.",
+   "limitation": "dcboe.org is refused by the egress proxy (no allowlist rule), so the two PDFs are read through the AI web reader; counts mail ballots only (in-person early voting starts Oct 26).",
+   "next_fix": "Add dcboe.org and www.dcboe.org to the allowlist, then a coded PDF parser can replace the web reader."
+  },
+  {
+   "id": "mssos",
+   "name": "Mississippi Secretary of State",
+   "hosts": [
+    "sos.ms.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Absentee ballots received",
+   "single_geography": true,
+   "note": "",
+   "def_key": "absentee_received_ms",
+   "coverage_key": "statewide",
+   "limitation": "No machine-readable 2026 figure.",
+   "next_fix": "TPSI backup (MS not always listed)."
+  },
+  {
+   "id": "mnsos",
+   "name": "Minnesota Secretary of State",
+   "hosts": [
+    "sos.mn.gov",
+    "sos.state.mn.us"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Accepted absentee ballots",
+   "single_geography": true,
+   "note": "",
+   "def_key": "absentee_accepted_mn",
+   "coverage_key": "statewide",
+   "date_note": "Labels carry the date (\"Accepted ballots - by mail (10/23/26)\"); the page says \"The data is current as of the date shown.\" News reports may give a different cutoff (e.g. \"As of Oct. 22\"); each source keeps its own date.",
+   "limitation": "Egress proxy refuses www.sos.mn.gov and sos.mn.gov: \"request blocked: no rule or allowlist entry allows host\" (CONNECT 403), in this workspace and in the scheduled environment probe. The official data page is read through the AI web reader with a per-run cache-busting URL (the reader served a stale 10/16 copy without it).",
+   "next_fix": "Re-check the saved allowlist entries for sos.mn.gov / www.sos.mn.gov (exact host, no https:// or path); once the probe shows CONNECT 200, activate the coded parser for the data page."
+  },
+  {
+   "id": "wec",
+   "name": "Wisconsin Elections Commission",
+   "hosts": [
+    "elections.wi.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Absentee ballots returned",
+   "single_geography": true,
+   "note": "",
+   "def_key": "absentee_returned_wec",
+   "coverage_key": "statewide",
+   "limitation": "elections.wi.gov: Cloudflare challenge (HTTP 403) for automated downloads.",
+   "next_fix": "Fetch tool only; TPSI page data covers Wisconsin."
+  },
+  {
+   "id": "wispolitics",
+   "name": "WisPolitics (Elections Commission data)",
+   "hosts": [
+    "wispolitics.com"
+   ],
+   "class": "tracker",
+   "provider": "Wisconsin Elections Commission",
+   "definition": "Absentee ballots returned",
+   "single_geography": true,
+   "note": "",
+   "def_key": "absentee_returned_wec",
+   "coverage_key": "statewide",
+   "limitation": "www.wispolitics.com: Cloudflare 403 for automated downloads.",
+   "next_fix": "Fetch tool only."
+  },
+  {
+   "id": "nvsos",
+   "name": "Nevada Secretary of State",
+   "hosts": [
+    "nvsos.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Mail ballots returned + early in-person votes",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "limitation": "Bot-protection (Incapsula) blocks automated reading from any tool.",
+   "next_fix": "No automatic fix; Nevada Independent (state data) and TPSI are backups."
+  },
+  {
+   "id": "nvindy",
+   "name": "The Nevada Independent (state data)",
+   "hosts": [
+    "thenevadaindependent.com"
+   ],
+   "class": "tracker",
+   "provider": "Nevada Secretary of State",
+   "definition": "Mail ballots returned + early in-person votes",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "limitation": "Live blog; one figure per update.",
+   "next_fix": "Direct download is coded; needs thenevadaindependent.com allowed."
+  },
+  {
+   "id": "txsos",
+   "name": "Texas Secretary of State",
+   "hosts": [
+    "sos.texas.gov",
+    "texas-election.com",
+    "sos.state.tx.us"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Early in-person votes + mail ballots received",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "limitation": "Turnout site returns a client error.",
+   "next_fix": "TexPolls (from SoS reports) and TPSI are automatic backups."
+  },
+  {
+   "id": "texpolls",
+   "name": "TexPolls (from Texas SoS reports)",
+   "hosts": [
+    "texpolls.com"
+   ],
+   "class": "tracker",
+   "provider": "Texas Secretary of State reports",
+   "definition": "Early in-person votes + mail ballots received",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "limitation": "Third-party compilation of SoS reports.",
+   "next_fix": "Direct download is coded; needs texpolls.com allowed."
+  },
+  {
+   "id": "pados",
+   "name": "Pennsylvania Department of State",
+   "hosts": [
+    "pa.gov",
+    "vote.pa.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Mail ballots returned",
+   "single_geography": true,
+   "note": "",
+   "def_key": "mail_returned_pa",
+   "coverage_key": "statewide",
+   "limitation": "Daily file is a spreadsheet the fetch tool cannot open.",
+   "next_fix": "Direct XLSX download + parser once pa.gov is allowed; TPSI backup now."
+  },
+  {
+   "id": "ohsos",
+   "name": "Ohio Secretary of State",
+   "hosts": [
+    "ohiosos.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Absentee ballots returned + early in-person votes",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_total",
+   "coverage_key": "statewide",
+   "limitation": "www.ohiosos.gov answered with a maintenance page (HTTP 403).",
+   "next_fix": "Fetch tool; TPSI page data covers Ohio."
+  },
+  {
+   "id": "maricopa",
+   "name": "Maricopa County Recorder / Elections",
+   "hosts": [
+    "recorder.maricopa.gov",
+    "elections.maricopa.gov",
+    "maricopa.gov"
+   ],
+   "class": "official",
+   "provider": "County",
+   "definition": "Early ballots returned",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_ballots_returned",
+   "coverage_key": "statewide",
+   "limitation": "recorder.maricopa.gov and elections.maricopa.gov answer automated downloads with a Cloudflare challenge (HTTP 403).",
+   "next_fix": "Read through the fetch tool; news quoting the county as backup."
+  },
+  {
+   "id": "maricopa_news",
+   "name": "Maricopa County figures as reported by news",
+   "hosts": [
+    "kjzz.org",
+    "fox10phoenix.com",
+    "azfamily.com",
+    "12news.com",
+    "azcentral.com",
+    "abc15.com",
+    "azmirror.com",
+    "votebeat.org",
+    "ktar.com"
+   ],
+   "class": "official (via news)",
+   "provider": "County",
+   "definition": "Early ballots returned",
+   "single_geography": false,
+   "note": "Used only when the article quotes the County Recorder or Elections Department.",
+   "def_key": "early_ballots_returned",
+   "coverage_key": "statewide",
+   "limitation": "Depends on news coverage quoting the county.",
+   "next_fix": "None beyond searching each hour."
+  },
+  {
+   "id": "pima",
+   "name": "Pima County Recorder",
+   "hosts": [
+    "recorder.pima.gov",
+    "pima.gov"
+   ],
+   "class": "official",
+   "provider": "County",
+   "definition": "Early ballots returned",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_ballots_returned",
+   "coverage_key": "statewide",
+   "limitation": "recorder.pima.gov: Cloudflare challenge (HTTP 403) for automated downloads.",
+   "next_fix": "Fetch tool only."
+  },
+  {
+   "id": "pinal",
+   "name": "Pinal County Elections",
+   "hosts": [
+    "pinal.gov",
+    "pinalcountyaz.gov"
+   ],
+   "class": "official",
+   "provider": "County",
+   "definition": "Early ballots returned",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_ballots_returned",
+   "coverage_key": "statewide",
+   "limitation": "explore.pinal.gov: Cloudflare challenge (HTTP 403) for automated downloads.",
+   "next_fix": "Fetch tool only."
+  },
+  {
+   "id": "weech",
+   "name": "AZ ABEV Returns (Derek Weech)",
+   "hosts": [
+    "derekweech.substack.com"
+   ],
+   "class": "tracker",
+   "provider": "Not stated",
+   "definition": "Early ballots returned",
+   "single_geography": true,
+   "note": "",
+   "def_key": "early_ballots_returned",
+   "coverage_key": "statewide",
+   "limitation": "Newsletter, read from its RSS feed by direct download; irregular. The date is the one in the post title (\"AZ ABEV Returns - MM/DD/YYYY\"). Posts without that title are not used.",
+   "next_fix": "TPSI is the AZ statewide primary."
+  },
+  {
+   "id": "cook",
+   "name": "Cook Political Report ratings",
+   "hosts": [
+    "cookpolitical.com"
+   ],
+   "class": "ratings",
+   "provider": "Cook Political Report",
+   "definition": "Race ratings (Solid/Likely/Lean/Toss Up)",
+   "single_geography": false,
+   "note": "",
+   "def_key": "cook",
+   "coverage_key": "statewide"
+  },
+  {
+   "id": "rcp",
+   "name": "RealClearPolling latest polls",
+   "hosts": [
+    "realclearpolling.com"
+   ],
+   "class": "polls",
+   "provider": "RealClearPolling",
+   "definition": "Published polls",
+   "single_geography": false,
+   "note": "",
+   "def_key": "rcp",
+   "coverage_key": "statewide"
+  },
+  {
+   "id": "mnsos_news",
+   "name": "Minnesota Secretary of State figures as reported by news",
+   "hosts": [
+    "kimt.com",
+    "wdio.com",
+    "kstp.com",
+    "kare11.com",
+    "startribune.com",
+    "mprnews.org",
+    "fox9.com",
+    "cbsnews.com",
+    "minnpost.com",
+    "sahanjournal.com",
+    "kaxe.org",
+    "kttc.com",
+    "mankatofreepress.com",
+    "duluthnewstribune.com"
+   ],
+   "class": "official (via news)",
+   "provider": "State",
+   "definition": "Ballots cast during absentee voting (in person + by mail)",
+   "single_geography": true,
+   "note": "Used only when the article attributes the figures to the Secretary of State and states the as-of date.",
+   "def_key": "absentee_accepted_mn",
+   "coverage_key": "statewide",
+   "date_note": "Uses the as-of date the article attributes to the Secretary of State (e.g. \"As of Oct. 22\"), never the article date."
+  },
+  {
+   "id": "onpoint",
+   "name": "On Point state pages (same data as TPSI)",
+   "hosts": [
+    "onpointpolitics.us"
+   ],
+   "class": "tracker",
+   "provider": "civicAPI",
+   "definition": "Mail ballots returned + early in-person votes",
+   "single_geography": false,
+   "note": "Per-state pages of the TPSI / On Point tracker; used for states the main table page does not deliver.",
+   "row_date_basis": "page",
+   "def_key": "early_total",
+   "table_check": false,
+   "coverage_key": "statewide",
+   "limitation": "One page per state; its \"as of\" date is the page date for all states, not each state's own observation date. Pages for states that do not report say so.",
+   "next_fix": "Same data host as TPSI; direct download once onpointpolitics.us is allowed."
+  },
+  {
+   "id": "azev",
+   "name": "Arizona SoS results (Enhanced Voting export)",
+   "hosts": [
+    "app.enhancedvoting.com",
+    "azsos.gov"
+   ],
+   "class": "official",
+   "provider": "State",
+   "definition": "Official election-night results",
+   "single_geography": true,
+   "note": "",
+   "def_key": "results",
+   "coverage_key": "statewide",
+   "limitation": "Media export returns compressed JSON the fetch tool cannot read; schema not yet seen with real data.",
+   "next_fix": "Allow app.enhancedvoting.com; the coded parser then reads it directly. Test against the first live file on Nov 3."
+  }
+ ],
+ "measures": [
+  {
+   "id": "AL.early_total",
+   "label": "Alabama",
+   "kind": "early_total",
+   "geo_key": "AL",
+   "geo_words": [
+    "Alabama"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Alabama early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "AK.early_total",
+   "label": "Alaska",
+   "kind": "early_total",
+   "geo_key": "AK",
+   "geo_words": [
+    "Alaska"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Alaska early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "AZ.early_total",
+   "label": "Arizona",
+   "kind": "early_total",
+   "geo_key": "AZ",
+   "geo_words": [
+    "Arizona"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Arizona early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "AR.early_total",
+   "label": "Arkansas",
+   "kind": "early_total",
+   "geo_key": "AR",
+   "geo_words": [
+    "Arkansas"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Arkansas early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "CA.early_total",
+   "label": "California",
+   "kind": "early_total",
+   "geo_key": "CA",
+   "geo_words": [
+    "California"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "California early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "CO.early_total",
+   "label": "Colorado",
+   "kind": "early_total",
+   "geo_key": "CO",
+   "geo_words": [
+    "Colorado"
+   ],
+   "sources": [
+    "cosos",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Colorado early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "CT.early_total",
+   "label": "Connecticut",
+   "kind": "early_total",
+   "geo_key": "CT",
+   "geo_words": [
+    "Connecticut"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Connecticut early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "DE.early_total",
+   "label": "Delaware",
+   "kind": "early_total",
+   "geo_key": "DE",
+   "geo_words": [
+    "Delaware"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Delaware early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "DC.early_total",
+   "label": "District of Columbia",
+   "kind": "early_total",
+   "geo_key": "DC",
+   "geo_words": [
+    "District of Columbia"
+   ],
+   "sources": [
+    "dcboe",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "District of Columbia early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "FL.early_total",
+   "label": "Florida",
+   "kind": "early_total",
+   "geo_key": "FL",
+   "geo_words": [
+    "Florida"
+   ],
+   "sources": [
+    "fldos",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Florida early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "GA.early_total",
+   "label": "Georgia",
+   "kind": "early_total",
+   "geo_key": "GA",
+   "geo_words": [
+    "Georgia"
+   ],
+   "sources": [
+    "gasos",
+    "tpsi",
+    "onpoint",
+    "callthemap",
+    "georgiavotes"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Georgia early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "HI.early_total",
+   "label": "Hawaii",
+   "kind": "early_total",
+   "geo_key": "HI",
+   "geo_words": [
+    "Hawaii"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Hawaii early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "ID.early_total",
+   "label": "Idaho",
+   "kind": "early_total",
+   "geo_key": "ID",
+   "geo_words": [
+    "Idaho"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Idaho early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "IL.early_total",
+   "label": "Illinois",
+   "kind": "early_total",
+   "geo_key": "IL",
+   "geo_words": [
+    "Illinois"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Illinois early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "IN.early_total",
+   "label": "Indiana",
+   "kind": "early_total",
+   "geo_key": "IN",
+   "geo_words": [
+    "Indiana"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Indiana early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "IA.early_total",
+   "label": "Iowa",
+   "kind": "early_total",
+   "geo_key": "IA",
+   "geo_words": [
+    "Iowa"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Iowa early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "KS.early_total",
+   "label": "Kansas",
+   "kind": "early_total",
+   "geo_key": "KS",
+   "geo_words": [
+    "Kansas"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Kansas early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "KY.early_total",
+   "label": "Kentucky",
+   "kind": "early_total",
+   "geo_key": "KY",
+   "geo_words": [
+    "Kentucky"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Kentucky early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "LA.early_total",
+   "label": "Louisiana",
+   "kind": "early_total",
+   "geo_key": "LA",
+   "geo_words": [
+    "Louisiana"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Louisiana early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "ME.early_total",
+   "label": "Maine",
+   "kind": "early_total",
+   "geo_key": "ME",
+   "geo_words": [
+    "Maine"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Maine early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "MD.early_total",
+   "label": "Maryland",
+   "kind": "early_total",
+   "geo_key": "MD",
+   "geo_words": [
+    "Maryland"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Maryland early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "MA.early_total",
+   "label": "Massachusetts",
+   "kind": "early_total",
+   "geo_key": "MA",
+   "geo_words": [
+    "Massachusetts"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Massachusetts early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "MI.early_total",
+   "label": "Michigan",
+   "kind": "early_total",
+   "geo_key": "MI",
+   "geo_words": [
+    "Michigan"
+   ],
+   "sources": [
+    "misos",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Michigan early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "MN.early_total",
+   "label": "Minnesota",
+   "kind": "early_total",
+   "geo_key": "MN",
+   "geo_words": [
+    "Minnesota"
+   ],
+   "sources": [
+    "mnsos",
+    "mnsos_news",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Minnesota early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "MS.early_total",
+   "label": "Mississippi",
+   "kind": "early_total",
+   "geo_key": "MS",
+   "geo_words": [
+    "Mississippi"
+   ],
+   "sources": [
+    "mssos",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Mississippi early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "MO.early_total",
+   "label": "Missouri",
+   "kind": "early_total",
+   "geo_key": "MO",
+   "geo_words": [
+    "Missouri"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Missouri early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "MT.early_total",
+   "label": "Montana",
+   "kind": "early_total",
+   "geo_key": "MT",
+   "geo_words": [
+    "Montana"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Montana early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "NE.early_total",
+   "label": "Nebraska",
+   "kind": "early_total",
+   "geo_key": "NE",
+   "geo_words": [
+    "Nebraska"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Nebraska early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "NV.early_total",
+   "label": "Nevada",
+   "kind": "early_total",
+   "geo_key": "NV",
+   "geo_words": [
+    "Nevada"
+   ],
+   "sources": [
+    "nvsos",
+    "nvindy",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Nevada early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "NH.early_total",
+   "label": "New Hampshire",
+   "kind": "early_total",
+   "geo_key": "NH",
+   "geo_words": [
+    "New Hampshire"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "New Hampshire early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "NJ.early_total",
+   "label": "New Jersey",
+   "kind": "early_total",
+   "geo_key": "NJ",
+   "geo_words": [
+    "New Jersey"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "New Jersey early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "NM.early_total",
+   "label": "New Mexico",
+   "kind": "early_total",
+   "geo_key": "NM",
+   "geo_words": [
+    "New Mexico"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "New Mexico early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "NY.early_total",
+   "label": "New York",
+   "kind": "early_total",
+   "geo_key": "NY",
+   "geo_words": [
+    "New York"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "New York early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "NC.early_total",
+   "label": "North Carolina",
+   "kind": "early_total",
+   "geo_key": "NC",
+   "geo_words": [
+    "North Carolina"
+   ],
+   "sources": [
+    "ncsbe",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "North Carolina early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "ND.early_total",
+   "label": "North Dakota",
+   "kind": "early_total",
+   "geo_key": "ND",
+   "geo_words": [
+    "North Dakota"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "North Dakota early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "OH.early_total",
+   "label": "Ohio",
+   "kind": "early_total",
+   "geo_key": "OH",
+   "geo_words": [
+    "Ohio"
+   ],
+   "sources": [
+    "ohsos",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Ohio early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "OK.early_total",
+   "label": "Oklahoma",
+   "kind": "early_total",
+   "geo_key": "OK",
+   "geo_words": [
+    "Oklahoma"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Oklahoma early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "OR.early_total",
+   "label": "Oregon",
+   "kind": "early_total",
+   "geo_key": "OR",
+   "geo_words": [
+    "Oregon"
+   ],
+   "sources": [
+    "orsos",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Oregon early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "PA.early_total",
+   "label": "Pennsylvania",
+   "kind": "early_total",
+   "geo_key": "PA",
+   "geo_words": [
+    "Pennsylvania"
+   ],
+   "sources": [
+    "pados",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Pennsylvania early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "RI.early_total",
+   "label": "Rhode Island",
+   "kind": "early_total",
+   "geo_key": "RI",
+   "geo_words": [
+    "Rhode Island"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Rhode Island early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "SC.early_total",
+   "label": "South Carolina",
+   "kind": "early_total",
+   "geo_key": "SC",
+   "geo_words": [
+    "South Carolina"
+   ],
+   "sources": [
+    "scsec",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "South Carolina early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "SD.early_total",
+   "label": "South Dakota",
+   "kind": "early_total",
+   "geo_key": "SD",
+   "geo_words": [
+    "South Dakota"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "South Dakota early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "TN.early_total",
+   "label": "Tennessee",
+   "kind": "early_total",
+   "geo_key": "TN",
+   "geo_words": [
+    "Tennessee"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Tennessee early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "TX.early_total",
+   "label": "Texas",
+   "kind": "early_total",
+   "geo_key": "TX",
+   "geo_words": [
+    "Texas"
+   ],
+   "sources": [
+    "txsos",
+    "texpolls",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Texas early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "UT.early_total",
+   "label": "Utah",
+   "kind": "early_total",
+   "geo_key": "UT",
+   "geo_words": [
+    "Utah"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Utah early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "VT.early_total",
+   "label": "Vermont",
+   "kind": "early_total",
+   "geo_key": "VT",
+   "geo_words": [
+    "Vermont"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Vermont early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "VA.early_total",
+   "label": "Virginia",
+   "kind": "early_total",
+   "geo_key": "VA",
+   "geo_words": [
+    "Virginia"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Virginia early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "WA.early_total",
+   "label": "Washington",
+   "kind": "early_total",
+   "geo_key": "WA",
+   "geo_words": [
+    "Washington"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Washington early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "WV.early_total",
+   "label": "West Virginia",
+   "kind": "early_total",
+   "geo_key": "WV",
+   "geo_words": [
+    "West Virginia"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "West Virginia early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "WI.early_total",
+   "label": "Wisconsin",
+   "kind": "early_total",
+   "geo_key": "WI",
+   "geo_words": [
+    "Wisconsin"
+   ],
+   "sources": [
+    "wec",
+    "wispolitics",
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Wisconsin early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "WY.early_total",
+   "label": "Wyoming",
+   "kind": "early_total",
+   "geo_key": "WY",
+   "geo_words": [
+    "Wyoming"
+   ],
+   "sources": [
+    "tpsi",
+    "onpoint",
+    "callthemap"
+   ],
+   "stale_hours": 36,
+   "key": false,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "Wyoming early votes",
+   "coverage_override": {
+    "tpsi": "statewide",
+    "onpoint": "statewide",
+    "nbc": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "US.early_total",
+   "label": "United States",
+   "kind": "early_total",
+   "geo_key": "US",
+   "geo_words": [
+    "nation",
+    "national",
+    "u.s",
+    "united states",
+    "states",
+    "total"
+   ],
+   "sources": [
+    "tpsi",
+    "nbc",
+    "callthemap"
+   ],
+   "stale_hours": 30,
+   "key": true,
+   "alert": true,
+   "allow_rounded": false,
+   "noun": "early votes",
+   "compare_label": "National early votes",
+   "geo_implicit_sources": [
+    "tpsi",
+    "nbc",
+    "callthemap"
+   ]
+  },
+  {
+   "id": "AZ.early_returned",
+   "label": "Arizona statewide",
+   "kind": "early_returned",
+   "geo_key": "AZ",
+   "geo_words": [
+    "arizona"
+   ],
+   "sources": [
+    "tpsi",
+    "callthemap",
+    "weech"
+   ],
+   "stale_hours": 36,
+   "key": true,
+   "alert": true,
+   "allow_rounded": true,
+   "noun": "early ballots returned",
+   "compare_label": "Arizona statewide early ballots returned",
+   "def_override": {
+    "tpsi": "early_ballots_returned",
+    "callthemap": "early_ballots_returned",
+    "weech": "early_ballots_returned"
+   },
+   "coverage_override": {
+    "tpsi": "statewide",
+    "callthemap": "statewide"
+   }
+  },
+  {
+   "id": "AZ-Maricopa.early_returned",
+   "label": "Maricopa County",
+   "kind": "early_returned",
+   "geo_key": "Maricopa",
+   "geo_words": [
+    "maricopa"
+   ],
+   "sources": [
+    "maricopa",
+    "maricopa_news"
+   ],
+   "stale_hours": 72,
+   "key": true,
+   "alert": true,
+   "allow_rounded": true,
+   "noun": "early ballots returned",
+   "compare_label": "Maricopa early ballots returned"
+  },
+  {
+   "id": "AZ-Pima.county_returned",
+   "label": "Pima County",
+   "kind": "county_returned",
+   "geo_key": "Pima",
+   "geo_words": [
+    "pima"
+   ],
+   "sources": [
+    "pima"
+   ],
+   "stale_hours": 48,
+   "key": false,
+   "allow_rounded": true,
+   "noun": "early ballots returned",
+   "compare_label": "Pima early ballots returned"
+  },
+  {
+   "id": "AZ-Pinal.county_returned",
+   "label": "Pinal County",
+   "kind": "county_returned",
+   "geo_key": "Pinal",
+   "geo_words": [
+    "pinal"
+   ],
+   "sources": [
+    "pinal"
+   ],
+   "stale_hours": 48,
+   "key": false,
+   "allow_rounded": true,
+   "noun": "early ballots returned",
+   "compare_label": "Pinal early ballots returned"
+  }
+ ],
+ "fetch_groups": [
+  {
+   "id": "tpsi",
+   "source_id": "tpsi",
+   "urls": [
+    "https://www.tpsielections.com/maps/early-vote"
+   ],
+   "extract": "National total, mail and in-person; every state total (with mail/in-person where shown); the page's \"as of\" date. Arizona statewide returned.",
+   "tier": 1,
+   "direct": [
+    {
+     "url": "https://www.tpsielections.com/maps/early-vote",
+     "parser": "tpsi_payload",
+     "active": true,
+     "verified": "2026-10-23 real page, 43 reporting states"
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "callthemap",
+   "source_id": "callthemap",
+   "urls": [
+    "https://www.callthemap.com/early-vote",
+    "https://www.callthemap.com/early-vote?state=az"
+   ],
+   "extract": "National total and each state total with its \"through\" date; mark rounded values (e.g. 744K) as rounded.",
+   "tier": 2,
+   "direct": [
+    {
+     "url": "https://www.callthemap.com/early-vote",
+     "parser": "ctm_states",
+     "timeout_s": 40,
+     "active": true,
+     "verified": "2026-10-24 real page: 45 state sections, exact counts with \"through <date>\"; Nevada section is Clark County mail only and is not recorded"
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "nbc",
+   "source_id": "nbc",
+   "how": "websearch",
+   "urls": [],
+   "search_query": "NBC News tracking the 2026 early vote mail-in and early in-person votes cast nationally",
+   "extract": "National total early votes, only from a result whose URL is nbcnews.com; quote the snippet text as evidence; data_as_of = date shown.",
+   "tier": 3
+  },
+  {
+   "id": "ncsbe",
+   "source_id": "ncsbe",
+   "urls": [
+    "https://s3.amazonaws.com/dl.ncsbe.gov/Press/2026%20General/NC%20Absentee%20Stats%20for%202026%20General/{YMD}%20Daily%20Absentee%20Stats%20Report%20-%202026%20General.pdf"
+   ],
+   "extract": "Total ballots cast (absentee/early) and \"ballots cast through\" date; mail and in-person; the 2022 comparison figure as compare_2022.",
+   "tier": 2,
+   "direct": [
+    {
+     "url": "https://s3.amazonaws.com/dl.ncsbe.gov/Press/2026%20General/NC%20Absentee%20Stats%20for%202026%20General/{YMD}%20Daily%20Absentee%20Stats%20Report%20-%202026%20General.pdf",
+     "parser": "pdf_text_regex",
+     "timeout_s": 40,
+     "active": true,
+     "verified": "2026-10-23 real PDF",
+     "patterns": [
+      {
+       "measure": "NC.early_total",
+       "label": "Total Ballots Cast",
+       "label_re": "Total Ballots Cast",
+       "value_re": "\\nTotal Ballots Cast\\s+(?P<value>\\d{1,3}(?:,\\d{3})+)",
+       "asof_re": "Ballots cast through (?P<asof>\\d{1,2}/\\d{1,2}/20\\d\\d)",
+       "election_re": "2026 General Election",
+       "asof_basis": "period"
+      }
+     ]
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "gasos",
+   "source_id": "gasos",
+   "urls": [
+    "https://sos.ga.gov/news"
+   ],
+   "search_query": "Georgia Secretary of State early voting turnout total 2026 general election site:sos.ga.gov",
+   "extract": "Newest official statewide early + absentee total and its date.",
+   "tier": 2,
+   "unattended": "blocked",
+   "blocked_reason": "The site refuses automated downloads (HTTP 403 from the site itself, checked 2026-10-24), and the web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z: refused with PROVENANCE_REQUIRED even for URLs written in the task's own instructions). Georgia is covered by georgiavotes.com (direct), TPSI and Call the Map."
+  },
+  {
+   "id": "georgiavotes",
+   "source_id": "georgiavotes",
+   "urls": [
+    "https://www.georgiavotes.com/"
+   ],
+   "extract": "Statewide ballots cast and last-updated date.",
+   "tier": 2,
+   "direct": [
+    {
+     "url": "https://georgiavotes.com/",
+     "parser": "text_regex",
+     "active": true,
+     "verified": "2026-10-23 real page",
+     "patterns": [
+      {
+       "measure": "GA.early_total",
+       "label": "people have voted",
+       "value_re": "2026 general election\\s*,\\s*(?P<value>\\d{1,3}(?:,\\d{3})+) people have voted",
+       "asof_re": "Last updated (?P<asof>20\\d\\d-\\d\\d-\\d\\d)",
+       "election_re": "2026 general election",
+       "asof_basis": "publication"
+      }
+     ]
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "fldos",
+   "source_id": "fldos",
+   "urls": [
+    "https://countyfilesvbm-ev.floridados.gov/VoteByMailEarlyVotingReports/PublicStats"
+   ],
+   "extract": "Statewide Voted Vote-by-Mail and Voted Early totals. Report the total as a calc (op sum, parts = the two printed figures with their labels and evidence), mail and in_person = the parts. Data is cumulative through the day before the compile date.",
+   "tier": 3,
+   "direct": [
+    {
+     "url": "https://countyfilesvbm-ev.floridados.gov/VoteByMailEarlyVotingReports/PublicStats",
+     "parser": "text_regex",
+     "active": true,
+     "verified": "2026-10-23 real page",
+     "patterns": [
+      {
+       "measure": "FL.early_total",
+       "label": "Voted",
+       "label_re": "Stats Type",
+       "parts": [
+        {
+         "label": "Voted Vote-by-Mail",
+         "value_re": "Voted Vote-by-Mail\\s*\\|(?:\\s*[\\d,]+\\s*\\|){4}\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)"
+        },
+        {
+         "label": "Voted Early",
+         "value_re": "Voted Early\\s*\\|(?:\\s*[\\d,]+\\s*\\|){4}\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)"
+        }
+       ],
+       "asof_re": "Voted Vote-by-Mail\\s*\\|(?:\\s*[\\d,]+\\s*\\|){5}\\s*(?P<asof>\\d{1,2}/\\d{1,2}/20\\d\\d)",
+       "asof_offset_days": 1,
+       "asof_basis": "publication",
+       "election_re": "Election Date\\s*-\\s*11/03/2026"
+      }
+     ]
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "misos",
+   "source_id": "misos",
+   "urls": [
+    "https://www.michigan.gov/sos/resources/news"
+   ],
+   "search_query": "Michigan Department of State absentee ballots returned 2026 November general site:michigan.gov",
+   "extract": "Statewide absentee ballots returned (and early in-person if reported) and date.",
+   "tier": 2,
+   "unattended": "blocked",
+   "blocked_reason": "The downloadable news page lists no releases (they load by script). The web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z). Michigan is covered by TPSI and Call the Map (civicAPI)."
+  },
+  {
+   "id": "cosos",
+   "source_id": "cosos",
+   "urls": [],
+   "how": "websearch",
+   "search_query": "Colorado Secretary of State ballot return statistics 2026 general election turnout",
+   "extract": "Statewide ballots returned and date (official release only).",
+   "tier": 3
+  },
+  {
+   "id": "orsos",
+   "source_id": "orsos",
+   "urls": [
+    "https://sos.oregon.gov/elections/Documents/2026-general-election-unofficial-ballot-returns.pdf"
+   ],
+   "extract": "Statewide \"Ballots Received\" total (county table Total row) and the \"Report Generated\" date/time; election date line \"Election Date: 11/3/2026\".",
+   "tier": 3,
+   "direct": [
+    {
+     "url": "https://sos.oregon.gov/elections/Documents/2026-general-election-unofficial-ballot-returns.pdf",
+     "parser": "pdf_text_regex",
+     "timeout_s": 40,
+     "active": true,
+     "discover": {
+      "page": "https://sos.oregon.gov/elections/pages/current-election.aspx",
+      "link_re": "href=\"(?P<href>[^\"]*2026[^\"]*general[^\"]*ballot[^\"]*returns?[^\"]*\\.pdf)\""
+     },
+     "verified": "2026-10-23 real PDF: Election Date 11/3/2026, Report Generated 10/23/2026 9:23 AM, Ballots Received 383,771 (36 county rows sum to total)",
+     "patterns": [
+      {
+       "measure": "OR.early_total",
+       "label": "Ballots Received",
+       "label_re": "County\\s+Active Voters\\s+Ballots Received",
+       "value_re": "\\n\\s*Total\\s+\\d{1,3}(?:,\\d{3})+\\s+(?P<value>\\d{1,3}(?:,\\d{3})+)\\s+\\d+\\.\\d+%",
+       "rows_sum_re": "^\\s*(?-i:[A-Z][A-Z .]+?)\\s{2,}\\d{1,3}(?:,\\d{3})*\\s+(?P<value>\\d{1,3}(?:,\\d{3})*)\\s+\\d+\\.\\d+%(?:\\s+\\d+\\.\\d+%)?\\s*$",
+       "rows_min": 36,
+       "asof_re": "Report Generated:\\s*(?P<asof>\\d{1,2}/\\d{1,2}/20\\d\\d)(?:\\s+\\d{1,2}:\\d\\d\\s*[AP]M)?",
+       "asof_basis": "period",
+       "election_re": "Election Date:\\s*11/3/2026"
+      }
+     ]
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "scsec",
+   "source_id": "scsec",
+   "urls": [
+    "https://scvotes.gov/elections-statistics/voter-participation/"
+   ],
+   "extract": "Statewide in-person early votes: the \"South Carolina\" row \"Total\" in the newest Early Voting Turnout Report (EV-Totals CSV) and the last date column.",
+   "tier": 2,
+   "direct": [
+    {
+     "url": "https://scvotes.gov/wp-content/uploads/2026/10/EV-Totals-{MDY2}.csv",
+     "parser": "csv_text_regex",
+     "timeout_s": 60,
+     "active": true,
+     "discover": {
+      "page": "https://scvotes.gov/elections-statistics/voter-participation/",
+      "link_re": "<a[^>]*href=\"(?P<href>[^\"]*EV-Totals-[^\"]*\\.csv)\"[^>]*>(?P<text>[^<]*)</a>"
+     },
+     "verified": "2026-10-23 real CSV: Election Date 11/03/2026, Report Date 10/23/2026, South Carolina total 363,566 through 10/22/2026; 46 county rows add up",
+     "patterns": [
+      {
+       "measure": "SC.early_total",
+       "label": "Early Voting Turnout Report",
+       "label_re": "as: Early Voting Turnout Report[^\\n]*\\n",
+       "value_re": "\\nSouth Carolina(?:\\s*\\|)+\\s*(?:[\\d,]+\\s*\\|\\s*)+(?P<value>\\d{1,3}(?:,\\d{3})+|\\d+)[ \\t]*\\n",
+       "rows_sum_re": "^(?-i:[A-Z][A-Za-z .]+) \\| Statewide General Election(?: \\|[^|\\n]*)*? \\| (?P<value>\\d{1,3}(?:,\\d{3})+|\\d+)\\s*$",
+       "rows_min": 46,
+       "asof_re": "(?P<asof>\\d{1,2}/\\d{1,2}/20\\d\\d) \\| Total",
+       "asof_basis": "period",
+       "election_re": "Election Date \\| Report Date[^\\n]*\\n\\s*11/03/2026"
+      }
+     ]
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "dcboe",
+   "source_id": "dcboe",
+   "urls": [
+    "https://www.dcboe.org/"
+   ],
+   "extract": "Under \"VOTED BALLOTS RECEIVED\" open the two newest 2026 General Election PDFs (drop box and USPS). Record DC.early_total as a calc (op sum) with two parts. For EACH part: \"label\" and \"heading\" = the table heading exactly as printed (e.g. \"Ballots Received by Drop Box/Ward\", \"BALLOTS RECEIVED BY USPS\"); \"value\" = that table's TOTAL row, TOTAL column; \"evidence\" = the TOTAL row verbatim; \"rows\" = EVERY dated row of that table as {\"label\": \"<the date exactly as printed>\", \"value\": <that row's TOTAL column>, \"evidence\": \"<the row verbatim>\"}. The script checks that the rows add up to TOTAL and that data_as_of is the last date with ballots in BOTH tables, so set data_as_of to that date and as_of_evidence to that date row. metric_label = \"Ballots Received\"; label_evidence = both headings verbatim; election = the title line (e.g. \"2026 General Election\"). Ignore dates in file names. Do not add the in-person early vote item. If either table cannot be read completely, record no figure (status \"error\" with the reason).",
+   "tier": 2,
+   "unattended": "blocked",
+   "blocked_reason": "This environment's network allowlist does not allow dcboe.org / www.dcboe.org. The web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z). DC has no other source; the last verified figure stays published with its date."
+  },
+  {
+   "id": "mssos",
+   "source_id": "mssos",
+   "urls": [],
+   "how": "websearch",
+   "search_query": "Mississippi Secretary of State absentee ballots received 2026 November general",
+   "extract": "Statewide absentee ballots received and date.",
+   "tier": 3
+  },
+  {
+   "id": "mnsos",
+   "source_id": "mnsos",
+   "urls": [
+    "https://www.sos.mn.gov/election-administration-campaigns/data-maps/absentee-data/",
+    "https://www.sos.mn.gov/about-the-office/news-room/"
+   ],
+   "extract": "Official absentee data page, \"Statewide 2026 State General Election\" section. Record MN.early_total as a calc (op sum) of the two printed parts \"Accepted ballots - by mail (<MM/DD/YY>): N\" and \"Accepted ballots - in person (<MM/DD/YY>): N\" (copy each line verbatim as the part evidence and label; mail and in_person = the parts). data_as_of = the date printed in those labels; as_of_evidence = that label text plus the sentence \"The data is current as of the date shown.\" Do NOT record \"Applications\". If the labels show an OLDER date than the published figure, still record the figure with that older date (the script labels it a stale response and keeps the published figure); never record no_data for that case. Only if the data page cannot be read: use the newest news-room release \"As of close of business on <date> ... for a total of N ballots\" (data_as_of = that date).",
+   "tier": 3,
+   "direct": [
+    {
+     "url": "https://www.sos.mn.gov/election-administration-campaigns/data-maps/absentee-data/",
+     "parser": "text_regex",
+     "active": true,
+     "verified": "ACTIVE BUT UNVERIFIED: host refused by the egress proxy (no allowlist rule matches) as of 2026-10-24; patterns written against the page text read through the web reader on 2026-10-23; starts working once the host is allowed (each run reports \"blocked\" until then)",
+     "patterns": [
+      {
+       "measure": "MN.early_total",
+       "label": "Accepted ballots",
+       "label_re": "Accepted ballots - by mail",
+       "parts": [
+        {
+         "label": "Accepted ballots - by mail",
+         "value_re": "Accepted ballots - by mail \\(\\d\\d?/\\d\\d?/\\d\\d\\):?\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)"
+        },
+        {
+         "label": "Accepted ballots - in person",
+         "value_re": "Accepted ballots - in person \\(\\d\\d?/\\d\\d?/\\d\\d\\):?\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)"
+        }
+       ],
+       "asof_re": "Accepted ballots - by mail \\((?P<asof>\\d\\d?/\\d\\d?/\\d\\d)\\)",
+       "asof_basis": "period",
+       "election_re": "2026 State General Election"
+      }
+     ]
+    }
+   ],
+   "unattended": "blocked",
+   "blocked_reason": "This environment's network allowlist does not allow sos.mn.gov / www.sos.mn.gov (proxy: \"no rule or allowlist entry allows host\"). The web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z). A direct parser is ready and switches on once the host is allowed."
+  },
+  {
+   "id": "wec",
+   "source_id": "wec",
+   "urls": [
+    "https://elections.wi.gov/news"
+   ],
+   "extract": "Statewide absentee ballots returned and date.",
+   "tier": 2,
+   "unattended": "blocked",
+   "blocked_reason": "The site refuses automated downloads (HTTP 403 from the site itself, checked 2026-10-24), and the web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z: refused with PROVENANCE_REQUIRED even for URLs written in the task's own instructions). Call the Map reads the Commission's daily absentee file and is downloaded directly."
+  },
+  {
+   "id": "wispolitics",
+   "source_id": "wispolitics",
+   "urls": [],
+   "how": "websearch",
+   "search_query": "WisPolitics absentee ballots returned Wisconsin Elections Commission 2026",
+   "extract": "Statewide absentee ballots returned (WEC data) and date.",
+   "tier": 2
+  },
+  {
+   "id": "nvsos",
+   "source_id": "nvsos",
+   "urls": [
+    "https://www.nvsos.gov/sos/elections/election-information/2026-election-information"
+   ],
+   "extract": "Statewide mail + in-person early ballots and date.",
+   "tier": 2,
+   "unattended": "blocked",
+   "blocked_reason": "The site answers automated downloads with a bot challenge (Incapsula). The web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z). The Nevada Independent is downloaded directly."
+  },
+  {
+   "id": "nvindy",
+   "source_id": "nvindy",
+   "urls": [
+    "https://thenevadaindependent.com/article/the-early-voting-blog-2026-general"
+   ],
+   "extract": "Newest statewide ballots cast figure and its timestamp.",
+   "tier": 2,
+   "direct": [
+    {
+     "url": "https://thenevadaindependent.com/article/the-early-voting-blog-2026-general",
+     "parser": "text_regex",
+     "active": true,
+     "verified": "2026-10-23 real page",
+     "patterns": [
+      {
+       "measure": "NV.early_total",
+       "label": "Turnout",
+       "value_re": "Turnout:\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)",
+       "asof_re": "UPDATED,?\\s*(?P<asof>\\d{1,2}/\\d{1,2}/\\d{2,4})[^\\n]*",
+       "asof_scope": "preceding",
+       "asof_basis": "period",
+       "election_re": "early voting blog|2026 general"
+      }
+     ]
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "txsos",
+   "source_id": "txsos",
+   "urls": [
+    "https://earlyvoting.texas-election.com/"
+   ],
+   "extract": "Statewide cumulative early in-person + mail and the day.",
+   "tier": 3,
+   "unattended": "blocked",
+   "blocked_reason": "The site refuses automated downloads (HTTP 403 from the site itself, checked 2026-10-24), and the web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z: refused with PROVENANCE_REQUIRED even for URLs written in the task's own instructions). TexPolls (from SoS reports) and Call the Map (SoS county file) are downloaded directly."
+  },
+  {
+   "id": "texpolls",
+   "source_id": "texpolls",
+   "urls": [
+    "https://texpolls.com/turnout"
+   ],
+   "extract": "Statewide cumulative total, in-person and mail, through date; 2022 same-day figure as compare_2022.",
+   "tier": 3,
+   "direct": [
+    {
+     "url": "https://texpolls.com/turnout",
+     "parser": "text_regex",
+     "active": true,
+     "verified": "2026-10-23 real page",
+     "patterns": [
+      {
+       "measure": "TX.early_total",
+       "label": "early ballots",
+       "value_re": "Texans have cast (?P<value>\\d{1,3}(?:,\\d{3})+) early ballots, in person and by mail",
+       "asof_re": "early ballots, in person and by mail, through (?P<asof>[A-Z][a-z]{2}\\.? \\d{1,2},? 20\\d\\d)",
+       "election_re": "2026 Texas Early Voting Turnout",
+       "asof_basis": "period"
+      },
+      {
+       "measure": "TX.early_total",
+       "label": "Early Ballots Reported",
+       "value_re": "Early Ballots Reported\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)",
+       "asof_re": "participation through (?P<asof>[A-Z][a-z]{2}\\.? \\d{1,2})",
+       "election_re": "November 3 general election",
+       "asof_basis": "period"
+      }
+     ]
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "mnsos_news",
+   "source_id": "mnsos_news",
+   "how": "websearch",
+   "urls": [],
+   "search_query": "Minnesota Secretary of State ballots cast so far as of absentee in person mail",
+   "extract": "Newest article (registered hosts only) that attributes Minnesota early-ballot totals to the Secretary of State AND states the as-of date (\"As of Oct. 22, a total of N ballots have been cast\"): record the total with that sentence as evidence and as_of_evidence, data_as_of = the stated as-of date, mail and in_person if both are printed. No figure if the article gives no as-of date.",
+   "tier": 3
+  },
+  {
+   "id": "pados",
+   "source_id": "pados",
+   "urls": [],
+   "how": "websearch",
+   "search_query": "Pennsylvania Department of State mail ballots returned 2026 general election",
+   "extract": "Statewide mail ballots returned and date (official only).",
+   "tier": 2
+  },
+  {
+   "id": "ohsos",
+   "source_id": "ohsos",
+   "urls": [],
+   "how": "websearch",
+   "search_query": "Ohio Secretary of State LaRose early voting absentee ballots 2026 general totals",
+   "extract": "Statewide absentee + early in-person totals and date (official release only).",
+   "tier": 3
+  },
+  {
+   "id": "maricopa",
+   "source_id": "maricopa",
+   "urls": [
+    "https://recorder.maricopa.gov/news/",
+    "https://elections.maricopa.gov/news-and-information/elections-news.html"
+   ],
+   "extract": "Countywide early ballots returned and date (exact or as stated; mark rounded).",
+   "tier": 1,
+   "unattended": "blocked",
+   "blocked_reason": "The site refuses automated downloads (HTTP 403 from the site itself, checked 2026-10-24), and the web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z: refused with PROVENANCE_REQUIRED even for URLs written in the task's own instructions). Statewide AZ returns come from TPSI, Call the Map and the AZ ABEV Returns feed; county figures from news via web search."
+  },
+  {
+   "id": "maricopa_news",
+   "source_id": "maricopa_news",
+   "urls": [],
+   "how": "websearch",
+   "search_query": "Maricopa County early ballots returned so far Recorder",
+   "extract": "Countywide early ballots returned quoted from the County Recorder/Elections with the date the county gave.",
+   "tier": 1
+  },
+  {
+   "id": "pima",
+   "source_id": "pima",
+   "urls": [
+    "https://www.recorder.pima.gov/VoterStats/EarlyVotingStatistics.aspx"
+   ],
+   "extract": "2026 general early ballots returned, if posted.",
+   "tier": 1,
+   "unattended": "blocked",
+   "blocked_reason": "The site refuses automated downloads (HTTP 403 from the site itself, checked 2026-10-24), and the web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z: refused with PROVENANCE_REQUIRED even for URLs written in the task's own instructions)."
+  },
+  {
+   "id": "pinal",
+   "source_id": "pinal",
+   "urls": [
+    "https://explore.pinal.gov/837/Voter-Statistics"
+   ],
+   "extract": "2026 general early ballots returned, if posted.",
+   "tier": 1,
+   "unattended": "blocked",
+   "blocked_reason": "The site refuses automated downloads (HTTP 403 from the site itself, checked 2026-10-24), and the web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z: refused with PROVENANCE_REQUIRED even for URLs written in the task's own instructions)."
+  },
+  {
+   "id": "weech",
+   "source_id": "weech",
+   "urls": [
+    "https://derekweech.substack.com/archive"
+   ],
+   "extract": "Newest AZ ABEV returns post: statewide returned and date.",
+   "tier": 1,
+   "direct": [
+    {
+     "url": "https://derekweech.substack.com/feed",
+     "parser": "substack_abev",
+     "timeout_s": 30,
+     "active": true,
+     "verified": "2026-10-24 real feed: newest \"AZ ABEV Returns - 10/20/2026\" post, 514,905 returned of 3,257,516 issued"
+    }
+   ],
+   "how": "direct_only"
+  },
+  {
+   "id": "onpoint_states",
+   "source_id": "onpoint",
+   "per_state": true,
+   "states_from": "tpsi",
+   "default_states": [
+    "AK",
+    "IA",
+    "KS",
+    "ME",
+    "MN",
+    "NH"
+   ],
+   "url_template": "https://onpointpolitics.us/maps/early-vote/{slug}",
+   "urls": [],
+   "tier": 3,
+   "extract": "{state} page. Record ONE figure for {state} only if the page has the sentence \"As of <date>, N ballots have been cast in {state}\": evidence = that sentence; metric_label = \"ballots have been cast\"; as_of_evidence = the sentence \"Counts from state election offices via civicAPI, as of <date>.\"; mail/in_person only if both are printed for {state}. If the page says \"{state} has not reported any 2026 early ballots yet\", record the attempt with status \"no_data\", \"coverage\": \"not_reporting\" and \"measure\": \"<ST>.early_total\" and NO figure. NEVER record the nationwide headline (\"ballots cast so far\") as a state figure. NEVER record party numbers (they are modeled or registration splits).",
+   "unattended": "blocked",
+   "blocked_reason": "onpointpolitics.us is not allowed by this environment's network allowlist, and per-state page URLs need web-reader approval. TPSI (same data) is downloaded directly."
+  },
+  {
+   "id": "azev",
+   "source_id": "azev",
+   "tier": 1,
+   "urls": [],
+   "how": "direct_only",
+   "extract": "Election-night results (code parser; no fetch-tool reading).",
+   "direct": [
+    {
+     "url": "https://app.enhancedvoting.com/cdn/results/Arizona/export-110326GeneralElection.json",
+     "parser": "azev_json",
+     "timeout_s": 30,
+     "active": true,
+     "verified": "2026-10-23 real file (zero report, createdAt 2026-10-16)"
+    }
+   ]
+  },
+  {
+   "id": "cook",
+   "source_id": "cook",
+   "tier": 3,
+   "urls": [
+    "https://www.cookpolitical.com/ratings/senate-race-ratings",
+    "https://www.cookpolitical.com/ratings/house-race-ratings",
+    "https://www.cookpolitical.com/ratings/governor-race-ratings"
+   ],
+   "extract": "Cook ratings for watched races.",
+   "unattended": "blocked",
+   "blocked_reason": "The site refuses automated downloads (HTTP 403 from the site itself, checked 2026-10-24), and the web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z: refused with PROVENANCE_REQUIRED even for URLs written in the task's own instructions). Ratings shown keep their verified date; no rating change can be detected automatically until another permitted source is chosen."
+  },
+  {
+   "id": "rcp",
+   "source_id": "rcp",
+   "tier": 3,
+   "urls": [
+    "https://www.realclearpolling.com/latest-polls"
+   ],
+   "extract": "New polls in watched races.",
+   "unattended": "blocked",
+   "blocked_reason": "The site refuses automated downloads (HTTP 403 from the site itself, checked 2026-10-24), and the web reader needs a per-URL approval that an unattended run cannot get (verified in a fresh scheduled session 2026-10-24 06:23Z: refused with PROVENANCE_REQUIRED even for URLs written in the task's own instructions). Polls shown keep their dates; no new polls are added automatically until another permitted source is chosen."
+  }
+ ],
+ "manual": [
+  {
+   "item": "Arizona official statewide running total",
+   "why": "Arizona does not publish one; counties report separately.",
+   "automatic_alternative": "TPSI tracker (primary), Call the Map, AZ ABEV Returns \u2014 labeled unofficial.",
+   "sources": []
+  },
+  {
+   "item": "Arizona counties other than Maricopa, Pima and Pinal",
+   "why": "No county posts 2026 general early-ballot counts that can be read automatically.",
+   "automatic_alternative": "None; shown as missing.",
+   "sources": []
+  },
+  {
+   "item": "NBC News tracker page",
+   "why": "Blocks automated reading (robots.txt).",
+   "automatic_alternative": "Search-result text from nbcnews.com when available; TPSI is the national primary.",
+   "sources": [
+    "nbc"
+   ]
+  },
+  {
+   "item": "UF Election Lab",
+   "why": "Figures load by script; not readable without a browser.",
+   "automatic_alternative": "TPSI / Call the Map.",
+   "sources": []
+  },
+  {
+   "item": "Nevada Secretary of State",
+   "why": "Bot-protection page.",
+   "automatic_alternative": "The Nevada Independent (state data), then TPSI.",
+   "sources": [
+    "nvsos"
+   ]
+  },
+  {
+   "item": "Texas Secretary of State turnout site",
+   "why": "Page moved; totals not readable.",
+   "automatic_alternative": "TexPolls (from SoS reports), then TPSI.",
+   "sources": [
+    "txsos"
+   ]
+  },
+  {
+   "item": "Pennsylvania DOS daily file, Washington SoS dashboard, Ohio SoS dashboard",
+   "why": "Spreadsheet or embedded report formats the hourly runner cannot open.",
+   "automatic_alternative": "TPSI / Call the Map; official press releases when found.",
+   "sources": []
+  },
+  {
+   "item": "Maricopa exact daily return counts",
+   "why": "The county publishes rounded figures in releases; no daily file found.",
+   "automatic_alternative": "County figures quoted by news (labeled), rounded.",
+   "sources": [
+    "maricopa"
+   ]
+  },
+  {
+   "item": "AP vote counts and race calls",
+   "why": "Licensed feed.",
+   "automatic_alternative": "Official state/county results pages; calls recorded only when a named organization's call is reported.",
+   "sources": []
+  }
+ ],
+ "pace_series": {
+  "NC.early_total|ncsbe": "NC-SBE",
+  "GA.early_total|gasos": "GA-SOS",
+  "TX.early_total|texpolls": "TX-TexPolls",
+  "AZ-Maricopa.early_returned|maricopa": "MARICOPA-returned",
+  "AZ-Maricopa.early_returned|maricopa_news": "MARICOPA-returned",
+  "FL.early_total|callthemap": "FL-CallTheMap",
+  "CO.early_total|callthemap": "CO-CallTheMap",
+  "IA.early_total|callthemap": "IA-CallTheMap",
+  "OK.early_total|callthemap": "OK-CallTheMap"
+ }
+}

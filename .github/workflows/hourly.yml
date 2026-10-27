@@ -1,0 +1,39 @@
+name: Hourly election data refresh
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: hourly-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF and spreadsheet readers
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q poppler-utils
+          pip install -q openpyxl
+      - name: Run the hourly refresh
+        env:
+          # "dry-run": results go to the actions-dryrun branch; the public site is not touched.
+          # "live": data/ on main (the public site) is updated.
+          PUBLISH: dry-run
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python3 tools/run_hourly.py

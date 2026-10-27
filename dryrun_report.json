@@ -1,10 +1,11 @@
 {
- "started_at": "2026-10-27T15:56:42Z",
+ "started_at": "2026-10-27T16:44:04Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40535903838",
- "state": "carried over from the previous run",
- "previous_run": "r20261027T1542",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40543594208",
+ "state_mismatch": "cached state is from r20261027T1039, actions-dryrun shows r20261027T1556",
+ "state": "rebuilt from the published data of r20261027T1556",
+ "previous_run": "r20261027T1556",
  "direct": {
   "direct_jobs": 12,
   "ok": 11,
@@ -42,9 +43,9 @@
    "discovery": null
   }
  ],
- "trigger": "push",
+ "trigger": "schedule",
  "prepare": {
-  "run_id": "r20261027T1556",
+  "run_id": "r20261027T1644",
   "status": "degraded",
   "changed_datasets": [
    "national",
@@ -60,8 +61,21 @@
    "reviews"
   ],
   "upload_count": 23,
-  "notify": [],
-  "accepted": 1,
+  "notify": [
+   "Missed hourly run at 2026-10-27T14:00:00Z",
+   "Missed hourly run at 2026-10-27T13:00:00Z",
+   "Missed hourly run at 2026-10-27T12:00:00Z",
+   "Missed hourly run at 2026-10-27T11:00:00Z",
+   "Missed hourly run at 2026-10-27T07:00:00Z",
+   "Missed hourly run at 2026-10-27T04:00:00Z",
+   "Missed hourly run at 2026-10-27T03:00:00Z",
+   "Missed hourly run at 2026-10-27T02:00:00Z",
+   "Missed hourly run at 2026-10-27T01:00:00Z",
+   "Missed hourly run at 2026-10-27T00:00:00Z",
+   "The last 3 runs published after the hourly publication target",
+   "AZ-Maricopa.early_returned data is 154 h old (as of 2026-10-20)"
+  ],
+  "accepted": 0,
   "comparison_only": 0,
   "reviews": [
    {
@@ -192,19 +206,19 @@
    }
   ],
   "rejected": [],
-  "publish_target": "2026-10-27T15:35:00Z"
+  "publish_target": "2026-10-27T16:35:00Z"
  },
- "run_id": "r20261027T1556",
+ "run_id": "r20261027T1644",
  "latest": {
-  "run_id": "r20261027T1556",
-  "scheduled_for": "2026-10-27T15:00:00Z",
-  "started_at": "2026-10-27T15:56:42Z",
-  "completed_at": "2026-10-27T15:56:47Z",
-  "publish_target": "2026-10-27T15:35:00Z",
+  "run_id": "r20261027T1644",
+  "scheduled_for": "2026-10-27T16:00:00Z",
+  "started_at": "2026-10-27T16:44:04Z",
+  "completed_at": "2026-10-27T16:44:08Z",
+  "publish_target": "2026-10-27T16:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
   "key_figures_confirmed": "15/19",
-  "figures_updated": 1,
+  "figures_updated": 0,
   "sources_checked": 24,
   "sources_failed": "AZ ABEV Returns (Derek Weech)",
   "reviews_open": 18,
@@ -215,9 +229,22 @@
   "web_reader_calls": 0,
   "direct_downloads_ok": 11,
   "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: CA.early_total (same period change, 1 read), IL.early_total (same period change, 1 read), IN.early_total (same period change, 1 read), IA.early_total (same period change, 1 read), KS.early_total (same period change, 1 read), KY.early_total (same period change, 1 read), MD.early_total (same period change, 1 read), MI.early_total (same period change, 1 read), MT",
-  "notify": [],
+  "notify": [
+   "Missed hourly run at 2026-10-27T14:00:00Z",
+   "Missed hourly run at 2026-10-27T13:00:00Z",
+   "Missed hourly run at 2026-10-27T12:00:00Z",
+   "Missed hourly run at 2026-10-27T11:00:00Z",
+   "Missed hourly run at 2026-10-27T07:00:00Z",
+   "Missed hourly run at 2026-10-27T04:00:00Z",
+   "Missed hourly run at 2026-10-27T03:00:00Z",
+   "Missed hourly run at 2026-10-27T02:00:00Z",
+   "Missed hourly run at 2026-10-27T01:00:00Z",
+   "Missed hourly run at 2026-10-27T00:00:00Z",
+   "The last 3 runs published after the hourly publication target",
+   "AZ-Maricopa.early_returned data is 154 h old (as of 2026-10-20)"
+  ],
   "publisher": "github-actions",
-  "published_at": "2026-10-27T15:56:47Z",
+  "published_at": "2026-10-27T16:44:08Z",
   "publication_verified": true
  }
 }

@@ -1,10 +1,10 @@
 {
- "started_at": "2026-10-27T10:39:17Z",
+ "started_at": "2026-10-27T15:40:37Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40490114123",
- "state": "rebuilt from the published data of r20261027T1009",
- "previous_run": "r20261027T1009",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40533251431",
+ "state": "carried over from the previous run",
+ "previous_run": "r20261027T1039",
  "direct": {
   "direct_jobs": 12,
   "ok": 10,
@@ -30,15 +30,40 @@
    "dcboe.org: no proxy configured in this environment"
   ]
  },
+ "direct_failures": [
+  {
+   "source_id": "mnsos",
+   "url": "https://www.sos.mn.gov/election-administration-campaigns/data-maps/absentee-data/",
+   "status": "error",
+   "detail": "downloaded 66527 bytes, sha256 870983ce053c7ef3; parser found no figure (layout change?): MN.early_total: election identifier not found on page",
+   "raw_error": null,
+   "parse_notes": [
+    "MN.early_total: election identifier not found on page"
+   ],
+   "discovery": null
+  },
+  {
+   "source_id": "weech",
+   "url": "https://derekweech.substack.com/feed",
+   "status": "error",
+   "detail": "HTTP 403 from the site",
+   "raw_error": "HTTPError 403 Forbidden",
+   "parse_notes": null,
+   "discovery": null
+  }
+ ],
+ "trigger": "push",
  "prepare": {
-  "run_id": "r20261027T1039",
+  "run_id": "r20261027T1540",
   "status": "degraded",
   "changed_datasets": [
    "national",
    "states",
    "bg_states",
    "az_returns",
+   "az_trackers",
    "az_counties",
+   "pace",
    "briefing",
    "checks",
    "source_compare",
@@ -46,54 +71,175 @@
    "source_status",
    "reviews"
   ],
-  "upload_count": 23,
+  "upload_count": 25,
   "notify": [
-   "Missed hourly run at 2026-10-27T07:00:00Z",
-   "Missed hourly run at 2026-10-27T04:00:00Z",
-   "Missed hourly run at 2026-10-27T03:00:00Z",
-   "Missed hourly run at 2026-10-27T02:00:00Z",
-   "Missed hourly run at 2026-10-27T01:00:00Z",
-   "Missed hourly run at 2026-10-27T00:00:00Z",
-   "AZ-Maricopa.early_returned data is 148 h old (as of 2026-10-20)"
+   "Missed hourly run at 2026-10-27T14:00:00Z",
+   "Missed hourly run at 2026-10-27T13:00:00Z",
+   "Missed hourly run at 2026-10-27T12:00:00Z",
+   "Missed hourly run at 2026-10-27T11:00:00Z"
   ],
-  "accepted": 0,
+  "accepted": 4,
   "comparison_only": 0,
-  "reviews": [],
+  "reviews": [
+   {
+    "measure": "CA.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 3249374,
+    "observed": 3421226
+   },
+   {
+    "measure": "IL.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 793874,
+    "observed": 794923
+   },
+   {
+    "measure": "IN.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 374767,
+    "observed": 432007
+   },
+   {
+    "measure": "IA.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 265710,
+    "observed": 306956
+   },
+   {
+    "measure": "KS.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 204155,
+    "observed": 245079
+   },
+   {
+    "measure": "KY.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 38664,
+    "observed": 44531
+   },
+   {
+    "measure": "MD.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 290990,
+    "observed": 305690
+   },
+   {
+    "measure": "MI.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 1082646,
+    "observed": 1197558
+   },
+   {
+    "measure": "MT.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 196091,
+    "observed": 209134
+   },
+   {
+    "measure": "NE.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 151915,
+    "observed": 169652
+   },
+   {
+    "measure": "NJ.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 526267,
+    "observed": 624376
+   },
+   {
+    "measure": "NM.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 257548,
+    "observed": 283293
+   },
+   {
+    "measure": "ND.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 39401,
+    "observed": 40213
+   },
+   {
+    "measure": "OH.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 1084305,
+    "observed": 1190464
+   },
+   {
+    "measure": "PA.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 829477,
+    "observed": 890346
+   },
+   {
+    "measure": "UT.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 194399,
+    "observed": 236983
+   },
+   {
+    "measure": "VT.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 102202,
+    "observed": 114122
+   },
+   {
+    "measure": "VA.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 1112436,
+    "observed": 1185349
+   }
+  ],
   "rejected": [],
-  "publish_target": "2026-10-27T10:35:00Z"
+  "publish_target": "2026-10-27T15:35:00Z"
  },
- "run_id": "r20261027T1039",
+ "run_id": "r20261027T1540",
  "latest": {
-  "run_id": "r20261027T1039",
-  "scheduled_for": "2026-10-27T10:00:00Z",
-  "started_at": "2026-10-27T10:39:17Z",
-  "completed_at": "2026-10-27T10:39:21Z",
-  "publish_target": "2026-10-27T10:35:00Z",
+  "run_id": "r20261027T1540",
+  "scheduled_for": "2026-10-27T15:00:00Z",
+  "started_at": "2026-10-27T15:40:37Z",
+  "completed_at": "2026-10-27T15:40:46Z",
+  "publish_target": "2026-10-27T15:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
   "key_figures_confirmed": "14/19",
-  "figures_updated": 0,
+  "figures_updated": 4,
   "sources_checked": 24,
   "sources_failed": "AZ ABEV Returns (Derek Weech)",
-  "reviews_open": 0,
+  "reviews_open": 18,
   "toolkit_version": "2026-10-27.13",
   "run_mode": "unattended",
   "sources_permission_blocked": "Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Minnesota Secretary of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission",
   "permission_requests_refused": 0,
   "web_reader_calls": 0,
   "direct_downloads_ok": 10,
-  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Minnesota Secretary of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Retry not recorded for: AZ ABEV Returns (Derek Weech)",
+  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Minnesota Secretary of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: CA.early_total (same period change, 1 read), IL.early_total (same period change, 1 read), IN.early_total (same period change, 1 read), IA.early_total (same period change, 1 read), KS.early_total (same period change, 1 read), KY.early_total (same period change, 1 read), MD.early_total (same period change, 1 read), MI.early_total (s",
   "notify": [
-   "Missed hourly run at 2026-10-27T07:00:00Z",
-   "Missed hourly run at 2026-10-27T04:00:00Z",
-   "Missed hourly run at 2026-10-27T03:00:00Z",
-   "Missed hourly run at 2026-10-27T02:00:00Z",
-   "Missed hourly run at 2026-10-27T01:00:00Z",
-   "Missed hourly run at 2026-10-27T00:00:00Z",
-   "AZ-Maricopa.early_returned data is 148 h old (as of 2026-10-20)"
+   "Missed hourly run at 2026-10-27T14:00:00Z",
+   "Missed hourly run at 2026-10-27T13:00:00Z",
+   "Missed hourly run at 2026-10-27T12:00:00Z",
+   "Missed hourly run at 2026-10-27T11:00:00Z"
   ],
   "publisher": "github-actions",
-  "published_at": "2026-10-27T10:39:21Z",
+  "published_at": "2026-10-27T15:40:46Z",
   "publication_verified": true
  }
 }

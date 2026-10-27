@@ -124,6 +124,16 @@ def main():
         dobs = json.load(open(f'{WORK}/direct_obs.json'))
         report['direct_failures'] = [{k: x.get(k) for k in ('source_id', 'url', 'status', 'detail', 'raw_error', 'parse_notes', 'discovery')}
                                      for x in dobs.get('attempts', []) if x.get('status') != 'ok']
+        if not LIVE:
+            # dry run only: a short excerpt of public pages that downloaded but did not parse, so the parser can be fixed
+            # from what the page really says (the full raw file is in the run's evidence artifact)
+            import re
+            for x, f in zip([x for x in dobs.get('attempts', []) if x.get('status') != 'ok'], report['direct_failures']):
+                rf = x.get('raw_file')
+                if rf and os.path.exists(rf):
+                    txt = open(rf + '.txt').read() if os.path.exists(rf + '.txt') else re.sub(r'\s+', ' ', re.sub(r'(?s)<(script|style)\b.*?</\1>|<[^>]+>', ' ', open(rf, errors='replace').read()))
+                    hits = [m.group(0) for m in re.finditer(r'[^\n.]{0,160}(?:2026|absentee|accepted|ballots?)[^\n.]{0,160}', txt, re.I)][:15]
+                    f['page_excerpt'] = {'start': txt[:1200], 'matches': hits}
         report['trigger'] = os.environ.get('GITHUB_EVENT_NAME')
 
         # 3. validation (no agent observations: web-search groups are not read here)

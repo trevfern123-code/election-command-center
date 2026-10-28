@@ -1,10 +1,10 @@
 {
- "started_at": "2026-10-27T21:22:35Z",
+ "started_at": "2026-10-28T01:26:40Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40586222197",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40615034003",
  "state": "carried over from the previous run",
- "previous_run": "r20261027T1644",
+ "previous_run": "r20261027T2122",
  "direct": {
   "direct_jobs": 12,
   "ok": 11,
@@ -44,7 +44,7 @@
  ],
  "trigger": "schedule",
  "prepare": {
-  "run_id": "r20261027T2122",
+  "run_id": "r20261028T0126",
   "status": "degraded",
   "changed_datasets": [
    "national",
@@ -64,110 +64,94 @@
   ],
   "upload_count": 26,
   "notify": [
-   "Missed hourly run at 2026-10-27T20:00:00Z",
-   "Missed hourly run at 2026-10-27T19:00:00Z",
-   "Missed hourly run at 2026-10-27T18:00:00Z",
-   "Missed hourly run at 2026-10-27T17:00:00Z"
+   "Missed hourly run at 2026-10-28T00:00:00Z",
+   "Missed hourly run at 2026-10-27T23:00:00Z",
+   "Missed hourly run at 2026-10-27T22:00:00Z"
   ],
-  "accepted": 19,
+  "accepted": 10,
   "comparison_only": 0,
   "reviews": [
    {
-    "measure": "AZ.early_total",
+    "measure": "AR.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 971184,
-    "observed": 1122216
+    "published": 279707,
+    "observed": 325307
    },
    {
-    "measure": "CT.early_total",
+    "measure": "IL.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 32712,
-    "observed": 38511
+    "published": 800533,
+    "observed": 803161
    },
    {
-    "measure": "DE.early_total",
+    "measure": "ND.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 75978,
-    "observed": 92300
+    "published": 47531,
+    "observed": 51591
    },
    {
-    "measure": "HI.early_total",
+    "measure": "OR.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 125118,
-    "observed": 142058
+    "published": 730011,
+    "observed": 806727
    },
    {
-    "measure": "ME.early_total",
+    "measure": "RI.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 197103,
-    "observed": 221975
+    "published": 70080,
+    "observed": 82544
    },
    {
-    "measure": "TN.early_total",
+    "measure": "VA.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 815354,
-    "observed": 913512
+    "published": 1185349,
+    "observed": 1193368
    },
    {
-    "measure": "TX.early_total",
+    "measure": "WA.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 4542524,
-    "observed": 5014466
-   },
-   {
-    "measure": "WY.early_total",
-    "kind": "same_period_change",
-    "reads": 1,
-    "published": 36856,
-    "observed": 42383
-   },
-   {
-    "measure": "AZ.early_returned",
-    "kind": "same_period_change",
-    "reads": 1,
-    "published": 971184,
-    "observed": 1122216
+    "published": 1009231,
+    "observed": 1202321
    }
   ],
   "rejected": [],
-  "publish_target": "2026-10-27T21:35:00Z"
+  "publish_target": "2026-10-28T01:35:00Z"
  },
- "run_id": "r20261027T2122",
+ "run_id": "r20261028T0126",
  "latest": {
-  "run_id": "r20261027T2122",
-  "scheduled_for": "2026-10-27T21:00:00Z",
-  "started_at": "2026-10-27T21:22:35Z",
-  "completed_at": "2026-10-27T21:22:52Z",
-  "publish_target": "2026-10-27T21:35:00Z",
+  "run_id": "r20261028T0126",
+  "scheduled_for": "2026-10-28T01:00:00Z",
+  "started_at": "2026-10-28T01:26:40Z",
+  "completed_at": "2026-10-28T01:26:45Z",
+  "publish_target": "2026-10-28T01:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
   "key_figures_confirmed": "15/19",
-  "figures_updated": 19,
+  "figures_updated": 10,
   "sources_checked": 24,
   "sources_failed": "AZ ABEV Returns (Derek Weech)",
-  "reviews_open": 9,
+  "reviews_open": 7,
   "toolkit_version": "2026-10-27.14",
   "run_mode": "unattended",
   "sources_permission_blocked": "Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission",
   "permission_requests_refused": 0,
   "web_reader_calls": 0,
   "direct_downloads_ok": 11,
-  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: AZ.early_total (same period change, 1 read), CT.early_total (same period change, 1 read), DE.early_total (same period change, 1 read), HI.early_total (same period change, 1 read), ME.early_total (same period change, 1 read), TN.early_total (same period change, 1 read), TX.early_total (same period change, 1 read), WY.early_total (same period change, 1 read), AZ",
+  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: IL.early_total (same period change, 1 read), ND.early_total (same period change, 1 read), VA.early_total (same period change, 1 read), AR.early_total (same period change, 1 read), OR.early_total (same period change, 1 read), RI.early_total (same period change, 1 read), WA.early_total (same period change, 1 read) \u00b7 Retry not recorded for: AZ ABEV Returns (Derek",
   "notify": [
-   "Missed hourly run at 2026-10-27T20:00:00Z",
-   "Missed hourly run at 2026-10-27T19:00:00Z",
-   "Missed hourly run at 2026-10-27T18:00:00Z",
-   "Missed hourly run at 2026-10-27T17:00:00Z"
+   "Missed hourly run at 2026-10-28T00:00:00Z",
+   "Missed hourly run at 2026-10-27T23:00:00Z",
+   "Missed hourly run at 2026-10-27T22:00:00Z"
   ],
   "publisher": "github-actions",
-  "published_at": "2026-10-27T21:22:53Z",
+  "published_at": "2026-10-28T01:26:45Z",
   "publication_verified": true
  }
 }

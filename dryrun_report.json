@@ -1,10 +1,10 @@
 {
- "started_at": "2026-10-28T21:08:55Z",
+ "started_at": "2026-10-29T01:01:16Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40769444056",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40797768908",
  "state": "carried over from the previous run",
- "previous_run": "r20261028T1607",
+ "previous_run": "r20261028T2109",
  "direct": {
   "direct_jobs": 12,
   "ok": 11,
@@ -44,7 +44,7 @@
  ],
  "trigger": "schedule",
  "prepare": {
-  "run_id": "r20261028T2109",
+  "run_id": "r20261029T0101",
   "status": "degraded",
   "changed_datasets": [
    "national",
@@ -53,7 +53,6 @@
    "az_returns",
    "az_trackers",
    "az_counties",
-   "pace",
    "briefing",
    "checks",
    "corrections",
@@ -62,84 +61,145 @@
    "source_status",
    "reviews"
   ],
-  "upload_count": 26,
+  "upload_count": 25,
   "notify": [
-   "Missed hourly run at 2026-10-28T20:00:00Z",
-   "Missed hourly run at 2026-10-28T19:00:00Z",
-   "Missed hourly run at 2026-10-28T18:00:00Z",
-   "Missed hourly run at 2026-10-28T17:00:00Z",
-   "Missed hourly run at 2026-10-28T07:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T06:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T05:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T04:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T03:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T02:00:00Z (still unresolved)",
-   "AZ-Maricopa.early_returned data is 182 h old (as of 2026-10-20) (still unresolved)"
+   "Missed hourly run at 2026-10-29T00:00:00Z",
+   "Missed hourly run at 2026-10-28T23:00:00Z",
+   "Missed hourly run at 2026-10-28T22:00:00Z"
   ],
-  "accepted": 17,
+  "accepted": 3,
   "comparison_only": 0,
   "reviews": [
    {
-    "measure": "FL.early_total",
+    "measure": "AZ.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 3520308,
-    "observed": 3524961
+    "published": 1269928,
+    "observed": 1270868
+   },
+   {
+    "measure": "CO.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 982530,
+    "observed": 1174321
+   },
+   {
+    "measure": "CT.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 38511,
+    "observed": 41374
    },
    {
     "measure": "IL.early_total",
     "kind": "same_period_change",
     "reads": 1,
     "published": 803590,
-    "observed": 1163722
+    "observed": 1166920
    },
    {
-    "measure": "NY.early_total",
+    "measure": "MT.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 703055,
-    "observed": 918633
+    "published": 234756,
+    "observed": 249744
+   },
+   {
+    "measure": "NJ.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 777031,
+    "observed": 795205
+   },
+   {
+    "measure": "ND.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 59365,
+    "observed": 63807
+   },
+   {
+    "measure": "OR.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 827358,
+    "observed": 963640
+   },
+   {
+    "measure": "RI.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 82544,
+    "observed": 92353
+   },
+   {
+    "measure": "SD.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 55763,
+    "observed": 61052
+   },
+   {
+    "measure": "TX.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 5585778,
+    "observed": 5647822
+   },
+   {
+    "measure": "VA.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 1257993,
+    "observed": 1261612
+   },
+   {
+    "measure": "WA.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 1202321,
+    "observed": 1383805
+   },
+   {
+    "measure": "AZ.early_returned",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 1269928,
+    "observed": 1270868
    }
   ],
   "rejected": [],
-  "publish_target": "2026-10-28T21:35:00Z"
+  "publish_target": "2026-10-29T01:35:00Z"
  },
- "run_id": "r20261028T2109",
+ "run_id": "r20261029T0101",
  "latest": {
-  "run_id": "r20261028T2109",
-  "scheduled_for": "2026-10-28T21:00:00Z",
-  "started_at": "2026-10-28T21:08:55Z",
-  "completed_at": "2026-10-28T21:09:04Z",
-  "publish_target": "2026-10-28T21:35:00Z",
+  "run_id": "r20261029T0101",
+  "scheduled_for": "2026-10-29T01:00:00Z",
+  "started_at": "2026-10-29T01:01:16Z",
+  "completed_at": "2026-10-29T01:01:21Z",
+  "publish_target": "2026-10-29T01:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
   "key_figures_confirmed": "15/19",
-  "figures_updated": 17,
+  "figures_updated": 3,
   "sources_checked": 24,
   "sources_failed": "AZ ABEV Returns (Derek Weech)",
-  "reviews_open": 3,
+  "reviews_open": 14,
   "toolkit_version": "2026-10-27.14",
   "run_mode": "unattended",
   "sources_permission_blocked": "Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission",
   "permission_requests_refused": 0,
   "web_reader_calls": 0,
   "direct_downloads_ok": 11,
-  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: IL.early_total (same period change, 1 read), FL.early_total (same period change, 1 read), NY.early_total (same period change, 1 read) \u00b7 Retry not recorded for: AZ ABEV Returns (Derek Weech)",
+  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: IL.early_total (same period change, 1 read), MT.early_total (same period change, 1 read), NJ.early_total (same period change, 1 read), ND.early_total (same period change, 1 read), VA.early_total (same period change, 1 read), AZ.early_total (same period change, 1 read), CT.early_total (same period change, 1 read), TX.early_total (same period change, 1 read), AZ",
   "notify": [
-   "Missed hourly run at 2026-10-28T20:00:00Z",
-   "Missed hourly run at 2026-10-28T19:00:00Z",
-   "Missed hourly run at 2026-10-28T18:00:00Z",
-   "Missed hourly run at 2026-10-28T17:00:00Z",
-   "Missed hourly run at 2026-10-28T07:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T06:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T05:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T04:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T03:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-28T02:00:00Z (still unresolved)",
-   "AZ-Maricopa.early_returned data is 182 h old (as of 2026-10-20) (still unresolved)"
+   "Missed hourly run at 2026-10-29T00:00:00Z",
+   "Missed hourly run at 2026-10-28T23:00:00Z",
+   "Missed hourly run at 2026-10-28T22:00:00Z"
   ],
   "publisher": "github-actions",
-  "published_at": "2026-10-28T21:09:04Z",
+  "published_at": "2026-10-29T01:01:21Z",
   "publication_verified": true
  }
 }

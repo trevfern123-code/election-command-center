@@ -1,10 +1,10 @@
 {
- "started_at": "2026-10-29T20:21:13Z",
+ "started_at": "2026-10-30T01:06:11Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40948215309",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/40983773828",
  "state": "carried over from the previous run",
- "previous_run": "r20261029T1425",
+ "previous_run": "r20261029T2021",
  "direct": {
   "direct_jobs": 12,
   "ok": 11,
@@ -44,7 +44,7 @@
  ],
  "trigger": "schedule",
  "prepare": {
-  "run_id": "r20261029T2021",
+  "run_id": "r20261030T0106",
   "status": "degraded",
   "changed_datasets": [
    "national",
@@ -56,6 +56,7 @@
    "pace",
    "briefing",
    "checks",
+   "corrections",
    "source_compare",
    "run_log",
    "source_status",
@@ -63,42 +64,36 @@
   ],
   "upload_count": 25,
   "notify": [
-   "Missed hourly run at 2026-10-29T19:00:00Z",
-   "Missed hourly run at 2026-10-29T18:00:00Z",
-   "Missed hourly run at 2026-10-29T17:00:00Z",
-   "Missed hourly run at 2026-10-29T16:00:00Z",
-   "Missed hourly run at 2026-10-29T15:00:00Z",
-   "Missed hourly run at 2026-10-29T06:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-29T05:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-29T04:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-29T03:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-29T02:00:00Z (still unresolved)"
+   "Missed hourly run at 2026-10-30T00:00:00Z",
+   "Missed hourly run at 2026-10-29T23:00:00Z",
+   "Missed hourly run at 2026-10-29T22:00:00Z",
+   "Missed hourly run at 2026-10-29T21:00:00Z"
   ],
-  "accepted": 28,
+  "accepted": 11,
   "comparison_only": 0,
   "reviews": [
    {
-    "measure": "FL.early_total",
+    "measure": "OR.early_total",
     "kind": "same_period_change",
     "reads": 1,
-    "published": 3895847,
-    "observed": 3896794
+    "published": 971812,
+    "observed": 1074930
    }
   ],
   "rejected": [],
-  "publish_target": "2026-10-29T20:35:00Z"
+  "publish_target": "2026-10-30T01:35:00Z"
  },
- "run_id": "r20261029T2021",
+ "run_id": "r20261030T0106",
  "latest": {
-  "run_id": "r20261029T2021",
-  "scheduled_for": "2026-10-29T20:00:00Z",
-  "started_at": "2026-10-29T20:21:13Z",
-  "completed_at": "2026-10-29T20:21:17Z",
-  "publish_target": "2026-10-29T20:35:00Z",
+  "run_id": "r20261030T0106",
+  "scheduled_for": "2026-10-30T01:00:00Z",
+  "started_at": "2026-10-30T01:06:11Z",
+  "completed_at": "2026-10-30T01:06:20Z",
+  "publish_target": "2026-10-30T01:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
   "key_figures_confirmed": "15/19",
-  "figures_updated": 28,
+  "figures_updated": 11,
   "sources_checked": 24,
   "sources_failed": "AZ ABEV Returns (Derek Weech)",
   "reviews_open": 1,
@@ -108,21 +103,15 @@
   "permission_requests_refused": 0,
   "web_reader_calls": 0,
   "direct_downloads_ok": 11,
-  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: FL.early_total (same period change, 1 read) \u00b7 Retry not recorded for: AZ ABEV Returns (Derek Weech)",
+  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: OR.early_total (same period change, 1 read) \u00b7 Retry not recorded for: AZ ABEV Returns (Derek Weech)",
   "notify": [
-   "Missed hourly run at 2026-10-29T19:00:00Z",
-   "Missed hourly run at 2026-10-29T18:00:00Z",
-   "Missed hourly run at 2026-10-29T17:00:00Z",
-   "Missed hourly run at 2026-10-29T16:00:00Z",
-   "Missed hourly run at 2026-10-29T15:00:00Z",
-   "Missed hourly run at 2026-10-29T06:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-29T05:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-29T04:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-29T03:00:00Z (still unresolved)",
-   "Missed hourly run at 2026-10-29T02:00:00Z (still unresolved)"
+   "Missed hourly run at 2026-10-30T00:00:00Z",
+   "Missed hourly run at 2026-10-29T23:00:00Z",
+   "Missed hourly run at 2026-10-29T22:00:00Z",
+   "Missed hourly run at 2026-10-29T21:00:00Z"
   ],
   "publisher": "github-actions",
-  "published_at": "2026-10-29T20:21:17Z",
+  "published_at": "2026-10-30T01:06:20Z",
   "publication_verified": true
  }
 }

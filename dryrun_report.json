@@ -1,10 +1,10 @@
 {
- "started_at": "2026-10-31T17:48:08Z",
+ "started_at": "2026-10-31T21:40:51Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/41226253400",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/41244694600",
  "state": "carried over from the previous run",
- "previous_run": "r20261031T1241",
+ "previous_run": "r20261031T1748",
  "direct": {
   "direct_jobs": 12,
   "ok": 10,
@@ -35,7 +35,7 @@
    "source_id": "texpolls",
    "url": "https://texpolls.com/turnout",
    "status": "error",
-   "detail": "downloaded 619307 bytes, sha256 ed53684dcf8b3631; parser found no figure (layout change?): TX.early_total: pattern for the value not found; TX.early_total: pattern for the value not found",
+   "detail": "downloaded 623097 bytes, sha256 39d96ef23700dd91; parser found no figure (layout change?): TX.early_total: pattern for the value not found; TX.early_total: pattern for the value not found",
    "raw_error": null,
    "parse_notes": [
     "TX.early_total: pattern for the value not found",
@@ -43,17 +43,17 @@
    ],
    "discovery": null,
    "page_excerpt": {
-    "start": " Texas Early Voting Turnout Tracker 2026: Numbers by County \n Skip to content \n TexPolls Dashboard \n Races \n Turnout \n Calendar \n Redistricting \n About \n 2026 Texas Early Voting Turnout\n Share \n Early ballots cast in person and by mail through Oct. 29\n 6,827,283\n Through Oct. 29 , 2026 , 6,827,283 Texans had voted early, 35.9 % of registered voters.\n Unofficial count from the Texas Secretary of State , updated with Hill County\u2019s own report (state\u2019s figure: 6,826,091 ).\n That\u2019s already more than 2022\u2019s entire early vote ( 5,497,027 ).\n In person, 34.5 % of registered voters have voted , vs. 25.2 % at this point in 2022 .\n Counties with the Most Early Ballots\n The five Texas counties with the most early ballots reported through Oct. 29, 2026 County | Reported Ballots | | \n Harris County voting guide | 920,240 | \n | \n Dallas County voting guide | 550,220 | \n | \n Tarrant County voting guide | 524,538 | \n | \n Bexar County voting guide | 473,209 | \n | \n Travis County voting guide | 395,285 | \n | \n State figures through Oct. 29 . Page updated Oct. 30 .\n Statewide \n Your County \n Compare Counties \n Download Data \n Find your Election Day polling place (opens in new tab) \u00b7 Election calendar ",
+    "start": " Texas Early Voting Turnout Tracker 2026: Numbers by County \n Skip to content \n TexPolls Dashboard \n Races \n Turnout \n Calendar \n Redistricting \n About \n 2026 Texas Early Voting Turnout\n Share \n Early ballots cast in person and by mail through Oct. 29\n 6,855,815\n Through Oct. 29 , 2026 , 6,855,815 Texans had voted early, 36.0 % of registered voters.\n Unofficial count from the Texas Secretary of State , updated with Hill County\u2019s own report (state\u2019s figure: 6,854,623 ).\n That\u2019s already more than 2022\u2019s entire early vote ( 5,497,027 ).\n In person, 34.7 % of registered voters have voted , vs. 25.2 % at this point in 2022 .\n Counties with the Most Early Ballots\n The five Texas counties with the most early ballots reported through Oct. 29, 2026 County | Reported Ballots | | \n Harris County voting guide | 948,286 | \n | \n Dallas County voting guide | 550,242 | \n | \n Tarrant County voting guide | 524,535 | \n | \n Bexar County voting guide | 473,312 | \n | \n Travis County voting guide | 395,295 | \n | \n State figures through Oct. 29 . Page updated Oct. 31 .\n Statewide \n Your County \n Compare Counties \n Download Data \n Find your Election Day polling place (opens in new tab) \u00b7 Election calendar ",
     "matches": [
      " Texas Early Voting Turnout Tracker 2026: Numbers by County ",
      " 2026 Texas Early Voting Turnout",
      " Early ballots cast in person and by mail through Oct",
-     " 29 , 2026 , 6,827,283 Texans had voted early, 35",
+     " 29 , 2026 , 6,855,815 Texans had voted early, 36",
      " Counties with the Most Early Ballots",
      " The five Texas counties with the most early ballots reported through Oct",
      " 29, 2026 County | Reported Ballots | | ",
-     " 6,827,283 early ballots of 19,041,684 registered voters, 34",
-     " Mail Ballots Received 251,904 ",
+     " 6,855,815 early ballots of 19,041,684 registered voters, 34",
+     " Mail Ballots Received 251,935 ",
      " Mail ballots count if they arrive by 7\u00a0p",
      " Chart measurement Share of Registered Voters Ballot Count Show 2024 Presidential ",
      " 2026 midterm \u00b7 solid line",
@@ -75,7 +75,7 @@
  ],
  "trigger": "schedule",
  "prepare": {
-  "run_id": "r20261031T1748",
+  "run_id": "r20261031T2140",
   "status": "degraded",
   "changed_datasets": [
    "national",
@@ -87,61 +87,62 @@
    "pace",
    "briefing",
    "checks",
+   "corrections",
    "source_compare",
    "run_log",
    "source_status",
    "reviews"
   ],
-  "upload_count": 23,
+  "upload_count": 24,
   "notify": [
-   "Missed hourly run at 2026-10-31T16:00:00Z",
-   "Missed hourly run at 2026-10-31T15:00:00Z",
-   "Missed hourly run at 2026-10-31T14:00:00Z",
-   "Missed hourly run at 2026-10-31T13:00:00Z"
+   "Missed hourly run at 2026-10-31T20:00:00Z",
+   "Missed hourly run at 2026-10-31T19:00:00Z",
+   "Missed hourly run at 2026-10-31T18:00:00Z",
+   "Missed hourly run at 2026-10-31T04:00:00Z (still unresolved)",
+   "Missed hourly run at 2026-10-31T03:00:00Z (still unresolved)",
+   "Missed hourly run at 2026-10-31T02:00:00Z (still unresolved)",
+   "Missed hourly run at 2026-10-31T01:00:00Z (still unresolved)",
+   "Missed hourly run at 2026-10-31T00:00:00Z (still unresolved)"
   ],
-  "accepted": 14,
+  "accepted": 9,
   "comparison_only": 0,
-  "reviews": [
-   {
-    "measure": "KY.early_total",
-    "kind": "same_period_change",
-    "reads": 1,
-    "published": 192709,
-    "observed": 327765
-   }
-  ],
+  "reviews": [],
   "rejected": [],
-  "publish_target": "2026-10-31T17:35:00Z"
+  "publish_target": "2026-10-31T21:35:00Z"
  },
- "run_id": "r20261031T1748",
+ "run_id": "r20261031T2140",
  "latest": {
-  "run_id": "r20261031T1748",
-  "scheduled_for": "2026-10-31T17:00:00Z",
-  "started_at": "2026-10-31T17:48:08Z",
-  "completed_at": "2026-10-31T17:48:17Z",
-  "publish_target": "2026-10-31T17:35:00Z",
+  "run_id": "r20261031T2140",
+  "scheduled_for": "2026-10-31T21:00:00Z",
+  "started_at": "2026-10-31T21:40:51Z",
+  "completed_at": "2026-10-31T21:40:58Z",
+  "publish_target": "2026-10-31T21:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
   "key_figures_confirmed": "15/19",
-  "figures_updated": 14,
+  "figures_updated": 9,
   "sources_checked": 24,
   "sources_failed": "AZ ABEV Returns (Derek Weech), TexPolls (from Texas SoS reports)",
-  "reviews_open": 1,
+  "reviews_open": 0,
   "toolkit_version": "2026-10-27.14",
   "run_mode": "unattended",
   "sources_permission_blocked": "Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission",
   "permission_requests_refused": 0,
   "web_reader_calls": 0,
   "direct_downloads_ok": 10,
-  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech), TexPolls (from Texas SoS reports) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: KY.early_total (same period change, 1 read) \u00b7 Retry not recorded for: TexPolls (from Texas SoS reports), AZ ABEV Returns (Derek Weech)",
+  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech), TexPolls (from Texas SoS reports) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Retry not recorded for: TexPolls (from Texas SoS reports), AZ ABEV Returns (Derek Weech)",
   "notify": [
-   "Missed hourly run at 2026-10-31T16:00:00Z",
-   "Missed hourly run at 2026-10-31T15:00:00Z",
-   "Missed hourly run at 2026-10-31T14:00:00Z",
-   "Missed hourly run at 2026-10-31T13:00:00Z"
+   "Missed hourly run at 2026-10-31T20:00:00Z",
+   "Missed hourly run at 2026-10-31T19:00:00Z",
+   "Missed hourly run at 2026-10-31T18:00:00Z",
+   "Missed hourly run at 2026-10-31T04:00:00Z (still unresolved)",
+   "Missed hourly run at 2026-10-31T03:00:00Z (still unresolved)",
+   "Missed hourly run at 2026-10-31T02:00:00Z (still unresolved)",
+   "Missed hourly run at 2026-10-31T01:00:00Z (still unresolved)",
+   "Missed hourly run at 2026-10-31T00:00:00Z (still unresolved)"
   ],
   "publisher": "github-actions",
-  "published_at": "2026-10-31T17:48:18Z",
+  "published_at": "2026-10-31T21:40:58Z",
   "publication_verified": true
  }
 }

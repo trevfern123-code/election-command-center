@@ -31,7 +31,9 @@
     (pc.status === 'ok' ? pc.data : []).forEach((r) => { const t = +new Date(r.utc); if (!m.has(r.abbr) || t > m.get(r.abbr)) m.set(r.abbr, t); });
     return m;
   };
-  const shownStatus = (r, lc) => (r.status === 'Polls not closed' && lc.has(r.state_abbr) && Date.now() >= lc.get(r.state_abbr) ? 'Awaiting results' : r.status);
+  // Races this site does not count live (results_mode "official link") point to the state's official results once its polls close.
+  const shownStatus = (r, lc) => (r.status === 'Polls not closed' && lc.has(r.state_abbr) && Date.now() >= lc.get(r.state_abbr)
+    ? (r.results_mode === 'official link' ? 'See official results' : 'Awaiting results') : r.status);
   const STATUS_KIND = { 'Certified': 'ok', 'Projected winner': 'ok', 'Leading in reported results': 'warn', 'Recount': 'bad', 'Too close to call': 'warn' };
 
   function drawStatus() {
@@ -70,7 +72,10 @@
         status: { render: (r) => [badge(shownStatus(r, lc), STATUS_KIND[r.status] || ''), r.projection_by ? el('div', 'ec-note', 'Call by ' + r.projection_by) : '', r.certification_status ? el('div', 'ec-note', r.certification_status) : ''] },
         tally: {
           render: (r) => {
-            if (!isNum(r.votes_d) && !isNum(r.votes_r)) return el('span', 'ec-note', 'No votes reported');
+            if (!isNum(r.votes_d) && !isNum(r.votes_r)) {
+              if (r.results_mode === 'official link' && r.source_url) { const n = el('span', 'ec-note', 'Not counted live on this site: '); n.append(link(r.source_name || 'Official results', r.source_url)); return n; }
+              return el('span', 'ec-note', 'No votes reported');
+            }
             const out = [];
             if (isNum(r.votes_d)) out.push(el('span', 'ec-p-dem', `${r.cand_d} ${fmt(+r.votes_d)}`));
             if (isNum(r.votes_r)) { if (out.length) out.push(' · '); out.push(el('span', 'ec-p-rep', `${r.cand_r} ${fmt(+r.votes_r)}`)); }
@@ -82,7 +87,7 @@
         },
         margin: { render: (r) => (isNum(r.margin_votes) ? (r.leader ? r.leader + ' +' : '') + fmt(+r.margin_votes) + (isNum(r.margin_pct) ? ` (${(+r.margin_pct).toFixed(1)} pts)` : '') : '') },
         reported_at: { kind: 'date' },
-        outstanding: { render: (r) => [r.outstanding || el('span', 'ec-note', 'Remaining total unknown'), isNum(r.expected_vote_pct) ? el('div', 'ec-note', `Estimate: ${r.expected_vote_pct}% of expected vote counted (${r.expected_vote_provider || 'provider not named'})`) : ''] },
+        outstanding: { render: (r) => [r.outstanding || el('span', 'ec-note', r.results_mode === 'official link' ? 'See official results' : 'Remaining total unknown'), isNum(r.expected_vote_pct) ? el('div', 'ec-note', `Estimate: ${r.expected_vote_pct}% of expected vote counted (${r.expected_vote_provider || 'provider not named'})`) : ''] },
         next_update: { render: (r) => r.next_update || el('span', 'ec-note', 'Not announced') },
       },
     });

@@ -28,6 +28,12 @@
   function drawHeadlines() {
     const h = dash.data('headlines');
     if (h.status !== 'ok') return;
+    // headlines were gathered by news searches in the earlier updater; the hourly GitHub refresh reads official and tracker data only
+    const card = document.getElementById('card-headlines');
+    let hn = document.getElementById('headlines-stale');
+    if (card && !hn) { hn = el('p', 'ec-note ec-warn-note'); hn.id = 'headlines-stale'; card.insertBefore(hn, card.children[1] || null); }
+    const newest = h.data.map((r) => String(r.date || '')).sort().pop();
+    if (hn) hn.textContent = `Not updated automatically: headlines are no longer collected by the hourly refresh. Newest item: ${newest ? fmtDate(newest) : 'none'}. Figures and results elsewhere on this site are live.`;
     const scopes = [...new Set(h.data.map((r) => r.scope))].sort((a, b) => (a === 'National' ? -1 : b === 'National' ? 1 : a === 'AZ' ? -1 : b === 'AZ' ? 1 : a.localeCompare(b)));
     fillSelect(scopeEl, scopes, 'All places');
     const q = qEl.value.trim().toLowerCase();

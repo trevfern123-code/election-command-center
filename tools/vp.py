@@ -16,7 +16,7 @@ import argparse, base64, copy, datetime as dt, glob, gzip, hashlib, html, json, 
 from urllib.parse import urlparse
 from concurrent.futures import ThreadPoolExecutor
 
-TOOLKIT_VERSION = '2026-11-01.15'
+TOOLKIT_VERSION = '2026-11-02.16'
 PIPE = ['national', 'states', 'bg_states', 'az_returns', 'az_trackers', 'az_counties', 'pace', 'registration',
         'watch_races', 'rating_history', 'polls', 'headlines', 'briefing', 'checks', 'corrections',
         'source_compare', 'source_changes', 'run_log', 'results', 'az_dates', 'source_registry',
@@ -695,9 +695,17 @@ def parse_azev(data, url, h):
     statewide = isinstance(data, dict) and isinstance(data.get('results'), dict) and isinstance(data['results'].get('ballotItems'), list)
     if statewide:
         for b in data['results']['ballotItems']:
-            opts = [o for o in b.get('ballotOptions') or [] if not re.match(r'(?i)^(write-in|unassigned|unofficial)', str(o.get('name') or ''))]
-            contests.append({'contest': b.get('name'), 'type': b.get('contestType'),
-                             'options': [{'name': o.get('name'), 'party': o.get('politicalParty'), 'votes': o.get('voteCount')} for o in opts],
+            # every option is kept (its votes belong in the contest total); write-ins are flagged. In the Enhanced Voting export a
+            # candidate printed on the ballot has a numeric id, a write-in has an id like "AliceNovoa-6-Republican" (seen 2026-11-02:
+            # registered write-ins carry a party, so party alone cannot identify the ballot nominee); placeholder rows are write-ins too
+            def _wi(o):
+                oid, nm = o.get('id'), str(o.get('name') or '')
+                if re.match(r'(?i)^(write-in|unassigned|unofficial)', nm.strip()):
+                    return True
+                return (not str(oid).strip().isdigit()) if oid not in (None, '') else nm != nm.rstrip()
+            contests.append({'contest': b.get('name'), 'type': b.get('contestType'), 'vote_for': b.get('voteFor'),
+                             'options': [{'name': str(o.get('name') or '').strip(), 'party': o.get('politicalParty'), 'votes': o.get('voteCount'), 'write_in': _wi(o)}
+                                         for o in b.get('ballotOptions') or []],
                              'precincts_reporting': b.get('precinctsReporting'), 'precincts_total': b.get('precinctsParticipating')})
     def walk(o, depth=0):
         if depth > 8:
@@ -1689,10 +1697,14 @@ def cmd_prepare(a):
                 c = next((c for c in ax['contests'] if re.search(pat, str(c['contest']), re.I)), None)
                 if not r or not c:
                     continue
-                dem = [o for o in c['options'] if re.match(r'(?i)^(dem|democrat)', str(o.get('party') or ''))]
-                rep_ = [o for o in c['options'] if re.match(r'(?i)^(rep|republican)', str(o.get('party') or ''))]
+                if c.get('vote_for') not in (None, 1):
+                    log['notes'].append(f'AZ export: {race_id} elects {c["vote_for"]} seats; shown as a link to the official results'); continue
+                ballot = [o for o in c['options'] if not o.get('write_in')]
+                dem = [o for o in ballot if re.match(r'(?i)^(dem|democrat)', str(o.get('party') or ''))]
+                rep_ = [o for o in ballot if re.match(r'(?i)^(rep|republican)', str(o.get('party') or ''))]
                 if len(dem) != 1 or len(rep_) != 1:
-                    log['notes'].append(f'AZ export: {race_id} contest found but not exactly one DEM and one REP option; not applied'); continue
+                    log['notes'].append(f'AZ export: {race_id} does not have exactly one Democratic and one Republican candidate on the ballot '
+                                        f'({len(dem)} and {len(rep_)}); shown as a link to the official results'); continue
                 vd, vr = dem[0].get('votes'), rep_[0].get('votes')
                 if not isinstance(vd, (int, float)) or not isinstance(vr, (int, float)):
                     continue
@@ -1708,6 +1720,22 @@ def cmd_prepare(a):
                 r['margin_votes'] = abs(vd - vr)
                 r['margin_pct'] = round(100 * abs(vd - vr) / tot, 2) if tot else None
                 log['accepted'].append({'measure': f'result {race_id}', 'value': 'AZ export'})
+
+    # ---- official results links (option A, 2026-11-02): every race this pipeline does not fill with live counts points to the
+    # official results site of its state; the page shows "See official results" for these once that state's polls close
+    off = dict(R.reg.get('official_results') or {})
+    if R.reg.get('azev_public_url'):
+        off.setdefault('AZ', {'name': 'Arizona Secretary of State – official results', 'url': R.reg['azev_public_url']})
+    for r in bundle['results']:
+        live = isinstance(r.get('votes_d'), (int, float)) and isinstance(r.get('votes_r'), (int, float))
+        o = off.get(r.get('state_abbr'))
+        if live:
+            r['results_mode'] = 'live'
+        elif o and o.get('url'):
+            r.update({'results_mode': 'official link', 'source_name': o['name'], 'source_url': o['url']})
+        else:
+            r['results_mode'] = 'none'
+            log['notes'].append(f"results: no official results link registered for {r.get('state_abbr')} ({r['id']})")
 
     # ---- briefing
     briefed = set(state.get('briefed', []))

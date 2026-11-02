@@ -2,13 +2,13 @@ name: Hourly election data refresh
 
 on:
   schedule:
-    # backups only: the hourly run is started by an external timer at :05 (workflow_dispatch);
+    # backups only: the hourly run is started by an external timer (cron-job.org, workflow_dispatch at :00);
     # these run only when the site has not been updated in the last 50 minutes
     - cron: '20 * * * *'
     - cron: '45 * * * *'
   workflow_dispatch:
-  # A push to the run-request branch starts one run (used to start a run without the GitHub website).
-  # The run always uses the code on main, whatever the run-request commit contains.
+  # A push to the run-request branch tests the code in that commit as a DRY RUN (results go to actions-dryrun;
+  # the public site is never touched). Timer and dispatch runs use main and publish live.
   push:
     branches: [run-request]
 
@@ -21,8 +21,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # "dry-run": results go to the actions-dryrun branch; the public site is not touched.
-  # "live": data/ on main (the public site) is updated.
+  # "dry-run" for every run until the switch to live; run requests (push) test the code in the pushed commit.
   PUBLISH: dry-run
 
 jobs:
@@ -32,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.event_name == 'push' && github.sha || 'main' }}
           fetch-depth: 1
       - uses: actions/setup-python@v5
         with:

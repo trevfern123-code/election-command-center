@@ -97,6 +97,17 @@ def main():
         site = os.path.join(ROOT, '.site')
         worktree(site, OUT_BRANCH, seed_from='main')
         man = json.load(open(f'{site}/data/manifest.json'))
+        # GitHub's own timer is only a backup for the external hourly trigger: when the branch was already updated in the last
+        # 50 minutes, a backup run stops here, so the site gets one update per hour and never two publishers at once
+        trigger = os.environ.get('GITHUB_EVENT_NAME')
+        try:
+            age_min = (dt.datetime.now(dt.timezone.utc) - dt.datetime.strptime(man.get('published_at') or '', '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)).total_seconds() / 60
+        except ValueError:
+            age_min = None
+        if trigger == 'schedule' and age_min is not None and age_min < 50:
+            print(json.dumps(dict(report, result='skipped', reason=f"{OUT_BRANCH} was updated {age_min:.0f} minutes ago ({man.get('run_id')})"), indent=1))
+            print(f"OK — backup run not needed: {OUT_BRANCH} was updated {age_min:.0f} minutes ago ({man.get('run_id')})")
+            return 0
         cached = None
         if os.path.exists(f'{STATE_DIR}/bundle.json.gz') and os.path.exists(f'{STATE_DIR}/latest.json'):
             cached = json.load(open(f'{STATE_DIR}/latest.json'))

@@ -2,7 +2,10 @@ name: Hourly election data refresh
 
 on:
   schedule:
-    - cron: '17 * * * *'
+    # backups only: the hourly run is started by an external timer at :05 (workflow_dispatch);
+    # these run only when the site has not been updated in the last 50 minutes
+    - cron: '20 * * * *'
+    - cron: '45 * * * *'
   workflow_dispatch:
   # A push to the run-request branch starts one run (used to start a run without the GitHub website).
   # The run always uses the code on main, whatever the run-request commit contains.

@@ -21,8 +21,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # "dry-run" for every run until the switch to live; run requests (push) test the code in the pushed commit.
-  PUBLISH: dry-run
+  # "live": data/ on main (the public site) is updated. Run requests (push) are always "dry-run".
+  PUBLISH: ${{ github.event_name == 'push' && 'dry-run' || 'live' }}
 
 jobs:
   refresh:

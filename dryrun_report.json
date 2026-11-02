@@ -1,15 +1,15 @@
 {
- "started_at": "2026-11-02T13:24:34Z",
+ "started_at": "2026-11-02T14:00:32Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/41452680226",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/41457863470",
  "state": "carried over from the previous run",
- "previous_run": "r20261102T1236",
+ "previous_run": "r20261102T1324",
  "direct": {
   "direct_jobs": 12,
-  "ok": 11,
+  "ok": 10,
   "blocked_by_allowlist": [],
-  "figures": 105,
+  "figures": 104,
   "groups_covered": [
    "azev",
    "callthemap",
@@ -19,7 +19,6 @@
    "ncsbe",
    "nvindy",
    "orsos",
-   "scsec",
    "texpolls",
    "tpsi"
   ],
@@ -33,6 +32,24 @@
  },
  "direct_failures": [
   {
+   "source_id": "scsec",
+   "url": "https://scvotes.gov/wp-content/uploads/2026/11/EV-Totals-10-31-26.csv",
+   "status": "error",
+   "detail": "downloaded 19938209 bytes, sha256 96b2c58b32cafd3a; parser found no figure (layout change?): SC.early_total: pattern for the value not found",
+   "raw_error": null,
+   "parse_notes": [
+    "SC.early_total: pattern for the value not found"
+   ],
+   "discovery": "link found on https://scvotes.gov/elections-statistics/voter-participation/ as \"Early Voting Turnout Report\"",
+   "page_excerpt": {
+    "start": "Linked from https://scvotes.gov/elections-statistics/voter-participation/ as: Early Voting Turnout Report\nElection Date | Report Date |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | \n11/03/2026 | 11/2/2026 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | \nJurisdiction | Election Name | Poll Place | 10/19/2026 | 10/20/2026 | 10/21/2026 | 10/22/2026 | 10/23/2026 | 10/24/2026 | 10/26/2026 | 10/27/2026 | 10/28/2026 | 10/29/2026 | 10/30/2026 | 10/31/2026 | Total |  | \nSouth Carolina |  |  | 98,695 | 93,877 | 88,108 | 82,886 | 87,800 | 50,578 | 85341 | 84029 | 81794 | 85312 | 110172 | 95218 | 1,043,810 |  | \nAbbeville | Statewide General Election |  | 460 | 384 | 328 | 310 | 339 | 63 | 307 | 325 | 273 | 338 | 457 | 217 | 3,801 |  | \n |  | Abbeville County Voter Registration Elec | 460 | 384 | 328 | 310 | 339 | 63 | 307 | 325 | 273 | 338 | 457 | 217 | 3,801 |  | \nAiken | Statewide General Election |  | 4,355 | 3,660 | 3,199 | 2,998 | 3,362 | 1,401 | 2943 | 2705 | 2766 | 2816 | 4334 | 2871 | 37,410 |  | \n |  | Aiken County Board of VR and Elections | 1,557 | 1,192 | 1,061 | 935 | 1,018 | 358 | 920 | 747 | 807 | 849 | 1237 | 727 | 11,408 |  | \n |  | Jackson Town Hall | 150 | 111 | 69 | 86 | 10",
+    "matches": [
+     "11/03/2026 | 11/2/2026 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     "Jurisdiction | Election Name | Poll Place | 10/19/2026 | 10/20/2026 | 10/21/2026 | 10/22/2026 | 10/23/2026 | 10/24/2026 | 10/26/2026 | 10/27/2026 | 10/28/2026 | 10/29/2026 | 10/30/2026 | 10/31/2026 | Total |  | "
+    ]
+   }
+  },
+  {
    "source_id": "weech",
    "url": "https://derekweech.substack.com/feed",
    "status": "error",
@@ -44,7 +61,7 @@
  ],
  "trigger": "workflow_dispatch",
  "prepare": {
-  "run_id": "r20261102T1324",
+  "run_id": "r20261102T1400",
   "status": "degraded",
   "changed_datasets": [
    "national",
@@ -52,44 +69,42 @@
    "bg_states",
    "az_returns",
    "az_counties",
-   "briefing",
    "checks",
-   "source_compare",
    "run_log",
    "source_status"
   ],
-  "upload_count": 20,
+  "upload_count": 18,
   "notify": [],
-  "accepted": 1,
+  "accepted": 0,
   "comparison_only": 0,
   "reviews": [],
   "rejected": [],
-  "publish_target": "2026-11-02T13:35:00Z"
+  "publish_target": "2026-11-02T14:35:00Z"
  },
- "run_id": "r20261102T1324",
+ "run_id": "r20261102T1400",
  "latest": {
-  "run_id": "r20261102T1324",
-  "scheduled_for": "2026-11-02T13:00:00Z",
-  "started_at": "2026-11-02T13:24:34Z",
-  "completed_at": "2026-11-02T13:24:40Z",
-  "publish_target": "2026-11-02T13:35:00Z",
+  "run_id": "r20261102T1400",
+  "scheduled_for": "2026-11-02T14:00:00Z",
+  "started_at": "2026-11-02T14:00:32Z",
+  "completed_at": "2026-11-02T14:00:41Z",
+  "publish_target": "2026-11-02T14:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
-  "key_figures_confirmed": "15/19",
-  "figures_updated": 1,
+  "key_figures_confirmed": "14/19",
+  "figures_updated": 0,
   "sources_checked": 24,
-  "sources_failed": "AZ ABEV Returns (Derek Weech)",
+  "sources_failed": "AZ ABEV Returns (Derek Weech), South Carolina Election Commission",
   "reviews_open": 0,
   "toolkit_version": "2026-11-01.15",
   "run_mode": "unattended",
   "sources_permission_blocked": "Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission",
   "permission_requests_refused": 0,
   "web_reader_calls": 0,
-  "direct_downloads_ok": 11,
-  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Retry not recorded for: AZ ABEV Returns (Derek Weech)",
+  "direct_downloads_ok": 10,
+  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech), South Carolina Election Commission \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Retry not recorded for: South Carolina Election Commission, AZ ABEV Returns (Derek Weech)",
   "notify": [],
   "publisher": "github-actions",
-  "published_at": "2026-11-02T13:24:40Z",
+  "published_at": "2026-11-02T14:00:42Z",
   "publication_verified": true
  }
 }

@@ -1,15 +1,16 @@
 {
- "started_at": "2026-11-02T16:00:47Z",
+ "started_at": "2026-11-02T16:22:43Z",
  "mode": "dry-run",
  "publisher": "github-actions",
- "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/41477134470",
- "state": "carried over from the previous run",
- "previous_run": "r20261102T1500",
+ "run_url": "https://github.com/trevfern123-code/election-command-center/actions/runs/41480817303",
+ "state_mismatch": "cached state is from r20261102T0411, actions-dryrun shows r20261102T1600",
+ "state": "rebuilt from the published data of r20261102T1600",
+ "previous_run": "r20261102T1600",
  "direct": {
   "direct_jobs": 12,
-  "ok": 10,
+  "ok": 11,
   "blocked_by_allowlist": [],
-  "figures": 104,
+  "figures": 105,
   "groups_covered": [
    "azev",
    "callthemap",
@@ -19,6 +20,7 @@
    "ncsbe",
    "nvindy",
    "orsos",
+   "scsec",
    "texpolls",
    "tpsi"
   ],
@@ -32,24 +34,6 @@
  },
  "direct_failures": [
   {
-   "source_id": "scsec",
-   "url": "https://scvotes.gov/wp-content/uploads/2026/11/EV-Totals-10-31-26.csv",
-   "status": "error",
-   "detail": "downloaded 19938209 bytes, sha256 96b2c58b32cafd3a; parser found no figure (layout change?): SC.early_total: pattern for the value not found",
-   "raw_error": null,
-   "parse_notes": [
-    "SC.early_total: pattern for the value not found"
-   ],
-   "discovery": "link found on https://scvotes.gov/elections-statistics/voter-participation/ as \"Early Voting Turnout Report\"",
-   "page_excerpt": {
-    "start": "Linked from https://scvotes.gov/elections-statistics/voter-participation/ as: Early Voting Turnout Report\nElection Date | Report Date |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | \n11/03/2026 | 11/2/2026 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | \nJurisdiction | Election Name | Poll Place | 10/19/2026 | 10/20/2026 | 10/21/2026 | 10/22/2026 | 10/23/2026 | 10/24/2026 | 10/26/2026 | 10/27/2026 | 10/28/2026 | 10/29/2026 | 10/30/2026 | 10/31/2026 | Total |  | \nSouth Carolina |  |  | 98,695 | 93,877 | 88,108 | 82,886 | 87,800 | 50,578 | 85341 | 84029 | 81794 | 85312 | 110172 | 95218 | 1,043,810 |  | \nAbbeville | Statewide General Election |  | 460 | 384 | 328 | 310 | 339 | 63 | 307 | 325 | 273 | 338 | 457 | 217 | 3,801 |  | \n |  | Abbeville County Voter Registration Elec | 460 | 384 | 328 | 310 | 339 | 63 | 307 | 325 | 273 | 338 | 457 | 217 | 3,801 |  | \nAiken | Statewide General Election |  | 4,355 | 3,660 | 3,199 | 2,998 | 3,362 | 1,401 | 2943 | 2705 | 2766 | 2816 | 4334 | 2871 | 37,410 |  | \n |  | Aiken County Board of VR and Elections | 1,557 | 1,192 | 1,061 | 935 | 1,018 | 358 | 920 | 747 | 807 | 849 | 1237 | 727 | 11,408 |  | \n |  | Jackson Town Hall | 150 | 111 | 69 | 86 | 10",
-    "matches": [
-     "11/03/2026 | 11/2/2026 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
-     "Jurisdiction | Election Name | Poll Place | 10/19/2026 | 10/20/2026 | 10/21/2026 | 10/22/2026 | 10/23/2026 | 10/24/2026 | 10/26/2026 | 10/27/2026 | 10/28/2026 | 10/29/2026 | 10/30/2026 | 10/31/2026 | Total |  | "
-    ]
-   }
-  },
-  {
    "source_id": "weech",
    "url": "https://derekweech.substack.com/feed",
    "status": "error",
@@ -59,9 +43,9 @@
    "discovery": null
   }
  ],
- "trigger": "workflow_dispatch",
+ "trigger": "push",
  "prepare": {
-  "run_id": "r20261102T1600",
+  "run_id": "r20261102T1622",
   "status": "degraded",
   "changed_datasets": [
    "national",
@@ -71,44 +55,86 @@
    "az_counties",
    "briefing",
    "checks",
-   "corrections",
    "source_compare",
    "run_log",
+   "results",
    "source_status",
    "reviews"
   ],
   "upload_count": 22,
-  "notify": [],
-  "accepted": 10,
+  "notify": [
+   "Missed hourly run at 2026-11-02T11:00:00Z",
+   "Missed hourly run at 2026-11-02T10:00:00Z",
+   "Missed hourly run at 2026-11-02T09:00:00Z",
+   "Missed hourly run at 2026-11-02T08:00:00Z",
+   "Missed hourly run at 2026-11-02T07:00:00Z",
+   "Missed hourly run at 2026-11-02T06:00:00Z",
+   "Missed hourly run at 2026-11-02T05:00:00Z",
+   "Missed hourly run at 2026-11-02T03:00:00Z",
+   "Missed hourly run at 2026-11-02T02:00:00Z",
+   "Missed hourly run at 2026-11-02T01:00:00Z",
+   "Missed hourly run at 2026-11-02T00:00:00Z",
+   "Missed hourly run at 2026-11-01T22:00:00Z",
+   "Missed hourly run at 2026-11-01T21:00:00Z",
+   "Missed hourly run at 2026-11-01T20:00:00Z",
+   "Missed hourly run at 2026-11-01T18:00:00Z",
+   "AZ-Maricopa.early_returned data is 297 h old (as of 2026-10-20)"
+  ],
+  "accepted": 1,
   "comparison_only": 0,
-  "reviews": [],
+  "reviews": [
+   {
+    "measure": "FL.early_total",
+    "kind": "same_period_change",
+    "reads": 1,
+    "published": 5402229,
+    "observed": 5408792
+   }
+  ],
   "rejected": [],
   "publish_target": "2026-11-02T16:35:00Z"
  },
- "run_id": "r20261102T1600",
+ "run_id": "r20261102T1622",
  "latest": {
-  "run_id": "r20261102T1600",
+  "run_id": "r20261102T1622",
   "scheduled_for": "2026-11-02T16:00:00Z",
-  "started_at": "2026-11-02T16:00:47Z",
-  "completed_at": "2026-11-02T16:00:55Z",
+  "started_at": "2026-11-02T16:22:43Z",
+  "completed_at": "2026-11-02T16:22:52Z",
   "publish_target": "2026-11-02T16:35:00Z",
   "status": "degraded",
   "coverage_health": "partial",
-  "key_figures_confirmed": "14/19",
-  "figures_updated": 10,
+  "key_figures_confirmed": "15/19",
+  "figures_updated": 1,
   "sources_checked": 24,
-  "sources_failed": "AZ ABEV Returns (Derek Weech), South Carolina Election Commission",
-  "reviews_open": 0,
-  "toolkit_version": "2026-11-01.15",
+  "sources_failed": "AZ ABEV Returns (Derek Weech)",
+  "reviews_open": 1,
+  "toolkit_version": "2026-11-02.16",
   "run_mode": "unattended",
   "sources_permission_blocked": "Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission",
   "permission_requests_refused": 0,
   "web_reader_calls": 0,
-  "direct_downloads_ok": 10,
-  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech), South Carolina Election Commission \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Retry not recorded for: South Carolina Election Commission, AZ ABEV Returns (Derek Weech)",
-  "notify": [],
+  "direct_downloads_ok": 11,
+  "unresolved": "Could not retrieve: AZ ABEV Returns (Derek Weech) \u00b7 Blocked by web-reader permission (no approval in an unattended run): Cook Political Report ratings, DC Board of Elections, Georgia Secretary of State, Maricopa County Recorder / Elections, Michigan Department of State, Nevada Secretary of State, On Point state pages (same data as TPSI), Pima County Recorder, Pinal County Elections, RealClearPolling latest polls, Texas Secretary of State, Wisconsin Elections Commission \u00b7 Stale key figures: AZ-Maricopa.early_returned \u00b7 Under review: FL.early_total (same period change, 1 read) \u00b7 Retry not recorded for: AZ ABEV Returns (Derek Weech)",
+  "notify": [
+   "Missed hourly run at 2026-11-02T11:00:00Z",
+   "Missed hourly run at 2026-11-02T10:00:00Z",
+   "Missed hourly run at 2026-11-02T09:00:00Z",
+   "Missed hourly run at 2026-11-02T08:00:00Z",
+   "Missed hourly run at 2026-11-02T07:00:00Z",
+   "Missed hourly run at 2026-11-02T06:00:00Z",
+   "Missed hourly run at 2026-11-02T05:00:00Z",
+   "Missed hourly run at 2026-11-02T03:00:00Z",
+   "Missed hourly run at 2026-11-02T02:00:00Z",
+   "Missed hourly run at 2026-11-02T01:00:00Z",
+   "Missed hourly run at 2026-11-02T00:00:00Z",
+   "Missed hourly run at 2026-11-01T22:00:00Z",
+   "Missed hourly run at 2026-11-01T21:00:00Z",
+   "Missed hourly run at 2026-11-01T20:00:00Z",
+   "Missed hourly run at 2026-11-01T18:00:00Z",
+   "AZ-Maricopa.early_returned data is 297 h old (as of 2026-10-20)"
+  ],
   "publisher": "github-actions",
-  "published_at": "2026-11-02T16:00:56Z",
+  "published_at": "2026-11-02T16:22:52Z",
   "publication_verified": true
  }
 }

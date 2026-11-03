@@ -65,15 +65,24 @@
     const d = dash.data('results');
     if (d.status !== 'ok') { tbl.querySelector('tbody').replaceChildren(); return; }
     const lc = lastClose();
+    const azLiveAny = d.data.some((r) => r.arizona && r.results_mode === 'live');
     const rows = d.data.filter((r) => !resFilter || (resFilter === 'Arizona' ? r.arizona : r.chamber === resFilter));
     window.ec.table(tbl, rows, {
       sort: 'race_label',
       cols: {
+        // Arizona races counted live first, then the rest of Arizona, then other states
+        race_label: { sortVal: (r) => (r.results_mode === 'live' ? '0' : r.arizona ? '1' : '2') + ' ' + r.race_label },
         status: { render: (r) => [badge(shownStatus(r, lc), STATUS_KIND[r.status] || ''), r.projection_by ? el('div', 'ec-note', 'Call by ' + r.projection_by) : '', r.certification_status ? el('div', 'ec-note', r.certification_status) : ''] },
         tally: {
           render: (r) => {
             if (!isNum(r.votes_d) && !isNum(r.votes_r)) {
-              if (r.results_mode === 'official link' && r.source_url) { const n = el('span', 'ec-note', 'Not counted live on this site: '); n.append(link(r.source_name || 'Official results', r.source_url)); return n; }
+              if (r.results_mode === 'official link' && r.source_url) {
+                // Arizona races are counted here once the state posts its first results; until then every Arizona row waits for them
+                // AZ-03 (no Republican nominee on the ballot) and the 2-seat Corporation Commission are never counted here
+                const azWaiting = r.arizona && !azLiveAny && !['AZ-AZ-03', 'AZ-sw-6'].includes(r.id);
+                const n = el('span', 'ec-note', azWaiting ? 'Counted here once Arizona posts results (first results expected around 8:00 PM). Official site: ' : 'Not counted live on this site: ');
+                n.append(link(r.source_name || 'Official results', r.source_url)); return n;
+              }
               return el('span', 'ec-note', 'No votes reported');
             }
             const out = [];
@@ -119,8 +128,53 @@
     if (m.status === 'ok') mbox.replaceChildren(...m.data.map((r) => { const li = el('li'); li.append(el('b', '', r.topic + ': '), r.text + ' '); if (r.source_url) li.append(link('Source', r.source_url)); return li; }));
   }
 
-  function draw() { drawStatus(); drawResults(); drawClosings(); drawLists(); }
+  // ---------- overview card: results at the top of every page ----------
+  const AZ_ORDER = ['G-AZ', 'H-AZ-01', 'H-AZ-06', 'H-AZ-02', 'AZ-sw-1', 'AZ-sw-2', 'AZ-sw-3', 'AZ-sw-4', 'AZ-sw-5'];
+  const azTime = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleTimeString('en-US', { timeZone: 'America/Phoenix', hour: 'numeric', minute: '2-digit' }) + ' AZ'; };
+  function drawOverview() {
+    const box = document.getElementById('ov-results-body');
+    if (!box) return;
+    const pc = dash.data('poll_close'), rs = dash.data('results');
+    if (pc.status !== 'ok' || rs.status !== 'ok') { box.replaceChildren(); if (pc.status === 'error' || rs.status === 'error') window.ec.fail(box); return; }
+    const now = Date.now();
+    const az = pc.data.find((r) => r.abbr === 'AZ');
+    const azClose = az ? +new Date(az.utc) : NaN;
+    const closed = pc.data.filter((r) => +new Date(r.utc) <= now).length;
+    const live = rs.data.filter((r) => r.results_mode === 'live' && isNum(r.votes_d) && isNum(r.votes_r))
+      .sort((a, b) => ((AZ_ORDER.indexOf(a.id) + 99) % 99) - ((AZ_ORDER.indexOf(b.id) + 99) % 99) || String(a.race_label).localeCompare(String(b.race_label)));
+    const seen = new Set();
+    const rows = live.filter((r) => { const k = r.race_label; if (seen.has(k)) return false; seen.add(k); return true; });
+    const out = [];
+    if (!rows.length) {
+      const p = el('p', 'ec-take');
+      if (!isNaN(azClose) && now < azClose) {
+        p.textContent = `No votes are reported before polls close. Arizona polls close at ${azClock(az.az_time)} Arizona time; the first Arizona results are expected around 8:00 PM (Maricopa County). ${closed} of ${pc.data.length} poll closings nationwide have passed.`;
+      } else {
+        p.textContent = 'Arizona polls have closed. Waiting for the first Arizona results (expected around 8:00 PM Arizona time, Maricopa County). This page checks for new results every 5 minutes.';
+      }
+      out.push(p, el('p', 'ec-note', 'Arizona races are counted live here from the Arizona Secretary of State results file. Races in other states link to each state\'s official results site once its polls close.'));
+    } else {
+      const latest = rows.map((r) => r.reported_at).filter(Boolean).sort().pop();
+      out.push(el('p', 'ec-note', `Arizona, unofficial reported results${latest ? ' · updated ' + azTime(latest) : ''}. "Leading" means ahead in the votes counted so far, not a projected winner.`));
+      const ul = el('ul', 'ec-res-list');
+      rows.slice(0, 9).forEach((r) => {
+        const li = el('li');
+        const head = el('div', 'ec-res-race');
+        head.append(el('span', '', r.race_label), el('span', 'ec-note', isNum(r.margin_votes) ? `${r.leader ? r.leader + ' +' : 'Tied '}${fmt(+r.margin_votes)}${isNum(r.margin_pct) ? ` (${(+r.margin_pct).toFixed(1)} pts)` : ''}` : ''));
+        const t = el('div');
+        t.append(el('span', 'ec-p-dem', `${r.cand_d} ${fmt(+r.votes_d)}`), ' · ', el('span', 'ec-p-rep', `${r.cand_r} ${fmt(+r.votes_r)}`));
+        li.append(head, t);
+        ul.append(li);
+      });
+      out.push(ul);
+      const others = rs.data.filter((r) => r.results_mode === 'official link' && !r.arizona).length;
+      out.push(el('p', 'ec-note', `${others} races in other states: see "All results" for links to each state's official count. ${closed} of ${pc.data.length} poll closings have passed.`));
+    }
+    box.replaceChildren(...out);
+  }
+
+  function draw() { drawStatus(); drawResults(); drawClosings(); drawLists(); drawOverview(); }
   dash.onData(draw);
   window.addEventListener('ec-tab', draw);
-  setInterval(() => { if (window.ecTab === 'night') { drawStatus(); drawClosings(); drawResults(); } }, 60000);
+  setInterval(() => { drawOverview(); if (window.ecTab === 'night') { drawStatus(); drawClosings(); drawResults(); } }, 60000);
 })();

@@ -86,6 +86,11 @@ a { color: inherit; }
 .ec-tabs { display: flex; gap: var(--cds-gap-xs); border-bottom: 1px solid var(--color-border-line); overflow-x: auto; scrollbar-width: thin; }
 .ec-tab { font: inherit; background: none; border: 0; border-bottom: 2px solid transparent; padding: var(--cds-pad-sm) var(--cds-pad-sm); color: var(--color-fg-muted); cursor: pointer; white-space: nowrap; min-height: 2.5rem; }
 .ec-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); }
+.ec-over-wide { grid-column: 1 / -1; }
+.ec-live-dot { display: inline-block; width: .55em; height: .55em; border-radius: 50%; background: #c62828; margin-right: .4em; vertical-align: middle; }
+.ec-res-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: var(--cds-gap-xs) var(--cds-gap-md); }
+.ec-res-list li { padding: var(--cds-pad-xs) 0; border-bottom: 1px solid var(--color-border-line); font-size: var(--cds-font-size-caption); }
+.ec-res-list .ec-res-race { font-weight: 600; display: flex; justify-content: space-between; gap: var(--cds-gap-sm); }
 .ec-page { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
 .ec-page[hidden] { display: none; }
 
@@ -194,6 +199,10 @@ details.ec-more summary { cursor: pointer; font-size: var(--cds-font-size-captio
 
   <!-- OVERVIEW (above tabs) -->
   <section class="ec-over" id="overview" aria-label="Overview">
+    <div class="ec-card ec-over-wide" id="ov-results" data-source="results poll_close">
+      <div class="ec-over-head"><h3><span class="ec-live-dot" aria-hidden="true"></span>Results</h3><button class="ec-linkbtn" data-goto="night">All results</button></div>
+      <div id="ov-results-body"></div>
+    </div>
     <div class="ec-card" id="ov-deadline" data-source="az_dates">
       <div class="ec-over-head"><h3>Next Arizona voting deadline</h3><span class="ec-note">Arizona · Maricopa County</span></div>
       <div id="ov-deadline-body"></div>
@@ -219,13 +228,13 @@ details.ec-more summary { cursor: pointer; font-size: var(--cds-font-size-captio
   </section>
 
   <nav class="ec-tabs" role="tablist" aria-label="Sections">
+    <button class="ec-tab" role="tab" data-tab="night" id="tab-night"><span class="ec-live-dot" aria-hidden="true"></span>Results</button>
     <button class="ec-tab" role="tab" data-tab="states" id="tab-states">All states</button>
     <button class="ec-tab" role="tab" data-tab="battlegrounds" id="tab-battlegrounds">Battlegrounds</button>
     <button class="ec-tab" role="tab" data-tab="congress" id="tab-congress">Control of Congress</button>
     <button class="ec-tab" role="tab" data-tab="pace" id="tab-pace">Turnout pace</button>
     <button class="ec-tab" role="tab" data-tab="arizona" id="tab-arizona">Arizona</button>
     <button class="ec-tab" role="tab" data-tab="local" id="tab-local">Gilbert-area ballot</button>
-    <button class="ec-tab" role="tab" data-tab="night" id="tab-night">Election night</button>
     <button class="ec-tab" role="tab" data-tab="news" id="tab-news">News &amp; log</button>
     <button class="ec-tab" role="tab" data-tab="sources" id="tab-sources">Sources</button>
   </nav>
@@ -506,6 +515,7 @@ details.ec-more summary { cursor: pointer; font-size: var(--cds-font-size-captio
     </div>
     <div class="ec-card" id="card-results">
       <h2>Results in watched races</h2>
+      <p class="ec-note">Arizona races are counted live on this site from the Arizona Secretary of State results file and are listed first. Races in other states link to that state's official results site.</p>
       <div class="ec-controls">
         <div class="ec-seg" role="group" aria-label="Chamber" id="res-chamber">
           <button data-v="" aria-pressed="true">All</button><button data-v="House" aria-pressed="false">House</button><button data-v="Senate" aria-pressed="false">Senate</button><button data-v="Governor" aria-pressed="false">Governor</button><button data-v="Arizona" aria-pressed="false">Arizona</button>

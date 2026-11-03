@@ -104,7 +104,9 @@
   tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab)));
   document.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => show(b.dataset.goto, true)));
   const initial = location.hash.slice(1);
-  show(pages.some((p) => p.id === initial) ? initial : 'states');
+  // from Election Day (Nov 3, midnight Arizona time) the page opens on Results unless a link names another section
+  const resultsFirst = Date.now() >= Date.parse('2026-11-03T07:00:00Z');
+  show(pages.some((p) => p.id === initial) ? initial : (resultsFirst ? 'night' : 'states'));
 
   // ---------- generic table ----------
   const states = new WeakMap();

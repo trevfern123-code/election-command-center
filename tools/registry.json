@@ -8,6 +8,7 @@
   "WV": "Early voting began Oct 21; the Secretary of State has not released a statewide count yet (checked 2026-10-23)."
  },
  "row_notes": {
+  "TX": "Shown: the TPSI tracker figure, which matches the Texas Secretary of State complete report through Oct. 29 (the date shown is the tracker page date). TexPolls reports 7,711,768 early ballots through Oct. 30, the final day of early voting, from the Secretary of State unofficial count; that higher figure includes the last day. Texas does not register voters by party.",
   "MN": "Official source: the Secretary of State absentee data page (\"Accepted ballots - by mail\" + \"Accepted ballots - in person\", dated in the labels; the page says the data is current as of the date shown). News reports quoting the Secretary of State can give a different cutoff (for example \"As of Oct. 22\"); that figure is listed under Compare sources with its own date and is never substituted for the page date."
  },
  "egress_probe_hosts": [
@@ -166,7 +167,7 @@
    "url": "https://elections.tn.gov/"
   }
  },
- "version": "2026-11-03.17",
+ "version": "2026-11-03.18",
  "direct_verified": false,
  "election": "2026 general election (Nov 3, 2026)",
  "sources": [

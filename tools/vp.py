@@ -16,7 +16,7 @@ import argparse, base64, copy, datetime as dt, glob, gzip, hashlib, html, json, 
 from urllib.parse import urlparse
 from concurrent.futures import ThreadPoolExecutor
 
-TOOLKIT_VERSION = '2026-11-03.17'
+TOOLKIT_VERSION = '2026-11-03.18'
 PIPE = ['national', 'states', 'bg_states', 'az_returns', 'az_trackers', 'az_counties', 'pace', 'registration',
         'watch_races', 'rating_history', 'polls', 'headlines', 'briefing', 'checks', 'corrections',
         'source_compare', 'source_changes', 'run_log', 'results', 'az_dates', 'source_registry',

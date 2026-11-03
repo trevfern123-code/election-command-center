@@ -167,7 +167,7 @@
    "url": "https://elections.tn.gov/"
   }
  },
- "version": "2026-11-03.18",
+ "version": "2026-11-03.19",
  "direct_verified": false,
  "election": "2026 general election (Nov 3, 2026)",
  "sources": [
@@ -2433,16 +2433,16 @@
        "parts": [
         {
          "label": "Accepted ballots - by mail",
-         "value_re": "Accepted ballots - by mail \\(\\d\\d?/\\d\\d?/\\d\\d\\):?\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)"
+         "value_re": "Accepted ballots - by mail \\(\\d\\d?/\\d\\d?/\\d\\d(?:\\s*@\\s*\\d{1,2}(?::\\d\\d)?\\s*[AP]M)?\\):?\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)"
         },
         {
          "label": "Accepted ballots - in person",
-         "value_re": "Accepted ballots - in person \\(\\d\\d?/\\d\\d?/\\d\\d\\):?\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)"
+         "value_re": "Accepted ballots - in person \\(\\d\\d?/\\d\\d?/\\d\\d(?:\\s*@\\s*\\d{1,2}(?::\\d\\d)?\\s*[AP]M)?\\):?\\s*(?P<value>\\d{1,3}(?:,\\d{3})+)"
         }
        ],
-       "asof_re": "Accepted ballots - by mail \\((?P<asof>\\d\\d?/\\d\\d?/\\d\\d)\\)",
+       "asof_re": "Accepted ballots - by mail \\((?P<asof>\\d\\d?/\\d\\d?/\\d\\d)(?:\\s*@\\s*\\d{1,2}(?::\\d\\d)?\\s*[AP]M)?\\)",
        "asof_basis": "period",
-       "election_re": "State General Election Absentee Counts.{0,1500}?Accepted ballots - by mail \\(\\d\\d?/\\d\\d?/26\\)"
+       "election_re": "State General Election Absentee Counts.{0,1500}?Accepted ballots - by mail \\(\\d\\d?/\\d\\d?/26(?:\\s*@\\s*\\d{1,2}(?::\\d\\d)?\\s*[AP]M)?\\)"
       }
      ]
     }
